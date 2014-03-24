@@ -26,8 +26,9 @@ class Tile extends GameObject implements IMovingEffectSubject {
 		setWidth(Cell.size);
 		setHeight(Cell.size);
 
-		moveEffect = new MovingEffect(this, Cell.size / 0.2f);
+		moveEffect = new MovingEffect(this);
 		moveEffect.setLooping(false);
+		moveEffect.setDuration(0.1f);
 	}
 
 	int getValue() {
@@ -40,25 +41,31 @@ class Tile extends GameObject implements IMovingEffectSubject {
 		return toTile.value;
 	}
 
-	void moveToCell(final Cell toCell) {
-//		if (this.cell == null) {
-		if (cell != null)
+	void moveToCell(final Cell toCell, final IMoveCallback callback) {
+		if (this.cell == null) {
+			setCell(toCell);
+			syncWithCell();
+			callback.moveEnd(0, false);
+		} else {
 			cell.setTile(null);
-			this.cell = toCell;
-			setLocation(toCell.getLocation().x, toCell.getLocation().y);
-			toCell.setTile(this);
-//		} else {
-//			moveEffect.setFrom(getLocation().x, getLocation().y);
-//			moveEffect.setTo(toCell.getLocation().x, toCell.getLocation().y);
-//			moveEffect.start(new IEffectEndListener() {
-//				@Override
-//				public boolean onEffectEnd(Object obj) {
-//					cell = toCell;
-//					toCell.setTile(Tile.this);
-//					return false;
-//				}
-//			});
-//		}
+			setCell(toCell);
+			
+			moveEffect.setFrom(getLocation().x, getLocation().y);
+			moveEffect.setTo(toCell.getLocation().x, toCell.getLocation().y);
+			moveEffect.start(new IEffectEndListener() {
+				@Override
+				public boolean onEffectEnd(Object obj) {
+					syncWithCell();
+					callback.moveEnd(0, true);
+					return false;
+				}
+			});
+		}
+	}
+
+	private void setCell(Cell toCell) {
+		cell = toCell;
+		toCell.setTile(this);
 	}
 
 	void setValue(int value) {
@@ -70,8 +77,13 @@ class Tile extends GameObject implements IMovingEffectSubject {
 
 	@Override
 	public void setLocation(float x, float y) {
+		getLocation().set(x, y);
+		text.setLocation(x, y);
+	}
+
+	private void syncWithCell() {
 		getLocation().set(cell.getLocation());
-	 getRotation().set(cell.getRotation());
+		getRotation().set(cell.getRotation());
 		text.setLocation(cell.getLocation());
 	}
 

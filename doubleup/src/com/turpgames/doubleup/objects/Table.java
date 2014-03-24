@@ -14,15 +14,47 @@ public class Table extends GameObject {
 
 	private final Row[] rows;
 
-	private final IMoveCommand moveUp;
-	private final IMoveCommand moveDown;
-	private final IMoveCommand moveLeft;
-	private final IMoveCommand moveRight;
+	private int moveScore;
+	private boolean hasMoved;
+	private int moveCount;
 
 	private int score;
 	private Text scoreText;
 	private final Dialog gameOverDialog;
 	private final ResetButton resetButton;
+
+	private final IMoveCallback moveCallback = new IMoveCallback() {
+		@Override
+		public void moveEnd(int score, boolean async) {
+			if (score >= 0) {
+				hasMoved = true;
+				moveScore += score;
+			}
+
+			if (async) {
+				moveCount--;
+				if (moveCount == 0) {
+					if (!hasMoved)
+						return;
+
+					if (moveScore > 0) {
+						Table.this.score += moveScore;
+						updateScoreText();
+					}
+
+					if (hasEmptyCell()) {
+						setRandomCell();
+
+						if (!hasMove()) {
+							gameOverDialog.open("Game Over!");
+						}
+					}
+					
+					Game.getInputManager().activate();
+				}
+			}
+		}
+	};
 
 	public Table() {
 		this.rows = new Row[4];
@@ -34,25 +66,20 @@ public class Table extends GameObject {
 		setRandomCell();
 		setRandomCell();
 
-//		 setRandomCell(1);
-//		 setRandomCell(2);
-//		 setRandomCell(4);
-//		 setRandomCell(8);
-//		 setRandomCell(16);
-//		 setRandomCell(32);
-//		 setRandomCell(64);
-//		 setRandomCell(128);
-//		 setRandomCell(256);
-//		 setRandomCell(512);
-//		 setRandomCell(1024);
-//		 setRandomCell(2048);
-//		 setRandomCell(4096);
-//		 setRandomCell(8192);
-
-		moveUp = MoveCommand.create(MoveDirection.Up, this);
-		moveDown = MoveCommand.create(MoveDirection.Down, this);
-		moveLeft = MoveCommand.create(MoveDirection.Left, this);
-		moveRight = MoveCommand.create(MoveDirection.Right, this);
+		// setRandomCell(1);
+		// setRandomCell(2);
+		// setRandomCell(4);
+		// setRandomCell(8);
+		// setRandomCell(16);
+		// setRandomCell(32);
+		// setRandomCell(64);
+		// setRandomCell(128);
+		// setRandomCell(256);
+		// setRandomCell(512);
+		// setRandomCell(1024);
+		// setRandomCell(2048);
+		// setRandomCell(4096);
+		// setRandomCell(8192);
 
 		setWidth(size);
 		setHeight(size);
@@ -111,51 +138,81 @@ public class Table extends GameObject {
 			cell = getCell(rand(), rand());
 		} while (!cell.isEmpty());
 
-		Tile tile = new Tile();
+		final Tile tile = new Tile();
 		tile.setValue(value);
-		tile.moveToCell(cell);
+		tile.moveToCell(cell, new IMoveCallback() {
+			@Override
+			public void moveEnd(int score, boolean async) {
+
+			}
+		});
 	}
-	
+
 	Cell getCell(int rowIndex, int colIndex) {
 		return rows[rowIndex].getCell(colIndex);
 	}
-	
+
 	int getCellValue(int rowIndex, int colIndex) {
 		return getCell(rowIndex, colIndex).getValue();
 	}
 
 	public void move(MoveDirection direction) {
-		int moveScore = 0;
+		hasMoved = false;
+		moveScore = 0;
+		moveCount = 0;
+
 		switch (direction) {
 		case Down:
-			moveScore = moveDown.execute();
+			moveDown();
 			break;
 		case Left:
-			moveScore = moveLeft.execute();
+			moveLeft();
 			break;
 		case Right:
-			moveScore = moveRight.execute();
+			moveRight();
 			break;
 		case Up:
-			moveScore = moveUp.execute();
+			moveUp();
 			break;
 		}
+		
+		if (moveCount > 0)
+			Game.getInputManager().deactivate();
+	}
 
-		boolean anythingMoved = moveScore > -1;
-
-		if (!anythingMoved)
-			return;
-
-		if (moveScore > 0) {
-			score += moveScore;
-			updateScoreText();
+	private void moveRight() {
+		for (int rowIndex = 0; rowIndex < matrixSize; rowIndex++) {
+			for (int colIndex = matrixSize - 1; colIndex >= 0; colIndex--) {
+				if (getCell(rowIndex, colIndex).moveRight(moveCallback))
+					moveCount++;
+			}
 		}
+	}
 
-		if (hasEmptyCell()) {
-			setRandomCell();
+	private void moveLeft() {
+		for (int rowIndex = 0; rowIndex < matrixSize; rowIndex++) {
+			for (int colIndex = 0; colIndex < matrixSize; colIndex++) {
+				if (getCell(rowIndex, colIndex).moveLeft(moveCallback))
+					moveCount++;
+			}
+		}
+	}
 
-			if (!hasMove()) {
-				gameOverDialog.open("Game Over!");
+	private void moveDown() {
+		for (int j = 0; j < matrixSize; j++) {
+			for (int i = matrixSize - 1; i >= 0; i--) {
+				if (getCell(i, j).moveDown(moveCallback))
+					moveCount++;
+			}
+		}
+	}
+
+	private void moveUp() {
+		for (int j = 0; j < matrixSize; j++) {
+			for (int i = 0; i < matrixSize; i++) {
+
+				if (getCell(i, j).moveUp(moveCallback))
+					moveCount++;
 			}
 		}
 	}
@@ -167,9 +224,9 @@ public class Table extends GameObject {
 		for (int i = 0; i < rows.length; i++) {
 			for (int j = 0; j < rows.length; j++) {
 				if ((i > 0 && getCellValue(i, j) == getCellValue(i - 1, j)) ||
-					(i < rows.length - 1 && getCellValue(i, j) == getCellValue(i + 1, j)) ||
-					(j < rows.length - 1 && getCellValue(i, j) == getCellValue(i, j + 1)) ||
-					(j > 0 && getCellValue(i, j) == getCellValue(i, j - 1)))
+						(i < rows.length - 1 && getCellValue(i, j) == getCellValue(i + 1, j)) ||
+						(j < rows.length - 1 && getCellValue(i, j) == getCellValue(i, j + 1)) ||
+						(j > 0 && getCellValue(i, j) == getCellValue(i, j - 1)))
 					return true;
 			}
 		}
@@ -205,6 +262,6 @@ public class Table extends GameObject {
 				cell.draw();
 			}
 		}
-		
+
 	}
 }
