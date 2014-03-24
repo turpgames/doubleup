@@ -34,8 +34,9 @@ public class Table extends GameObject {
 			if (async) {
 				moveCount--;
 				if (moveCount == 0) {
-					if (!hasMoved)
+					if (!hasMoved) {
 						return;
+					}
 
 					if (moveScore > 0) {
 						Table.this.score += moveScore;
