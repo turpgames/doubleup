@@ -19,8 +19,6 @@ public class Table extends GameObject {
 	private final IMoveCommand moveLeft;
 	private final IMoveCommand moveRight;
 
-	private final Color tilesColor = Color.white();
-
 	private int score;
 	private Text scoreText;
 	private final Dialog gameOverDialog;
@@ -33,30 +31,28 @@ public class Table extends GameObject {
 			rows[i] = new Row(this, i);
 		}
 
-//		setRandomCell();
-//		setRandomCell();
+		setRandomCell();
+		setRandomCell();
 
-		 setRandomCell(1);
-		 setRandomCell(2);
-		 setRandomCell(4);
-		 setRandomCell(8);
-		 setRandomCell(16);
-		 setRandomCell(32);
-		 setRandomCell(64);
-		 setRandomCell(128);
-		 setRandomCell(256);
-		 setRandomCell(512);
-		 setRandomCell(1024);
-		 setRandomCell(2048);
-		 setRandomCell(4096);
-		 setRandomCell(8192);
+//		 setRandomCell(1);
+//		 setRandomCell(2);
+//		 setRandomCell(4);
+//		 setRandomCell(8);
+//		 setRandomCell(16);
+//		 setRandomCell(32);
+//		 setRandomCell(64);
+//		 setRandomCell(128);
+//		 setRandomCell(256);
+//		 setRandomCell(512);
+//		 setRandomCell(1024);
+//		 setRandomCell(2048);
+//		 setRandomCell(4096);
+//		 setRandomCell(8192);
 
 		moveUp = MoveCommand.create(MoveDirection.Up, this);
 		moveDown = MoveCommand.create(MoveDirection.Down, this);
 		moveLeft = MoveCommand.create(MoveDirection.Left, this);
 		moveRight = MoveCommand.create(MoveDirection.Right, this);
-
-		print = true;
 
 		setWidth(size);
 		setHeight(size);
@@ -64,7 +60,7 @@ public class Table extends GameObject {
 		float y = (Game.getVirtualHeight() - Table.size) / 2;
 		getLocation().set(x, y);
 
-		tilesColor.set(Color.fromHex("#f0f0ff20"));
+		this.getColor().set(Color.fromHex("#f0f0ff20"));
 
 		gameOverDialog = new Dialog();
 		gameOverDialog.addButton("ok", "Ok");
@@ -115,11 +111,9 @@ public class Table extends GameObject {
 			cell = getCell(rand(), rand());
 		} while (!cell.isEmpty());
 
-		Tile tile = Tile.popTile();
-//		tile.beginUpdate();
+		Tile tile = new Tile();
 		tile.setValue(value);
-		cell.setTile(tile);
-//		tile.endUpdate();
+		tile.moveToCell(cell);
 	}
 	
 	Cell getCell(int rowIndex, int colIndex) {
@@ -130,10 +124,7 @@ public class Table extends GameObject {
 		return getCell(rowIndex, colIndex).getValue();
 	}
 
-	private boolean print;
-
 	public void move(MoveDirection direction) {
-		print = true;
 		int moveScore = 0;
 		switch (direction) {
 		case Down:
@@ -204,27 +195,9 @@ public class Table extends GameObject {
 
 	@Override
 	public void draw() {
-		if (Game.isDebug() && print) {
-			System.out.println("--------------------------------");
-			for (Row row : rows) {
-				for (Cell cell : row.getCells()) {
-					if (!cell.isEmpty()) {
-						System.out.print(Util.Strings.padLeft("" + cell.getValue(), 3));
-					} else {
-						System.out.print("   ");
-					}
-					System.out.print(" ");
-				}
-				System.out.println();
-			}
-			print = false;
-			System.out.println("--------------------------------");
-		}
-
 		resetButton.draw();
 		scoreText.draw();
 
-		super.getColor().set(tilesColor);
 		TextureDrawer.draw(Textures.tiles, this);
 
 		for (Row row : rows) {
@@ -232,21 +205,6 @@ public class Table extends GameObject {
 				cell.draw();
 			}
 		}
+		
 	}
-
-//	public void beginUpdate() {
-//		for (Row row : rows) {
-//			for (Cell cell : row.getCells()) {
-//				cell.beginUpdate();
-//			}
-//		}
-//	}
-//
-//	public void endUpdate() {
-//		for (Row row : rows) {
-//			for (Cell cell : row.getCells()) {
-//				cell.endUpdate();
-//			}
-//		}
-//	}
 }

@@ -6,7 +6,7 @@ import com.turpgames.framework.v0.util.Game;
 class Cell extends GameObject {
 	private final static int matrixSize = Table.matrixSize;
 	
-	public final static float size = 128f;
+	public final static float size = Table.size / Table.matrixSize;
 
 	final int colIndex;
 	final Row row;
@@ -147,16 +147,12 @@ class Cell extends GameObject {
 	}
 
 	private void move(Cell toCell) {
+		
 		this.tile.moveToCell(toCell);
-		toCell.setTile(this.tile);
-		this.tile = null;
 	}
 
 	void setTile(Tile tile) {
-		if (this.tile != null)
-			throw new UnsupportedOperationException("Cell already has a tile!");
 		this.tile = tile;
-		tile.moveToCell(this);
 	}
 
 	public boolean isEmpty() {
@@ -165,7 +161,6 @@ class Cell extends GameObject {
 
 	void reset() {
 		if (tile != null) {
-			tile.dispose();
 			tile = null;
 		}
 	}

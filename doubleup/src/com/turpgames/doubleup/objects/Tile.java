@@ -1,141 +1,78 @@
 package com.turpgames.doubleup.objects;
 
-import java.util.Stack;
-
-import com.turpgames.framework.v0.effects.BreathEffect;
+import com.turpgames.framework.v0.effects.IEffectEndListener;
 import com.turpgames.framework.v0.effects.moving.IMovingEffectSubject;
-import com.turpgames.framework.v0.effects.scaling.IScaleEffectSubject;
-import com.turpgames.framework.v0.effects.scaling.ScaleUpEffect;
+import com.turpgames.framework.v0.effects.moving.MovingEffect;
 import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.TextureDrawer;
 
-class Tile extends GameObject implements IScaleEffectSubject,
-		IMovingEffectSubject {
-
-	private static Stack<Tile> tileCache = new Stack<Tile>();
-
-	static {
-		for (int i = 0; i < 16; i++) {
-			tileCache.push(new Tile());
-		}
-	}
-
-	static Tile popTile() {
-		Tile tile = tileCache.pop();
-//		tile.requiresPopEffect = true;
-		tile.isActive = true;
-		return tile;
-	}
+class Tile extends GameObject implements IMovingEffectSubject {
 
 	private final Text text;
-
-//	private final BreathEffect newSumEffect;
-//	private final ScaleUpEffect popEffect;
-
 	private boolean isActive;
-
 	private int value;
+	private Cell cell;
 
-//	private boolean requiresPopEffect;
-//	private boolean requiresSumEffect;
+	private final MovingEffect moveEffect;
 
-	private Tile() {
+	public Tile() {
 		text = new Text();
 		text.setAlignment(Text.HAlignCenter, Text.VAlignCenter);
 		text.setSize(Cell.size, Cell.size);
-		text.setLocation(getLocation().x, getLocation().y);
 		text.getColor().set(Color.white());
 
-//		newSumEffect = new BreathEffect(this);
-//		newSumEffect.setDuration(0.3f);
-//		newSumEffect.setLooping(false);
-//		newSumEffect.setMinFactor(0.9f);
-//		newSumEffect.setMaxFactor(1.1f);
-//
-//		popEffect = new ScaleUpEffect(this);
-//		popEffect.setDuration(0.3f);
-//		popEffect.setLooping(false);
-//		popEffect.setMinScale(0.2f);
-//		popEffect.setMaxScale(1f);
+		setWidth(Cell.size);
+		setHeight(Cell.size);
+
+		moveEffect = new MovingEffect(this, Cell.size / 0.2f);
+		moveEffect.setLooping(false);
 	}
 
 	int getValue() {
 		return value;
 	}
 
-//	void beginUpdate() {
-//		requiresPopEffect = false;
-//		requiresSumEffect = false;
-//	}
-
 	int addTo(Tile toTile) {
 		toTile.setValue(toTile.value + this.value);
-		this.dispose();
+		this.setValue(0);
 		return toTile.value;
 	}
 
-	void moveToCell(Cell cell) {
-		setLocation(cell.getLocation().x, cell.getLocation().y);
+	void moveToCell(final Cell toCell) {
+//		if (this.cell == null) {
+		if (cell != null)
+			cell.setTile(null);
+			this.cell = toCell;
+			setLocation(toCell.getLocation().x, toCell.getLocation().y);
+			toCell.setTile(this);
+//		} else {
+//			moveEffect.setFrom(getLocation().x, getLocation().y);
+//			moveEffect.setTo(toCell.getLocation().x, toCell.getLocation().y);
+//			moveEffect.start(new IEffectEndListener() {
+//				@Override
+//				public boolean onEffectEnd(Object obj) {
+//					cell = toCell;
+//					toCell.setTile(Tile.this);
+//					return false;
+//				}
+//			});
+//		}
 	}
 
 	void setValue(int value) {
-//		if (value == this.value * 2)
-//			requiresSumEffect = true;
-
 		this.value = value;
+		this.isActive = value > 0;
 		this.text.setText(value + "");
 		this.getColor().set(getColor(value));
 	}
 
-//	void endUpdate() {
-//		if (requiresPopEffect) {
-//			popEffect.start();
-//		} else if (requiresSumEffect) {
-//			newSumEffect.start();
-//		}
-//	}
-
-	void dispose() {
-		setValue(0);
-		isActive = false;
-//		requiresPopEffect = false;
-//		requiresSumEffect = false;
-		tileCache.push(this);
-	}
-
-	// private void move(Cell from, Cell to, final boolean runNewSumEffectOnEnd)
-	// {
-	// if (from == null) {
-	// setLocation(to.getLocation().x, to.getLocation().y);
-	// if (runNewSumEffectOnEnd) {
-	// newSumEffect.start();
-	// }
-	// } else {
-	// moveEffect.setFrom(from.getLocation().x, from.getLocation().y);
-	// moveEffect.setTo(to.getLocation().x, to.getLocation().y);
-	// if (runNewSumEffectOnEnd) {
-	// moveEffect.start(new IEffectEndListener() {
-	// @Override
-	// public boolean onEffectEnd(Object obj) {
-	// newSumEffect.start();
-	// return true;
-	// }
-	// });
-	// }
-	// }
-	// }
-
-	@Override
-	public void setScale(float scale) {
-		super.getScale().set(scale);
-	}
-
 	@Override
 	public void setLocation(float x, float y) {
-		getLocation().set(x, y);
-		text.setLocation(x, y);
+		getLocation().set(cell.getLocation());
+	 getRotation().set(cell.getRotation());
+		text.setLocation(cell.getLocation());
 	}
 
 	@Override
@@ -181,17 +118,17 @@ class Tile extends GameObject implements IScaleEffectSubject,
 	}
 
 	private final static Color color0 = Color.fromHex("#00000000");
-	private final static Color color1 = Color.fromHex("#fba51a00");
-	private final static Color color2 = Color.fromHex("#f4eb2000");
-	private final static Color color4 = Color.fromHex("#aed36100");
-	private final static Color color8 = Color.fromHex("#71c05500");
-	private final static Color color16 = Color.fromHex("#71c6a500");
-	private final static Color color32 = Color.fromHex("#40b8ea00");
-	private final static Color color64 = Color.fromHex("#436fb600");
-	private final static Color color128 = Color.fromHex("#5b52a300");
-	private final static Color color256 = Color.fromHex("#9a6db000");
-	private final static Color color512 = Color.fromHex("#d1499b00");
-	private final static Color color1024 = Color.fromHex("#f15f9000");
-	private final static Color color2048 = Color.fromHex("#ed1e2400");
-	private final static Color color4096 = Color.fromHex("#00000000");
+	private final static Color color1 = Color.fromHex("#fba51a60");
+	private final static Color color2 = Color.fromHex("#f4eb2060");
+	private final static Color color4 = Color.fromHex("#aed36160");
+	private final static Color color8 = Color.fromHex("#71c05560");
+	private final static Color color16 = Color.fromHex("#71c6a560");
+	private final static Color color32 = Color.fromHex("#40b8ea60");
+	private final static Color color64 = Color.fromHex("#436fb660");
+	private final static Color color128 = Color.fromHex("#5b52a360");
+	private final static Color color256 = Color.fromHex("#9a6db060");
+	private final static Color color512 = Color.fromHex("#d1499b60");
+	private final static Color color1024 = Color.fromHex("#f15f9060");
+	private final static Color color2048 = Color.fromHex("#ed1e2460");
+	private final static Color color4096 = Color.fromHex("#00000060");
 }
