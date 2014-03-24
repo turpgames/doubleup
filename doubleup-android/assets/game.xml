@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<game
+    id="Doubling"
+    class="com.turpgames.doubleup.view.DoublingGame" >
+
+    <params>
+
+        <param
+            key="debug"
+            value="false" />
+
+        <param
+            key="provider"
+            value="com.turpgames.framework.v0.impl.libgdx.GdxGameProvider" />
+
+        <param
+            key="settings-key"
+            value="com.turpgames.doubling" />
+
+        <param
+            key="virtual-width"
+            value="550" />
+
+        <param
+            key="virtual-height"
+            value="800" />
+
+        <param
+            key="default-font"
+            value="Akachen,1" />
+
+        <param
+            key="default-screen"
+            value="splash" />
+
+        <param
+            key="screen-switcher"
+            value="fading,0.30" />
+
+        <param
+            key="form-switcher"
+            value="fading,0.30" />
+
+        <param
+            key="allow-exit-on-back"
+            value="true" />
+
+        <param
+            key="turp-address"
+            value="http://www.turpgames.com" />
+
+        <param
+            key="play-store-address"
+            value="market://details?id=com.turpgames.doubling" />
+
+        <param
+            key="app-store-address-ios7"
+            value="itms-apps://itunes.apple.com/app/id?????" />
+
+        <param
+            key="app-store-address-old"
+            value="itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&amp;id=??????" />
+
+        <param
+            key="twitter-address"
+            value="http://www.twitter.com/turpgames" />
+
+        <param
+            key="facebook-address"
+            value="http://www.facebook.com/turpgames" />
+    </params>
+
+    <screens>
+
+        <screen
+            id="splash"
+            class="com.turpgames.doubleup.view.SplashScreen" />
+
+        <screen
+            id="game"
+            class="com.turpgames.doubleup.view.GameScreen" />
+    </screens>
+
+    <forms>
+    </forms>
+
+    <animations>
+
+        <animation
+            id="loading"
+            frame-duration="0.040"
+            frame-height="74"
+            frame-width="74"
+            loop="true"
+            texture="loading" />
+    </animations>
+
+    <resources>
+
+        <fonts>
+
+            <font
+                id="Akachen"
+                path="fonts/akachen.fnt" />
+        </fonts>
+
+        <textures>
+
+            <texture
+                id="fw_close"
+                path="img/framework/close.png" />
+
+            <texture
+                id="turp_logo"
+                path="img/turpgames_logo.png"
+                resource-load="primary" />
+
+            <texture
+                id="tile"
+                path="img/tile.png" />
+
+            <texture
+                id="tiles"
+                path="img/tiles.png" />
+
+            <texture
+                id="bg"
+                path="img/bg.png" />
+
+            <texture
+                id="reset"
+                path="img/reset.png" />
+
+        </textures>
+
+        <sounds>
+        </sounds>
+    </resources>
+
+    <languages>
+
+        <language
+            id="en-US"
+            encoding="UTF8"
+            flag-texture-id="flag_en_us"
+            path="lang/Strings_en_US.properties" />
+    </languages>
+
+    <skins>
+    </skins>
+
+</game>
