@@ -74,11 +74,12 @@
 
         <screen
             id="splash"
-            class="com.turpgames.doubleup.view.SplashScreen" />
+            class="com.turpgames.doubleup.view.SplashScreen"/>
 
         <screen
             id="game"
-            class="com.turpgames.doubleup.view.GameScreen" />
+            class="com.turpgames.doubleup.view.GameScreen" 
+            background-music="theme" />
     </screens>
 
     <forms>
@@ -134,7 +135,64 @@
         </textures>
 
         <sounds>
+            <sound
+                id="1"
+                path="audio/1.mp3" />
+            
+            <sound
+                id="2"
+                path="audio/2.mp3" />
+            
+            <sound
+                id="4"
+                path="audio/4.mp3" />
+            
+            <sound
+                id="8"
+                path="audio/8.mp3" />
+            
+            <sound
+                id="16"
+                path="audio/16.mp3" />
+            
+            <sound
+                id="32"
+                path="audio/32.mp3" />
+            
+            <sound
+                id="64"
+                path="audio/64.mp3" />
+            
+            <sound
+                id="128"
+                path="audio/128.mp3" />
+            
+            <sound
+                id="256"
+                path="audio/256.mp3" />
+            
+            <sound
+                id="512"
+                path="audio/512.mp3" />
+            
+            <sound
+                id="1024"
+                path="audio/1024.mp3" />
+            
+            <sound
+                id="2048"
+                path="audio/1.mp3" />
+            
+            <sound
+                id="none"
+                path="audio/none.mp3" />
         </sounds>
+        
+        <musics>
+            <music
+                id="theme"
+                path="audio/doubleup.ogg" />
+        </musics>
     </resources>
 
     <languages>

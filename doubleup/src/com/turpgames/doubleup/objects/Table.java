@@ -143,8 +143,10 @@ public class Table extends GameObject {
 
 		boolean anythingMoved = moveScore > -1;
 
-		if (!anythingMoved)
-			return;
+		if (!anythingMoved) {
+			SoundEffects.addEffect(Game.getResourceManager().getSound("none"));
+			return;	
+		}
 
 		if (moveScore > 0) {
 			score += moveScore;

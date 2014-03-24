@@ -142,6 +142,10 @@ class Cell extends GameObject {
 
 	private int add(Cell toCell) {
 		int score = this.tile.addTo(toCell.tile);
+		if (score < 2048)
+			SoundEffects.addEffect(Game.getResourceManager().getSound(String.valueOf(score)));
+		else
+			SoundEffects.addEffect(Game.getResourceManager().getSound("2048"));
 		this.tile = null;
 		return score;
 	}
