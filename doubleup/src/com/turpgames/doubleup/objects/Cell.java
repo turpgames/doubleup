@@ -4,6 +4,8 @@ import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.util.Game;
 
 class Cell extends GameObject {
+	private final static int matrixSize = Table.matrixSize;
+	
 	public final static float size = 128f;
 
 	final int colIndex;
@@ -21,10 +23,8 @@ class Cell extends GameObject {
 		setHeight(size);
 		float dx = (Game.getVirtualWidth() - Table.size) / 2;
 		float dy = (Game.getVirtualHeight() - Table.size) / 2;
-		getLocation().set(dx + size * colIndex,
-				dy + size * (table.rows.length - 1 - row.rowIndex));
-		getRotation().origin.set(getLocation().x + size / 2, getLocation().y
-				+ size / 2);
+		getLocation().set(dx + size * colIndex, dy + size * (matrixSize - 1 - row.rowIndex));
+		getRotation().origin.set(getLocation().x + size / 2, getLocation().y + size / 2);
 
 	}
 
@@ -32,9 +32,9 @@ class Cell extends GameObject {
 		if (this.isEmpty())
 			return false;
 
-		for (int i = row.cells.length - 1; i > colIndex; i--) {
-			if (row.cells[i].isEmpty()) {
-				move(row.cells[i]);
+		for (int i = matrixSize - 1; i > colIndex; i--) {
+			if (row.getCell(i).isEmpty()) {
+				move(row.getCell(i));
 				return true;
 			}
 		}
@@ -46,13 +46,13 @@ class Cell extends GameObject {
 		if (this.isEmpty())
 			return 0;
 
-		if (this.colIndex == row.cells.length - 1)
+		if (this.colIndex == matrixSize - 1)
 			return 0;
 
-		if (row.cells[colIndex + 1].getValue() != this.getValue())
+		if (row.getCellValue(colIndex + 1) != this.getValue())
 			return 0;
 
-		return add(row.cells[colIndex + 1]);
+		return add(row.getCell(colIndex + 1));
 	}
 
 	public boolean moveLeft() {
@@ -60,8 +60,8 @@ class Cell extends GameObject {
 			return false;
 
 		for (int i = 0; i < colIndex; i++) {
-			if (row.cells[i].isEmpty()) {
-				move(row.cells[i]);
+			if (row.getCell(i).isEmpty()) {
+				move(row.getCell(i));
 				return true;
 			}
 		}
@@ -76,10 +76,10 @@ class Cell extends GameObject {
 		if (this.colIndex == 0)
 			return 0;
 
-		if (row.cells[colIndex - 1].getValue() != this.getValue())
+		if (row.getCellValue(colIndex - 1) != this.getValue())
 			return 0;
 
-		return add(row.cells[colIndex - 1]);
+		return add(row.getCell(colIndex - 1));
 	}
 
 	public boolean moveUp() {
@@ -87,8 +87,8 @@ class Cell extends GameObject {
 			return false;
 
 		for (int i = 0; i < row.rowIndex; i++) {
-			if (table.rows[i].cells[colIndex].isEmpty()) {
-				move(table.rows[i].cells[colIndex]);
+			if (table.getCell(i, colIndex).isEmpty()) {
+				move(table.getCell(i, colIndex));
 				return true;
 			}
 		}
@@ -102,21 +102,20 @@ class Cell extends GameObject {
 
 		if (this.row.rowIndex == 0)
 			return 0;
-
-		if (table.rows[row.rowIndex - 1].cells[colIndex].getValue() != this
-				.getValue())
+		
+		if (table.getCellValue(row.rowIndex - 1, colIndex) != this.getValue())
 			return 0;
 
-		return add(table.rows[row.rowIndex - 1].cells[colIndex]);
+		return add(table.getCell(row.rowIndex - 1, colIndex));
 	}
 
 	public boolean moveDown() {
 		if (this.isEmpty())
 			return false;
 
-		for (int i = table.rows.length - 1; i > row.rowIndex; i--) {
-			if (table.rows[i].cells[colIndex].isEmpty()) {
-				move(table.rows[i].cells[colIndex]);
+		for (int i = matrixSize - 1; i > row.rowIndex; i--) {
+			if (table.getCell(i, colIndex).isEmpty()) {
+				move(table.getCell(i, colIndex));
 				return true;
 			}
 		}
@@ -128,14 +127,13 @@ class Cell extends GameObject {
 		if (this.isEmpty())
 			return 0;
 
-		if (this.row.rowIndex == table.rows.length - 1)
+		if (this.row.rowIndex == matrixSize - 1)
+			return 0;
+		
+		if (table.getCellValue(row.rowIndex + 1, colIndex) != this.getValue())
 			return 0;
 
-		if (table.rows[row.rowIndex + 1].cells[colIndex].getValue() != this
-				.getValue())
-			return 0;
-
-		return add(table.rows[row.rowIndex + 1].cells[colIndex]);
+		return add(table.getCell(row.rowIndex + 1, colIndex));
 	}
 
 	int getValue() {
@@ -143,14 +141,15 @@ class Cell extends GameObject {
 	}
 
 	private int add(Cell toCell) {
-		toCell.tile.setValue(toCell.tile.getValue() + this.tile.getValue());
-		this.tile.dispose();
+		int score = this.tile.addTo(toCell.tile);
 		this.tile = null;
-		return toCell.tile.getValue();
+		return score;
 	}
 
 	private void move(Cell toCell) {
 		this.tile.moveToCell(toCell);
+		toCell.setTile(this.tile);
+		this.tile = null;
 	}
 
 	void setTile(Tile tile) {
@@ -166,9 +165,7 @@ class Cell extends GameObject {
 
 	void reset() {
 		if (tile != null) {
-			tile.beginUpdate();
 			tile.dispose();
-			tile.endUpdate();
 			tile = null;
 		}
 	}
@@ -179,13 +176,13 @@ class Cell extends GameObject {
 			tile.draw();
 	}
 
-	void beginUpdate() {
-		if (tile != null)
-			tile.beginUpdate();
-	}
-
-	void endUpdate() {
-		if (tile != null)
-			tile.endUpdate();
-	}
+//	void beginUpdate() {
+//		if (tile != null)
+//			tile.beginUpdate();
+//	}
+//
+//	void endUpdate() {
+//		if (tile != null)
+//			tile.endUpdate();
+//	}
 }

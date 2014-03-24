@@ -1,24 +1,24 @@
 package com.turpgames.doubleup.objects;
 
 abstract class MoveCommand implements IMoveCommand {
-	protected final Row[] rows;
+	private final static int martixSize = Table.matrixSize;
+	
 	protected final Table table;
 
 	private MoveCommand(Table table) {
-		this.rows = table.rows;
 		this.table = table;
 	}
 
 	@Override
 	public int execute() {
-		table.beginUpdate();
+//		table.beginUpdate();
 		boolean hasMoved = move();
 		int score = add();
 		if (score == 0) {
 			return hasMoved ? 0 : -1;
 		}
 		move();
-		table.endUpdate();
+//		table.endUpdate();
 		return score;
 	}
 
@@ -48,9 +48,9 @@ abstract class MoveCommand implements IMoveCommand {
 		@Override
 		protected boolean move() {
 			boolean hasMovement = false;
-			for (int rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-				for (int colIndex = rows.length - 1; colIndex >= 0; colIndex--) {
-					hasMovement = rows[rowIndex].cells[colIndex].moveRight() || hasMovement;;
+			for (int rowIndex = 0; rowIndex < martixSize; rowIndex++) {
+				for (int colIndex = martixSize - 1; colIndex >= 0; colIndex--) {
+					hasMovement = table.getCell(rowIndex, colIndex).moveRight() || hasMovement;;
 				}
 			}
 			return hasMovement;
@@ -59,9 +59,9 @@ abstract class MoveCommand implements IMoveCommand {
 		@Override
 		protected int add() {
 			int score = 0;
-			for (int rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-				for (int colIndex = rows.length - 1; colIndex >= 0; colIndex--) {
-					score += rows[rowIndex].cells[colIndex].addRight();
+			for (int rowIndex = 0; rowIndex < martixSize; rowIndex++) {
+				for (int colIndex = martixSize - 1; colIndex >= 0; colIndex--) {
+					score += table.getCell(rowIndex, colIndex).addRight();
 				}
 			}
 			return score;
@@ -76,9 +76,9 @@ abstract class MoveCommand implements IMoveCommand {
 		@Override
 		protected boolean move() {
 			boolean hasMovement = false;
-			for (int rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-				for (int colIndex = 0; colIndex < rows.length; colIndex++) {
-					hasMovement = rows[rowIndex].cells[colIndex].moveLeft() || hasMovement;
+			for (int rowIndex = 0; rowIndex < martixSize; rowIndex++) {
+				for (int colIndex = 0; colIndex < martixSize; colIndex++) {
+					hasMovement = table.getCell(rowIndex, colIndex).moveLeft() || hasMovement;
 				}
 			}
 			return hasMovement;
@@ -87,9 +87,9 @@ abstract class MoveCommand implements IMoveCommand {
 		@Override
 		protected int add() {
 			int score = 0;
-			for (int rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-				for (int colIndex = 0; colIndex < rows.length; colIndex++) {
-					score += rows[rowIndex].cells[colIndex].addLeft();
+			for (int rowIndex = 0; rowIndex < martixSize; rowIndex++) {
+				for (int colIndex = 0; colIndex < martixSize; colIndex++) {
+					score += table.getCell(rowIndex, colIndex).addLeft();
 				}
 			}
 			return score;
@@ -104,9 +104,9 @@ abstract class MoveCommand implements IMoveCommand {
 		@Override
 		protected boolean move() {
 			boolean hasMovement = false;
-			for (int j = 0; j < rows.length; j++) {
-				for (int i = rows.length - 1; i >= 0; i--) {
-					hasMovement = rows[i].cells[j].moveDown() || hasMovement;;
+			for (int j = 0; j < martixSize; j++) {
+				for (int i = martixSize - 1; i >= 0; i--) {
+					hasMovement = table.getCell(i, j).moveDown() || hasMovement;;
 				}
 			}
 			return hasMovement;
@@ -115,9 +115,9 @@ abstract class MoveCommand implements IMoveCommand {
 		@Override
 		protected int add() {
 			int score = 0;
-			for (int j = 0; j < rows.length; j++) {
-				for (int i = rows.length - 1; i >= 0; i--) {
-					score += rows[i].cells[j].addDown();
+			for (int j = 0; j < martixSize; j++) {
+				for (int i = martixSize - 1; i >= 0; i--) {
+					score += table.getCell(i, j).addDown();
 				}
 			}
 			return score;
@@ -132,9 +132,9 @@ abstract class MoveCommand implements IMoveCommand {
 		@Override
 		protected boolean move() {
 			boolean hasMovement = false;
-			for (int j = 0; j < rows.length; j++) {
-				for (int i = 0; i < rows.length; i++) {
-					hasMovement = rows[i].cells[j].moveUp() || hasMovement;;
+			for (int j = 0; j < martixSize; j++) {
+				for (int i = 0; i < martixSize; i++) {
+					hasMovement = table.getCell(i, j).moveUp() || hasMovement;;
 				}
 			}
 			return hasMovement;
@@ -143,9 +143,9 @@ abstract class MoveCommand implements IMoveCommand {
 		@Override
 		protected int add() {
 			int score = 0;
-			for (int j = 0; j < rows.length; j++) {
-				for (int i = 0; i < rows.length; i++) {
-					score += rows[i].cells[j].addUp();
+			for (int j = 0; j < martixSize; j++) {
+				for (int i = 0; i < martixSize; i++) {
+					score += table.getCell(i, j).addUp();
 				}
 			}
 			return score;

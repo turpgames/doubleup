@@ -9,9 +9,10 @@ import com.turpgames.framework.v0.util.TextureDrawer;
 import com.turpgames.utils.Util;
 
 public class Table extends GameObject {
+	public final static int matrixSize = 4;
 	public final static float size = 512f;
 
-	final Row[] rows;
+	private final Row[] rows;
 
 	private final IMoveCommand moveUp;
 	private final IMoveCommand moveDown;
@@ -32,23 +33,23 @@ public class Table extends GameObject {
 			rows[i] = new Row(this, i);
 		}
 
-		setRandomCell();
-		setRandomCell();
+//		setRandomCell();
+//		setRandomCell();
 
-		// setRandomCell(1);
-		// setRandomCell(2);
-		// setRandomCell(4);
-		// setRandomCell(8);
-		// setRandomCell(16);
-		// setRandomCell(32);
-		// setRandomCell(64);
-		// setRandomCell(128);
-		// setRandomCell(256);
-		// setRandomCell(512);
-		// setRandomCell(1024);
-		// setRandomCell(2048);
-		// setRandomCell(4096);
-		// setRandomCell(8192);
+		 setRandomCell(1);
+		 setRandomCell(2);
+		 setRandomCell(4);
+		 setRandomCell(8);
+		 setRandomCell(16);
+		 setRandomCell(32);
+		 setRandomCell(64);
+		 setRandomCell(128);
+		 setRandomCell(256);
+		 setRandomCell(512);
+		 setRandomCell(1024);
+		 setRandomCell(2048);
+		 setRandomCell(4096);
+		 setRandomCell(8192);
 
 		moveUp = MoveCommand.create(MoveDirection.Up, this);
 		moveDown = MoveCommand.create(MoveDirection.Down, this);
@@ -64,7 +65,7 @@ public class Table extends GameObject {
 		getLocation().set(x, y);
 
 		tilesColor.set(Color.fromHex("#f0f0ff20"));
-		
+
 		gameOverDialog = new Dialog();
 		gameOverDialog.addButton("ok", "Ok");
 		gameOverDialog.setListener(new Dialog.IDialogListener() {
@@ -78,7 +79,7 @@ public class Table extends GameObject {
 				reset();
 			}
 		});
-		
+
 		resetButton = new ResetButton(this);
 
 		scoreText = new Text();
@@ -94,7 +95,7 @@ public class Table extends GameObject {
 
 	private boolean hasEmptyCell() {
 		for (Row row : rows) {
-			for (Cell cell : row.cells) {
+			for (Cell cell : row.getCells()) {
 				if (cell.isEmpty()) {
 					return true;
 				}
@@ -111,16 +112,22 @@ public class Table extends GameObject {
 	private void setRandomCell(int value) {
 		Cell cell;
 		do {
-			int i = rand();
-			int j = rand();
-			cell = rows[i].cells[j];
+			cell = getCell(rand(), rand());
 		} while (!cell.isEmpty());
 
 		Tile tile = Tile.popTile();
-		tile.beginUpdate();
+//		tile.beginUpdate();
 		tile.setValue(value);
 		cell.setTile(tile);
-		tile.endUpdate();
+//		tile.endUpdate();
+	}
+	
+	Cell getCell(int rowIndex, int colIndex) {
+		return rows[rowIndex].getCell(colIndex);
+	}
+	
+	int getCellValue(int rowIndex, int colIndex) {
+		return getCell(rowIndex, colIndex).getValue();
 	}
 
 	private boolean print;
@@ -168,14 +175,10 @@ public class Table extends GameObject {
 
 		for (int i = 0; i < rows.length; i++) {
 			for (int j = 0; j < rows.length; j++) {
-				if ((i > 0 && rows[i].cells[j].getValue() == rows[i - 1].cells[j]
-						.getValue())
-						|| (i < rows.length - 1 && rows[i].cells[j].getValue() == rows[i + 1].cells[j]
-								.getValue())
-						|| (j < rows.length - 1 && rows[i].cells[j].getValue() == rows[i].cells[j + 1]
-								.getValue())
-						|| (j > 0 && rows[i].cells[j].getValue() == rows[i].cells[j - 1]
-								.getValue()))
+				if ((i > 0 && getCellValue(i, j) == getCellValue(i - 1, j)) ||
+					(i < rows.length - 1 && getCellValue(i, j) == getCellValue(i + 1, j)) ||
+					(j < rows.length - 1 && getCellValue(i, j) == getCellValue(i, j + 1)) ||
+					(j > 0 && getCellValue(i, j) == getCellValue(i, j - 1)))
 					return true;
 			}
 		}
@@ -190,7 +193,7 @@ public class Table extends GameObject {
 
 		setRandomCell();
 		setRandomCell();
-		
+
 		score = 0;
 		updateScoreText();
 	}
@@ -204,10 +207,9 @@ public class Table extends GameObject {
 		if (Game.isDebug() && print) {
 			System.out.println("--------------------------------");
 			for (Row row : rows) {
-				for (Cell cell : row.cells) {
+				for (Cell cell : row.getCells()) {
 					if (!cell.isEmpty()) {
-						System.out.print(Util.Strings.padLeft(
-								"" + cell.getValue(), 3));
+						System.out.print(Util.Strings.padLeft("" + cell.getValue(), 3));
 					} else {
 						System.out.print("   ");
 					}
@@ -226,25 +228,25 @@ public class Table extends GameObject {
 		TextureDrawer.draw(Textures.tiles, this);
 
 		for (Row row : rows) {
-			for (Cell cell : row.cells) {
+			for (Cell cell : row.getCells()) {
 				cell.draw();
 			}
 		}
 	}
 
-	public void beginUpdate() {
-		for (Row row : rows) {
-			for (Cell cell : row.cells) {
-				cell.beginUpdate();
-			}
-		}
-	}
-
-	public void endUpdate() {
-		for (Row row : rows) {
-			for (Cell cell : row.cells) {
-				cell.endUpdate();
-			}
-		}
-	}
+//	public void beginUpdate() {
+//		for (Row row : rows) {
+//			for (Cell cell : row.getCells()) {
+//				cell.beginUpdate();
+//			}
+//		}
+//	}
+//
+//	public void endUpdate() {
+//		for (Row row : rows) {
+//			for (Cell cell : row.getCells()) {
+//				cell.endUpdate();
+//			}
+//		}
+//	}
 }

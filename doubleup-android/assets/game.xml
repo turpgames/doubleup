@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game
-    id="Doubling"
-    class="com.turpgames.doubleup.view.DoublingGame" >
+    id="DoubleUp"
+    class="com.turpgames.doubleup.view.DoubleUpGame" >
 
     <params>
 
@@ -15,7 +15,7 @@
 
         <param
             key="settings-key"
-            value="com.turpgames.doubling" />
+            value="com.turpgames.doubleup" />
 
         <param
             key="virtual-width"
@@ -35,7 +35,7 @@
 
         <param
             key="screen-switcher"
-            value="fading,0.30" />
+            value="sliding,0.30" />
 
         <param
             key="form-switcher"
@@ -51,7 +51,7 @@
 
         <param
             key="play-store-address"
-            value="market://details?id=com.turpgames.doubling" />
+            value="market://details?id=com.turpgames.doubleup" />
 
         <param
             key="app-store-address-ios7"

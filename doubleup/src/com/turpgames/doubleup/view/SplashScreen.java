@@ -1,7 +1,7 @@
 package com.turpgames.doubleup.view;
 
 import com.turpgames.doubleup.objects.TurpLogo;
-import com.turpgames.doubleup.updates.DoublingUpdateManager;
+import com.turpgames.doubleup.updates.DoubleUpUpdateManager;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.IResourceManager;
 import com.turpgames.framework.v0.impl.Screen;
@@ -37,7 +37,7 @@ public class SplashScreen extends Screen {
 	@Override
 	public void update() {
 		if (!resourceManager.isLoading()) {
-			DoublingUpdateManager.runUpdates();
+			DoubleUpUpdateManager.runUpdates();
 
 			switchToGame();
 		}

@@ -1,7 +1,7 @@
 package com.turpgames.doubleup.objects;
 
 class Row {
-	final Cell[] cells;
+	private final Cell[] cells;
 	final Table table;
 	final int rowIndex;
 
@@ -19,5 +19,17 @@ class Row {
 		for (int i = 0; i < cells.length; i++) {
 			cells[i].reset();
 		}
+	}
+
+	public Cell getCell(int colIndex) {
+		return cells[colIndex];
+	}
+
+	public int getCellValue(int colIndex) {
+		return cells[colIndex].getValue();
+	}
+
+	public Cell[] getCells() {
+		return cells;
 	}
 }
