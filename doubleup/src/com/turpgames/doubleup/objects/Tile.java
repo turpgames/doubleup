@@ -7,6 +7,7 @@ import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.TextureDrawer;
+import com.turpgames.framework.v0.util.Vector;
 
 class Tile extends GameObject implements IMovingEffectSubject {
 
@@ -49,9 +50,8 @@ class Tile extends GameObject implements IMovingEffectSubject {
 		} else {
 			cell.setTile(null);
 			setCell(toCell);
-			
-			moveEffect.setFrom(getLocation().x, getLocation().y);
-			moveEffect.setTo(toCell.getLocation().x, toCell.getLocation().y);
+
+			moveEffect.setDestination(toCell.getLocation().x, toCell.getLocation().y);
 			moveEffect.start(new IEffectEndListener() {
 				@Override
 				public boolean onEffectEnd(Object obj) {
@@ -81,6 +81,12 @@ class Tile extends GameObject implements IMovingEffectSubject {
 		text.setLocation(x, y);
 	}
 
+	@Override
+	public void addLocation(Vector v) {
+		getLocation().add(v.x, v.y);
+		text.setLocation(getLocation().x, getLocation().y);
+	}
+	
 	private void syncWithCell() {
 		getLocation().set(cell.getLocation());
 		getRotation().set(cell.getRotation());
@@ -143,4 +149,5 @@ class Tile extends GameObject implements IMovingEffectSubject {
 	private final static Color color1024 = Color.fromHex("#f15f9060");
 	private final static Color color2048 = Color.fromHex("#ed1e2460");
 	private final static Color color4096 = Color.fromHex("#00000060");
+
 }
