@@ -184,8 +184,16 @@
                 path="audio/1.mp3" />
             
             <sound
-                id="none"
-                path="audio/none.mp3" />
+                id="nomove"
+                path="audio/nomove.mp3" />
+            
+            <sound
+                id="noscore"
+                path="audio/noscore.mp3" />
+                        
+            <sound
+                id="gameover"
+                path="audio/gameover.mp3" />
         </sounds>
         
         <musics>

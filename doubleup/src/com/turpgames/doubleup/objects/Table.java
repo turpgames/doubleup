@@ -144,7 +144,7 @@ public class Table extends GameObject {
 		boolean anythingMoved = moveScore > -1;
 
 		if (!anythingMoved) {
-			SoundEffects.addEffect(Game.getResourceManager().getSound("none"));
+			SoundEffects.addEffect(Game.getResourceManager().getSound("nomove"));
 			return;	
 		}
 
@@ -152,11 +152,15 @@ public class Table extends GameObject {
 			score += moveScore;
 			updateScoreText();
 		}
+		else {
+			SoundEffects.addEffect(Game.getResourceManager().getSound("noscore"));
+		}
 
 		if (hasEmptyCell()) {
 			setRandomCell();
 
 			if (!hasMove()) {
+				SoundEffects.addEffect(Game.getResourceManager().getSound("gameover"));
 				gameOverDialog.open("Game Over!");
 			}
 		}
