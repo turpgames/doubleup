@@ -10,9 +10,9 @@ public class ResetButton extends ImageButton {
 	public ResetButton(final Table table) {
 		setTexture("reset");
 		setTouchedColor(Color.fromHex("#71c6a560"));
-		setWidth(Game.descale(32f));
-		setHeight(Game.descale(32f));
-		getLocation().set(Game.descale(10f), Game.getScreenHeight() - Game.descale(42f));
+		setWidth(Game.scale(32f));
+		setHeight(Game.scale(32f));
+		getLocation().set(Game.scale(10f), Game.getScreenHeight() - Game.scale(42f));
 		
 		final Dialog confirmDialog = new Dialog();
 		confirmDialog.addButton("ok", "Ok");
