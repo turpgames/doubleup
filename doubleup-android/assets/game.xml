@@ -78,8 +78,7 @@
 
         <screen
             id="game"
-            class="com.turpgames.doubleup.view.GameScreen" 
-            background-music="theme" />
+            class="com.turpgames.doubleup.view.GameScreen"/>
     </screens>
 
     <forms>
@@ -181,7 +180,7 @@
             
             <sound
                 id="2048"
-                path="audio/1.mp3" />
+                path="audio/2048.mp3" />
             
             <sound
                 id="nomove"

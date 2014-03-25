@@ -12,7 +12,7 @@ class Cell extends GameObject {
 	final Row row;
 	final Table table;
 
-	private Tile tile;
+	Tile tile;
 
 	Cell(Table table, Row row, int colIndex) {
 		this.table = table;
@@ -27,166 +27,124 @@ class Cell extends GameObject {
 		getRotation().origin.set(getLocation().x + size / 2, getLocation().y + size / 2);
 	}
 
-	public boolean moveRight(final IMoveCallback callback) {
-		if (this.isEmpty()) {
-			callback.moveEnd(-1, false);
-			return false;
-		}
+	public void moveRight() {
+		if (this.isEmpty())
+			return;
 
 		for (int i = matrixSize - 1; i > colIndex; i--) {
 			if (row.getCell(i).isEmpty()) {
-				move(row.getCell(i), new IMoveCallback() {
-					@Override
-					public void moveEnd(int score, boolean async) {
-						callback.moveEnd(addRight(), async);
-					}
-				});
-				return true;
+				move(row.getCell(i));
+				return;
 			}
 		}
-
-		int s = addRight();
-		callback.moveEnd(s == 0 ? -1 : s, false);
-		return false;
 	}
 
-	private int addRight() {
+	public void addRight() {
 		if (this.isEmpty())
-			return 0;
+			return;
 
 		if (this.colIndex == matrixSize - 1)
-			return 0;
+			return;
 		
 		if (row.getCellValue(colIndex + 1) != this.getValue())
-			return 0;
+			return;
 		
-		return add(row.getCell(colIndex + 1));
+		add(row.getCell(colIndex + 1));
 	}
 
-	public boolean moveLeft(final IMoveCallback callback) {
+	public void moveLeft() {
 		if (this.isEmpty()) {
-			callback.moveEnd(-1, false);
-			return false;
+			return;
 		}
 
 		for (int i = 0; i < colIndex; i++) {
 			if (row.getCell(i).isEmpty()) {
-				move(row.getCell(i), new IMoveCallback() {
-					@Override
-					public void moveEnd(int score, boolean async) {
-						callback.moveEnd(addLeft(), async);
-					}
-				});
-				return true;
+				move(row.getCell(i));
+				return;
 			}
 		}
-
-		int s = addLeft();
-		callback.moveEnd(s == 0 ? -1 : s, false);
-		return false;
 	}
 
-	private int addLeft() {
+	public void addLeft() {
 		if (this.isEmpty())
-			return 0;
+			return;
 
 		if (this.colIndex == 0)
-			return 0;
+			return;
 		
 		if (row.getCellValue(colIndex - 1) != this.getValue())
-			return 0;
+			return;
 
-		return add(row.getCell(colIndex - 1));
+		add(row.getCell(colIndex - 1));
 	}
 
-	public boolean moveUp(final IMoveCallback callback) {
+	public void moveUp() {
 		if (this.isEmpty()) {
-			callback.moveEnd(-1, false);
-			return false;
+			return;
 		}
 
 		for (int i = 0; i < row.rowIndex; i++) {
 			if (table.getCell(i, colIndex).isEmpty()) {
-				move(table.getCell(i, colIndex), new IMoveCallback() {
-					@Override
-					public void moveEnd(int score, boolean async) {
-						callback.moveEnd(addUp(), async);
-					}
-				});
-				return true;
+				move(table.getCell(i, colIndex));
+				return;
 			}
 		}
-
-		int s = addUp();
-		callback.moveEnd(s == 0 ? -1 : s, false);
-		return false;
 	}
 
-	private int addUp() {
+	public void addUp() {
 		if (this.isEmpty())
-			return 0;
+			return;
 
 		if (this.row.rowIndex == 0)
-			return 0;
+			return;
 		
 		if (table.getCellValue(row.rowIndex - 1, colIndex) != this.getValue())
-			return 0;
+			return;
 
-		return add(table.getCell(row.rowIndex - 1, colIndex));
+		add(table.getCell(row.rowIndex - 1, colIndex));
 	}
 
-	public boolean moveDown(final IMoveCallback callback) {
+	public void moveDown() {
 		if (this.isEmpty()) {
-			callback.moveEnd(-1, false);
-			return false;
+			return;
 		}
 
 		for (int i = matrixSize - 1; i > row.rowIndex; i--) {
 			if (table.getCell(i, colIndex).isEmpty()) {
-				move(table.getCell(i, colIndex), new IMoveCallback() {
-					@Override
-					public void moveEnd(int score, boolean async) {
-						callback.moveEnd(addDown(), async);
-					}
-				});
-				return true;
+				move(table.getCell(i, colIndex));
+				return;
 			}
 		}
-		
-		int s = addDown();
-		callback.moveEnd(s == 0 ? -1 : s, false);
-		return false;
 	}
 
-	private int addDown() {
+	public void addDown() {
 		if (this.isEmpty())
-			return 0;
+			return;
 
 		if (this.row.rowIndex == matrixSize - 1)
-			return 0;
+			return;
 		
 		if (table.getCellValue(row.rowIndex + 1, colIndex) != this.getValue())
-			return 0;
+			return;
 
-		return add(table.getCell(row.rowIndex + 1, colIndex));
+		add(table.getCell(row.rowIndex + 1, colIndex));
 	}
 
 	int getValue() {
 		return tile == null ? 0 : tile.getValue();
 	}
 
-	private int add(Cell toCell) {
-		int score = this.tile.addTo(toCell.tile);
-		if (score < 2048)
-			SoundEffects.addEffect(Game.getResourceManager().getSound(String.valueOf(score)));
-		else
-			SoundEffects.addEffect(Game.getResourceManager().getSound("2048"));
-		this.tile = null;
-		return score;
+	private void add(Cell toCell) {
+		this.tile.addTo(toCell.tile);
 	}
 
-	private void move(Cell toCell, IMoveCallback callback) {
-		this.tile.moveToCell(toCell, callback);
+	private void move(Cell toCell) {
+		this.tile.moveToCell(toCell);
+	}
+	
+	public void executeCommands() {
+		if (tile != null)
+			tile.executeCommands();
 	}
 
 	void setTile(Tile tile) {

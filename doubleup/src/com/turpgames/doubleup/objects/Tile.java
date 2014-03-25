@@ -1,22 +1,25 @@
 package com.turpgames.doubleup.objects;
 
-import com.turpgames.framework.v0.effects.IEffectEndListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.turpgames.framework.v0.effects.moving.IMovingEffectSubject;
 import com.turpgames.framework.v0.effects.moving.MovingEffect;
 import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.TextureDrawer;
-import com.turpgames.framework.v0.util.Vector;
 
 class Tile extends GameObject implements IMovingEffectSubject {
 
 	private final Text text;
 	private boolean isActive;
 	private int value;
-	private Cell cell;
+	
+	Cell cell;
 
 	private final MovingEffect moveEffect;
+	private final List<TileCommand> commands;
 
 	public Tile() {
 		text = new Text();
@@ -30,42 +33,12 @@ class Tile extends GameObject implements IMovingEffectSubject {
 		moveEffect = new MovingEffect(this);
 		moveEffect.setLooping(false);
 		moveEffect.setDuration(0.1f);
+
+		commands = new ArrayList<TileCommand>();
 	}
 
 	int getValue() {
 		return value;
-	}
-
-	int addTo(Tile toTile) {
-		toTile.setValue(toTile.value + this.value);
-		this.setValue(0);
-		return toTile.value;
-	}
-
-	void moveToCell(final Cell toCell, final IMoveCallback callback) {
-		if (this.cell == null) {
-			setCell(toCell);
-			syncWithCell();
-			callback.moveEnd(0, false);
-		} else {
-			cell.setTile(null);
-			setCell(toCell);
-
-			moveEffect.setDestination(toCell.getLocation().x, toCell.getLocation().y);
-			moveEffect.start(new IEffectEndListener() {
-				@Override
-				public boolean onEffectEnd(Object obj) {
-					syncWithCell();
-					callback.moveEnd(0, true);
-					return false;
-				}
-			});
-		}
-	}
-
-	private void setCell(Cell toCell) {
-		cell = toCell;
-		toCell.setTile(this);
 	}
 
 	void setValue(int value) {
@@ -75,22 +48,54 @@ class Tile extends GameObject implements IMovingEffectSubject {
 		this.getColor().set(getColor(value));
 	}
 
-	@Override
-	public void setLocation(float x, float y) {
-		getLocation().set(x, y);
-		text.setLocation(x, y);
+	void addTo(Tile toTile) {
+		TileAddCommand cmd = new TileAddCommand();
+		cmd.from = this;
+		cmd.to = toTile;
+		addCommand(cmd);
 	}
 
-	@Override
-	public void addLocation(Vector v) {
-		getLocation().add(v.x, v.y);
-		text.setLocation(getLocation().x, getLocation().y);
+	void moveToCell(final Cell toCell) {
+		TileMoveCommand cmd = new TileMoveCommand();
+		cmd.tile = this;
+		cmd.to = toCell;
+		addCommand(cmd);
+	}
+
+	void popInCell(Cell cell) {
+		TilePopCommand cmd = new TilePopCommand();
+		cmd.cell = cell;
+		cmd.tile = this;
+		addCommand(cmd);
 	}
 	
+	private void addCommand(TileCommand cmd) {
+		//commands.add(cmd);
+		cmd.execute();
+	}
+	
+	void executeCommands() {
+		for (TileCommand cmd : commands)
+			cmd.execute();
+		commands.clear();
+	}
+	
+	void setCell(Cell cell) {
+		this.cell = cell;
+		if (cell != null)
+			syncWithCell();
+	}
+
 	private void syncWithCell() {
 		getLocation().set(cell.getLocation());
 		getRotation().set(cell.getRotation());
 		text.setLocation(cell.getLocation());
+	}
+
+	@Override
+	public void setLocation(float x, float y) {
+		getLocation().set(x, y);
+		text.setLocation(x, y);
 	}
 
 	@Override
