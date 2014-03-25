@@ -3,8 +3,12 @@ package com.turpgames.doubleup.objects;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.turpgames.framework.v0.effects.BreathEffect;
+import com.turpgames.framework.v0.effects.IEffectEndListener;
 import com.turpgames.framework.v0.effects.moving.IMovingEffectSubject;
 import com.turpgames.framework.v0.effects.moving.MovingEffect;
+import com.turpgames.framework.v0.effects.scaling.IScaleEffectSubject;
+import com.turpgames.framework.v0.effects.scaling.ScaleUpEffect;
 import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.util.Color;
@@ -15,11 +19,12 @@ class Tile extends GameObject implements IMovingEffectSubject {
 	private final Text text;
 	private boolean isActive;
 	private int value;
-	
-	Cell cell;
 
-	private final MovingEffect moveEffect;
-	private final List<TileCommand> commands;
+	private final static List<TileCommand> commands = new ArrayList<TileCommand>();
+
+	private final TilePopCommand popCommand;
+	private final TileAddCommand addCommand;
+	private final TileMoveCommand moveCommand;
 
 	public Tile() {
 		text = new Text();
@@ -29,12 +34,15 @@ class Tile extends GameObject implements IMovingEffectSubject {
 
 		setWidth(Cell.size);
 		setHeight(Cell.size);
-
-		moveEffect = new MovingEffect(this);
-		moveEffect.setLooping(false);
-		moveEffect.setDuration(0.1f);
-
-		commands = new ArrayList<TileCommand>();
+		
+		popCommand = new TilePopCommand();
+		popCommand.tile = this;
+		
+		addCommand = new TileAddCommand();
+		addCommand.from = this;
+		
+		moveCommand = new TileMoveCommand();
+		moveCommand.tile = this;
 	}
 
 	int getValue() {
@@ -49,44 +57,82 @@ class Tile extends GameObject implements IMovingEffectSubject {
 	}
 
 	void addTo(Tile toTile) {
-		TileAddCommand cmd = new TileAddCommand();
-		cmd.from = this;
-		cmd.to = toTile;
-		addCommand(cmd);
+		addCommand.to = toTile;
+		addCommand(addCommand);
 	}
 
 	void moveToCell(final Cell toCell) {
-		TileMoveCommand cmd = new TileMoveCommand();
-		cmd.tile = this;
-		cmd.to = toCell;
-		addCommand(cmd);
+		moveCommand.to = toCell;
+		addCommand(moveCommand);
 	}
 
 	void popInCell(Cell cell) {
-		TilePopCommand cmd = new TilePopCommand();
-		cmd.cell = cell;
-		cmd.tile = this;
-		addCommand(cmd);
+		popCommand.cell = cell;
+		addCommand(popCommand);
 	}
-	
+
 	private void addCommand(TileCommand cmd) {
-		//commands.add(cmd);
-		cmd.execute();
+		commands.add(cmd);
 	}
-	
-	void executeCommands() {
+
+	static void executeCommands() {
 		for (TileCommand cmd : commands)
 			cmd.execute();
 		commands.clear();
 	}
-	
-	void setCell(Cell cell) {
-		this.cell = cell;
-		if (cell != null)
-			syncWithCell();
+
+	public void runPopEffect() {
+		ScaleUpEffect effect = new ScaleUpEffect(new IScaleEffectSubject() {
+			@Override
+			public void setScale(float scale) {
+				Tile.this.getScale().set(scale);
+			}
+		});
+		effect.setDuration(0.2f);
+		effect.setLooping(false);
+		effect.setMaxScale(1.0f);
+		effect.setMinScale(0.2f);
+
+		effect.start(new IEffectEndListener() {
+			@Override
+			public boolean onEffectEnd(Object obj) {
+				Tile.this.getScale().set(1f);
+				return true;
+			}
+		});
 	}
 
-	private void syncWithCell() {
+	public void runAddEffect() {
+		BreathEffect effect = new BreathEffect(this);
+		effect.setMinFactor(0.9f);
+		effect.setMaxFactor(1.1f);
+		effect.setLooping(false);
+		effect.setDuration(0.2f);
+
+		effect.start(new IEffectEndListener() {
+			@Override
+			public boolean onEffectEnd(Object obj) {
+				return true;
+			}
+		});
+	}
+
+	public void runMoveEffect(final Cell to) {
+		MovingEffect moveEffect = new MovingEffect(this);
+		moveEffect.setLooping(false);
+		moveEffect.setDuration(0.1f);
+		moveEffect.setFrom(this.getLocation());
+		moveEffect.setTo(to.getLocation());
+		moveEffect.start(new IEffectEndListener() {
+			@Override
+			public boolean onEffectEnd(Object obj) {
+				Tile.this.syncWithCell(to);
+				return true;
+			}
+		});
+	}
+
+	void syncWithCell(Cell cell) {
 		getLocation().set(cell.getLocation());
 		getRotation().set(cell.getRotation());
 		text.setLocation(cell.getLocation());
@@ -154,5 +200,4 @@ class Tile extends GameObject implements IMovingEffectSubject {
 	private final static Color color1024 = Color.fromHex("#f15f9060");
 	private final static Color color2048 = Color.fromHex("#ed1e2460");
 	private final static Color color4096 = Color.fromHex("#00000060");
-
 }

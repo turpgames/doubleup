@@ -35,7 +35,7 @@
 
         <param
             key="screen-switcher"
-            value="sliding,0.30" />
+            value="fading,0.30" />
 
         <param
             key="form-switcher"
@@ -78,7 +78,8 @@
 
         <screen
             id="game"
-            class="com.turpgames.doubleup.view.GameScreen"/>
+            class="com.turpgames.doubleup.view.GameScreen"
+            background-mucis="theme"/>
     </screens>
 
     <forms>

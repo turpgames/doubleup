@@ -12,7 +12,7 @@ class Cell extends GameObject {
 	final Row row;
 	final Table table;
 
-	Tile tile;
+	private Tile tile;
 
 	Cell(Table table, Row row, int colIndex) {
 		this.table = table;
@@ -136,20 +136,19 @@ class Cell extends GameObject {
 
 	private void add(Cell toCell) {
 		this.tile.addTo(toCell.tile);
+		this.tile = null;
 	}
 
 	private void move(Cell toCell) {
 		this.tile.moveToCell(toCell);
+		toCell.tile = this.tile;
+		this.tile = null;
 	}
 	
-	public void executeCommands() {
-		if (tile != null)
-			tile.executeCommands();
-	}
-
 	void setTile(Tile tile) {
-		if (this.tile != null && tile != null)
-			throw new UnsupportedOperationException("Cell already has a tile!");
+		if (!this.isEmpty()) {
+			throw new UnsupportedOperationException("Call is not empty!");
+		}
 		this.tile = tile;
 	}
 

@@ -104,7 +104,9 @@ public class Table extends GameObject {
 		final Tile tile = new Tile();
 		tile.setValue(value);
 		tile.popInCell(cell);
-		tile.executeCommands();
+
+		cell.setTile(tile);
+		Tile.executeCommands();
 	}
 
 	Cell getCell(int rowIndex, int colIndex) {
@@ -133,16 +135,12 @@ public class Table extends GameObject {
 			break;
 		}
 
-		for (Row row : rows) {
-			for (Cell cell : row.getCells()) {
-				cell.executeCommands();
-			}
-		}
+		Tile.executeCommands();
 
-		moveEnd();
+			moveEnd();
 	}
 
-	private void moveEnd() {
+	void moveEnd() {
 		if (!MoveContext.hasMove) {
 			DoubleUpAudio.playNoMoveSound();
 			return;

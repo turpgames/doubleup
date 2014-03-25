@@ -6,7 +6,7 @@ public class TilePopCommand extends TileCommand {
 
 	@Override
 	public void execute() {
-		tile.setCell(cell);
-		cell.setTile(tile);
+		tile.syncWithCell(cell);
+		tile.runPopEffect();
 	}
 }
