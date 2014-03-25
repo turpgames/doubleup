@@ -199,7 +199,7 @@
         <musics>
             <music
                 id="theme"
-                path="audio/doubleup.ogg" />
+                path="audio/doubleup.mp3" />
         </musics>
     </resources>
 
