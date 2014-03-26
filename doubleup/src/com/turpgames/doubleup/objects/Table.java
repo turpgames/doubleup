@@ -1,5 +1,6 @@
 package com.turpgames.doubleup.objects;
 
+import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.forms.xml.Dialog;
 import com.turpgames.framework.v0.impl.GameObject;
@@ -18,6 +19,8 @@ public class Table extends GameObject {
 
 	private int score;
 	private Text scoreText;
+	private Text hiscoreText;
+	private Text hiscoreBlockText;
 	private final Dialog gameOverDialog;
 	private final ResetButton resetButton;
 
@@ -72,9 +75,21 @@ public class Table extends GameObject {
 
 		scoreText = new Text();
 		scoreText.setAlignment(Text.HAlignLeft, Text.VAlignBottom);
-		scoreText.setLocation(x + 4, y - 30);
-		scoreText.setFontScale(0.6f);
+		scoreText.setLocation(x + 4, y - 35);
+		scoreText.setFontScale(1.0f);
 		updateScoreText();
+		
+		hiscoreText = new Text();
+		hiscoreText.setAlignment(Text.HAlignLeft, Text.VAlignTop);
+		hiscoreText.setLocation(x + 4, 35 - y);
+		hiscoreText.setFontScale(1.0f);
+		hiscoreText.setText("HI: " + DoubleUpSettings.getHiScore());
+		
+		hiscoreBlockText = new Text();
+		hiscoreBlockText.setAlignment(Text.HAlignRight, Text.VAlignTop);
+		hiscoreBlockText.setLocation(- x - 4, 35 - y);
+		hiscoreBlockText.setFontScale(1.0f);
+		hiscoreBlockText.setText("MAX: " + DoubleUpSettings.getMaxNumber());
 		
 		GlobalContext.table = this;
 	}
@@ -286,6 +301,8 @@ public class Table extends GameObject {
 	public void draw() {
 		resetButton.draw();
 		scoreText.draw();
+		hiscoreText.draw();
+		hiscoreBlockText.draw();
 
 		TextureDrawer.draw(Textures.tiles, this);
 
