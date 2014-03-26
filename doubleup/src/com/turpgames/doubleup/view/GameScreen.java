@@ -16,6 +16,8 @@ public class GameScreen extends Screen {
 		table = new Table();
 		registerDrawable(table, Game.LAYER_SCREEN);
 		registerDrawable(new Background(), Game.LAYER_BACKGROUND);
+
+		registerDrawable(DoubleUpGame.getToolbar(), Game.LAYER_INFO);
 	}
 	
 	@Override

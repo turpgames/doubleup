@@ -5,6 +5,7 @@ import com.turpgames.framework.v0.component.ImageButton;
 import com.turpgames.framework.v0.component.ToggleButton;
 import com.turpgames.framework.v0.component.Toolbar;
 import com.turpgames.framework.v0.impl.GameObject;
+import com.turpgames.doubleup.objects.AudioButton;
 import com.turpgames.doubleup.utils.R;
 
 public class DoubleUpToolbar extends Toolbar {
@@ -18,7 +19,7 @@ public class DoubleUpToolbar extends Toolbar {
 	}
 
 	private DoubleUpToolbar() {
-		
+		soundButton.activate();
 	}
 
 	public void disable() {
@@ -49,9 +50,8 @@ public class DoubleUpToolbar extends Toolbar {
 
 	@Override
 	protected void concreteAddSoundButton() {
-		soundButton = new ToggleButton(R.sizes.menuButtonSizeToScreen, R.sizes.menuButtonSizeToScreen, R.settings.sound, R.game.textures.toolbar.soundOn, R.game.textures.toolbar.soundOff, 
-				R.colors.ichiguCyan, R.colors.ichiguWhite);
-		soundButton.setLocation(Button.AlignNE, R.sizes.menuButtonSizeToScreen + 2 * R.sizes.menuButtonSpacing + R.sizes.toolbarMargin, R.sizes.toolbarMargin);
+		soundButton = new AudioButton();
+		soundButton.setLocation(Button.AlignNE, R.sizes.toolbarMargin, R.sizes.toolbarMargin);
 	}
 
 	@Override
@@ -59,5 +59,10 @@ public class DoubleUpToolbar extends Toolbar {
 		vibrationButton = new ToggleButton(R.sizes.menuButtonSizeToScreen, R.sizes.menuButtonSizeToScreen, R.settings.vibration, R.game.textures.toolbar.vibrationOn, 
 				R.game.textures.toolbar.vibrationOff, R.colors.ichiguCyan, R.colors.ichiguWhite);
 		vibrationButton.setLocation(Button.AlignNE, 2 * R.sizes.menuButtonSizeToScreen + 3 * R.sizes.menuButtonSpacing + R.sizes.toolbarMargin, R.sizes.toolbarMargin);	
+	}
+	
+	@Override
+	public void draw() {
+		soundButton.draw();
 	}
 }

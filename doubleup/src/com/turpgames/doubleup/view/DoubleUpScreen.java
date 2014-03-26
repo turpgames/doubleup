@@ -1,10 +1,9 @@
 package com.turpgames.doubleup.view;
 
-import com.turpgames.doubleup.objects.display.DoubleUpToolbar;
+import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.util.Game;
-import com.turpgames.doubleup.utils.R;
 
 public abstract class DoubleUpScreen extends Screen {
 	protected IDoubleUpViewListener screenListener = IDoubleUpViewListener.NULL;
@@ -14,7 +13,6 @@ public abstract class DoubleUpScreen extends Screen {
 		super.init();
 
 		registerDrawable(DoubleUpGame.getToolbar(), Game.LAYER_INFO);
-
 		registerInputListener(this);
 	}
 
@@ -38,13 +36,11 @@ public abstract class DoubleUpScreen extends Screen {
 	
 	@Override
 	protected void onAfterActivate() {
-		DoubleUpToolbar.getInstance().activateBackButton();
 		notifyScreenActivated();
 	}
 
 	@Override
 	protected boolean onBack() {
-		ScreenManager.instance.switchTo(R.game.screens.menu, true);
 		return true;
 	}
 

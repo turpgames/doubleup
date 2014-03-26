@@ -20,7 +20,7 @@ public class Main {
 
 		float w = 11f;
 		float h = 16f;
-		float x = 20;
+		float x = 40;
 
 		cfg.width = (int) (x * w);
 		cfg.height = (int) (x * h);

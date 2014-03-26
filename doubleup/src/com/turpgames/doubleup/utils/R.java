@@ -69,7 +69,7 @@ public final class R {
 		public static final Color ichiguMagenta = Color.fromHex("#f900b0ff");
 		
 		public static final Color buttonDefault = ichiguWhite;
-		public static final Color buttonTouched = ichiguGreen;
+		public static final Color buttonTouched = ichiguBlue;
 	}
 
 	public final static class textures {

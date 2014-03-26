@@ -207,13 +207,6 @@
             <texture
                 id="tb_vibration_on"
                 path="img/toolbar/vibration-on.png" />
-            <texture
-                id="fb_default"
-                path="img/fb_default.png" />
-            
-            <texture
-                id="facebook"
-                path="img/facebook.png" />
             
             <texture
                 id="flag_en_us"
