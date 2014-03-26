@@ -7,6 +7,6 @@ public class TileMoveCommand extends TileCommand {
 	@Override
 	public void execute() {
 		tile.runMoveEffect(to);
-		MoveContext.hasMove = true;
+		GlobalContext.hasMove = true;
 	}
 }

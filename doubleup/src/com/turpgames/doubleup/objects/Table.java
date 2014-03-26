@@ -1,7 +1,9 @@
 package com.turpgames.doubleup.objects;
 
+import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.forms.xml.Dialog;
 import com.turpgames.framework.v0.impl.GameObject;
+import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
@@ -26,23 +28,23 @@ public class Table extends GameObject {
 			rows[i] = new Row(this, i);
 		}
 
-		setRandomCell();
-		setRandomCell();
+//		setRandomCell();
+//		setRandomCell();
 
-		// setRandomCell(1);
-		// setRandomCell(2);
-		// setRandomCell(4);
-		// setRandomCell(8);
-		// setRandomCell(16);
-		// setRandomCell(32);
-		// setRandomCell(64);
-		// setRandomCell(128);
-		// setRandomCell(256);
-		// setRandomCell(512);
-		// setRandomCell(1024);
-		// setRandomCell(2048);
-		// setRandomCell(4096);
-		// setRandomCell(8192);
+		 setRandomCell(1);
+		 setRandomCell(2);
+		 setRandomCell(4);
+		 setRandomCell(8);
+		 setRandomCell(16);
+		 setRandomCell(32);
+		 setRandomCell(64);
+		 setRandomCell(128);
+		 setRandomCell(256);
+		 setRandomCell(512);
+		 setRandomCell(1024);
+		 setRandomCell(2048);
+		 setRandomCell(4096);
+		 setRandomCell(8192);
 
 		setWidth(size);
 		setHeight(size);
@@ -73,6 +75,8 @@ public class Table extends GameObject {
 		scoreText.setLocation(x + 4, y - 30);
 		scoreText.setFontScale(0.6f);
 		updateScoreText();
+		
+		GlobalContext.table = this;
 	}
 
 	private int rand(int max) {
@@ -118,7 +122,7 @@ public class Table extends GameObject {
 	}
 
 	public void move(MoveDirection direction) {
-		MoveContext.reset();
+		GlobalContext.resetMove();
 
 		switch (direction) {
 		case Down:
@@ -141,13 +145,13 @@ public class Table extends GameObject {
 	}
 
 	void moveEnd() {
-		if (!MoveContext.hasMove) {
+		if (!GlobalContext.hasMove) {
 			DoubleUpAudio.playNoMoveSound();
 			return;
 		}
 
-		if (MoveContext.score > 0) {
-			Table.this.score += MoveContext.score;
+		if (GlobalContext.moveScore > 0) {
+			this.score += GlobalContext.moveScore;
 			updateScoreText();
 		}
 		else {
@@ -158,8 +162,17 @@ public class Table extends GameObject {
 			setRandomCell();
 
 			if (!hasMove()) {
-				gameOverDialog.open("Game Over!");
+				GlobalContext.finalScore = this.score;
+				GlobalContext.max = 0;
+				for (Row row : rows) {
+					for (Cell cell : row.getCells()) {
+						if (cell.getValue() > GlobalContext.max)
+							GlobalContext.max = cell.getValue();
+					}
+				}
+
 				DoubleUpAudio.playGameOverSound();
+				ScreenManager.instance.switchTo(R.screens.result, false);
 			}
 		}
 	}
@@ -281,6 +294,5 @@ public class Table extends GameObject {
 				cell.draw();
 			}
 		}
-
 	}
 }

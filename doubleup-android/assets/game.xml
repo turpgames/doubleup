@@ -79,6 +79,10 @@
         <screen
             id="game"
             class="com.turpgames.doubleup.view.GameScreen" />
+
+        <screen
+            id="result"
+            class="com.turpgames.doubleup.view.ResultScreen" />
     </screens>
 
     <forms>

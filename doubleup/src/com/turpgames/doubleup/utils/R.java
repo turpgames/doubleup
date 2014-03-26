@@ -21,6 +21,7 @@ public final class R {
 	
 	public final static class screens {
 		public final static String game = "game";
+		public final static String result = "result";
 	} 
 	
 	private R() {
