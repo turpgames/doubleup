@@ -17,6 +17,11 @@ public class GameScreen extends Screen {
 		registerDrawable(table, Game.LAYER_SCREEN);
 		registerDrawable(new Background(), Game.LAYER_BACKGROUND);
 	}
+	
+	@Override
+	protected boolean onBeforeActivate() {
+		return super.onBeforeActivate();
+	}
 
 	@Override
 	public boolean keyDown(int keycode) {

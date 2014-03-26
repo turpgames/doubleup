@@ -13,7 +13,7 @@ public class TileAddCommand extends TileCommand {
 
 		DoubleUpAudio.playScoreSound(to.getValue());
 
-		MoveContext.score += to.getValue();
-		MoveContext.hasMove = true;
+		GlobalContext.moveScore += to.getValue();
+		GlobalContext.hasMove = true;
 	}
 }

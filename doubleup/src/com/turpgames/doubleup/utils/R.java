@@ -81,6 +81,7 @@ public final class R {
 		public final static String menu = "menu";
 		public final static String scoreBoard = "scoreBoard";
 		public final static String about = "about";
+		public final static String result = "result";
 	}
 
 	public static final class fontSize {
@@ -121,7 +122,7 @@ public final class R {
 		public final static String ok = "ok";
 		public final static String forceUpgrade = "forceUpgrade";
 	}
-
+	
 	private R() {
 	}
 }

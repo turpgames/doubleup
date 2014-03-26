@@ -92,6 +92,10 @@
         <screen
             id="scoreBoard"
             class="com.turpgames.doubleup.view.ScoreBoardScreen" />
+
+        <screen
+            id="result"
+            class="com.turpgames.doubleup.view.ResultScreen" />
     </screens>
 
     <forms>
