@@ -59,7 +59,7 @@
 		</dict>
 
 		<key>FacebookAppID</key>
-		<string>???????</string>
+		<string>1408690106060520</string>
 
 		<key>FacebookDisplayName</key>
 		<string>Double Up</string>
@@ -69,7 +69,7 @@
 			<dict>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>fb??????</string>
+					<string>fb1408690106060520</string>
 				</array>
 			</dict>
 		</array>

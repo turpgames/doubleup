@@ -2,13 +2,13 @@ package com.turpgames.doubleup.objects;
 
 import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.R;
-import com.turpgames.framework.v0.forms.xml.Dialog;
 import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.TextureDrawer;
+import com.turpgames.framework.v0.util.Timer;
 import com.turpgames.utils.Util;
 
 public class Table extends GameObject {
@@ -21,8 +21,9 @@ public class Table extends GameObject {
 	private Text scoreText;
 	private Text hiscoreText;
 	private Text hiscoreBlockText;
-	private final Dialog gameOverDialog;
 	private final ResetButton resetButton;
+	
+	private final Timer inputBlockTimer;
 
 	public Table() {
 		this.rows = new Row[4];
@@ -31,23 +32,23 @@ public class Table extends GameObject {
 			rows[i] = new Row(this, i);
 		}
 
-//		setRandomCell();
-//		setRandomCell();
+		setRandomCell();
+		setRandomCell();
 
-		 setRandomCell(1);
-		 setRandomCell(2);
-		 setRandomCell(4);
-		 setRandomCell(8);
-		 setRandomCell(16);
-		 setRandomCell(32);
-		 setRandomCell(64);
-		 setRandomCell(128);
-		 setRandomCell(256);
-		 setRandomCell(512);
-		 setRandomCell(1024);
-		 setRandomCell(2048);
-		 setRandomCell(4096);
-		 setRandomCell(8192);
+		// setRandomCell(1);
+		// setRandomCell(2);
+		// setRandomCell(4);
+		// setRandomCell(8);
+		// setRandomCell(16);
+		// setRandomCell(32);
+		// setRandomCell(64);
+		// setRandomCell(128);
+		// setRandomCell(256);
+		// setRandomCell(512);
+		// setRandomCell(1024);
+		// setRandomCell(2048);
+		// setRandomCell(4096);
+		// setRandomCell(8192);
 
 		setWidth(size);
 		setHeight(size);
@@ -57,40 +58,36 @@ public class Table extends GameObject {
 
 		this.getColor().set(Color.fromHex("#f0f0ff20"));
 
-		gameOverDialog = new Dialog();
-		gameOverDialog.addButton("ok", "Ok");
-		gameOverDialog.setListener(new Dialog.IDialogListener() {
-			@Override
-			public void onDialogClosed() {
-				reset();
-			}
-
-			@Override
-			public void onDialogButtonClicked(String id) {
-				reset();
-			}
-		});
-
 		resetButton = new ResetButton(this);
 
 		scoreText = new Text();
+		scoreText.setFontScale(0.8f);
 		scoreText.setAlignment(Text.HAlignLeft, Text.VAlignBottom);
 		scoreText.setLocation(x + 4, y - 35);
-		scoreText.setFontScale(1.0f);
 		updateScoreText();
-		
+
 		hiscoreText = new Text();
+		hiscoreText.setFontScale(0.8f);
 		hiscoreText.setAlignment(Text.HAlignLeft, Text.VAlignTop);
 		hiscoreText.setLocation(x + 4, 35 - y);
-		hiscoreText.setFontScale(1.0f);
-		hiscoreText.setText("HI: " + DoubleUpSettings.getHiScore());
-		
+		hiscoreText.setText("Hi: " + DoubleUpSettings.getHiScore());
+
 		hiscoreBlockText = new Text();
+		hiscoreBlockText.setFontScale(0.8f);
 		hiscoreBlockText.setAlignment(Text.HAlignRight, Text.VAlignTop);
-		hiscoreBlockText.setLocation(- x - 4, 35 - y);
-		hiscoreBlockText.setFontScale(1.0f);
-		hiscoreBlockText.setText("MAX: " + DoubleUpSettings.getMaxNumber());
+		hiscoreBlockText.setLocation(-x - 4, 35 - y);
+		hiscoreBlockText.setText("Max: " + DoubleUpSettings.getMaxNumber());
 		
+		inputBlockTimer = new Timer();
+		inputBlockTimer.setInterval(0.25f);
+		inputBlockTimer.setTickListener(new Timer.ITimerTickListener() {
+			@Override
+			public void timerTick(Timer timer) {
+				inputBlockTimer.stop();
+				Game.getInputManager().activate();
+			}
+		});
+
 		GlobalContext.table = this;
 	}
 
@@ -137,6 +134,9 @@ public class Table extends GameObject {
 	}
 
 	public void move(MoveDirection direction) {
+		Game.getInputManager().deactivate();
+		inputBlockTimer.start();
+		
 		GlobalContext.resetMove();
 
 		switch (direction) {
@@ -156,7 +156,7 @@ public class Table extends GameObject {
 
 		Tile.executeCommands();
 
-			moveEnd();
+		moveEnd();
 	}
 
 	void moveEnd() {
@@ -187,6 +187,7 @@ public class Table extends GameObject {
 				}
 
 				DoubleUpAudio.playGameOverSound();
+				Game.getInputManager().activate();
 				ScreenManager.instance.switchTo(R.screens.result, false);
 			}
 		}

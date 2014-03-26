@@ -14,7 +14,7 @@ import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.TextureDrawer;
 
-class Tile extends GameObject implements IMovingEffectSubject {
+class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubject {
 
 	private final Text text;
 	private boolean isActive;
@@ -25,6 +25,12 @@ class Tile extends GameObject implements IMovingEffectSubject {
 	private final TilePopCommand popCommand;
 	private final TileAddCommand addCommand;
 	private final TileMoveCommand moveCommand;
+
+	private final ScaleUpEffect popEffect;
+	private final BreathEffect addEffect;
+	private final MovingEffect moveEffect;
+	
+	private final MoveEffectEndListener moveEffectEndListener;
 
 	public Tile() {
 		text = new Text();
@@ -43,6 +49,32 @@ class Tile extends GameObject implements IMovingEffectSubject {
 		
 		moveCommand = new TileMoveCommand();
 		moveCommand.tile = this;
+		
+		popEffect= new ScaleUpEffect(this);
+		popEffect.setDuration(0.2f);
+		popEffect.setLooping(false);
+		popEffect.setMaxScale(1.0f);
+		popEffect.setMinScale(0.2f);
+		popEffect.setListener(new IEffectEndListener() {
+			@Override
+			public boolean onEffectEnd(Object obj) {
+				Tile.this.getScale().set(1f);
+				return true;
+			}
+		});
+		
+		addEffect = new BreathEffect(this);
+		addEffect.setMinFactor(0.9f);
+		addEffect.setMaxFactor(1.1f);
+		addEffect.setLooping(false);
+		addEffect.setDuration(0.2f);
+
+		moveEffectEndListener = new MoveEffectEndListener();
+		
+		moveEffect = new MovingEffect(this);
+		moveEffect.setLooping(false);
+		moveEffect.setDuration(0.1f);
+		moveEffect.setListener(moveEffectEndListener);
 	}
 
 	int getValue() {
@@ -80,56 +112,25 @@ class Tile extends GameObject implements IMovingEffectSubject {
 			cmd.execute();
 		commands.clear();
 	}
-
+	
+	@Override
+	public void setScale(float scale) {
+		this.getScale().set(scale);
+	}
+	
 	public void runPopEffect() {
-		ScaleUpEffect effect = new ScaleUpEffect(new IScaleEffectSubject() {
-			@Override
-			public void setScale(float scale) {
-				Tile.this.getScale().set(scale);
-			}
-		});
-		effect.setDuration(0.2f);
-		effect.setLooping(false);
-		effect.setMaxScale(1.0f);
-		effect.setMinScale(0.2f);
-
-		effect.start(new IEffectEndListener() {
-			@Override
-			public boolean onEffectEnd(Object obj) {
-				Tile.this.getScale().set(1f);
-				return true;
-			}
-		});
+		popEffect.start();
 	}
 
 	public void runAddEffect() {
-		BreathEffect effect = new BreathEffect(this);
-		effect.setMinFactor(0.9f);
-		effect.setMaxFactor(1.1f);
-		effect.setLooping(false);
-		effect.setDuration(0.2f);
-
-		effect.start(new IEffectEndListener() {
-			@Override
-			public boolean onEffectEnd(Object obj) {
-				return true;
-			}
-		});
+		addEffect.start();
 	}
 
 	public void runMoveEffect(final Cell to) {
-		MovingEffect moveEffect = new MovingEffect(this);
-		moveEffect.setLooping(false);
-		moveEffect.setDuration(0.1f);
+		moveEffectEndListener.to = to;
 		moveEffect.setFrom(this.getLocation());
 		moveEffect.setTo(to.getLocation());
-		moveEffect.start(new IEffectEndListener() {
-			@Override
-			public boolean onEffectEnd(Object obj) {
-				Tile.this.syncWithCell(to);
-				return true;
-			}
-		});
+		moveEffect.start();
 	}
 
 	void syncWithCell(Cell cell) {
@@ -200,4 +201,14 @@ class Tile extends GameObject implements IMovingEffectSubject {
 	private final static Color color1024 = Color.fromHex("#f15f9060");
 	private final static Color color2048 = Color.fromHex("#ed1e2460");
 	private final static Color color4096 = Color.fromHex("#00000060");
+	
+	private final class MoveEffectEndListener implements IEffectEndListener {
+		Cell to;
+		
+		@Override
+		public boolean onEffectEnd(Object obj) {
+			Tile.this.syncWithCell(to);
+			return true;
+		}
+	}
 }

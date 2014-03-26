@@ -25,6 +25,7 @@ public class ResultScreen extends Screen {
 	public void init() {
 		super.init();
 		resultText = new ResultText();
+		resultText.setFontScale(0.8f);
 
 		shareButton = new ShareButton();
 		newGameButton = new NewGameButton();
@@ -102,9 +103,10 @@ public class ResultScreen extends Screen {
 
 	private class ShareButton extends TextButton {
 		public ShareButton() {
-			super(Color.white(), Color.white());
-			setText("Share Score on Facebook");
-			getLocation().set((Game.getVirtualWidth() - getWidth()) / 2, 300);
+			super(Color.fromHex("#6783c2"), Color.fromHex("#40b8ea"));
+			setText("Share Score");
+			setFontScale(0.8f);
+			getLocation().set((Game.getVirtualWidth() - getWidth()) / 2, 250);
 			setListener(new IButtonListener() {
 				@Override
 				public void onButtonTapped() {
@@ -121,8 +123,9 @@ public class ResultScreen extends Screen {
 
 	private class NewGameButton extends TextButton {
 		public NewGameButton() {
-			super(Color.white(), Color.white());
+			super(Color.fromHex("#6783c2"), Color.fromHex("#40b8ea"));
 			setText("New Game");
+			setFontScale(0.8f);
 			getLocation().set((Game.getVirtualWidth() - getWidth()) / 2, 200);
 			setListener(new IButtonListener() {
 				@Override
@@ -136,5 +139,10 @@ public class ResultScreen extends Screen {
 		public boolean ignoreViewport() {
 			return false;
 		}
+	}
+	
+	protected boolean onBack() {
+		Game.toHomeScreen();
+		return true;
 	}
 }

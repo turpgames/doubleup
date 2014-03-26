@@ -10,7 +10,8 @@ import com.turpgames.framework.v0.util.Color;
 public class ResetButton extends ImageButton {
 	public ResetButton(final Table table) {
 		setTexture("reset");
-		setTouchedColor(Color.fromHex("#40b8ea60"));
+		getColor().set(Color.fromHex("#6783c2"));;
+		setTouchedColor(Color.fromHex("#40b8ea"));
 		setWidth(R.sizes.menuButtonSizeToScreen);
 		setHeight(R.sizes.menuButtonSizeToScreen);
 		setLocation(Button.AlignNW, R.sizes.toolbarMargin, R.sizes.toolbarMargin);

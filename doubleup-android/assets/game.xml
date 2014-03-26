@@ -74,24 +74,12 @@
 
         <screen
             id="splash"
-            class="com.turpgames.doubleup.view.SplashScreen"/>
+            class="com.turpgames.doubleup.view.SplashScreen" />
 
         <screen
             id="game"
-            class="com.turpgames.doubleup.view.GameScreen" 
-            background-music="theme" />
-        
-        <screen
-            id="menu"
-            class="com.turpgames.doubleup.view.MenuScreen" />
-        
-        <screen
-            id="about"
-            class="com.turpgames.doubleup.view.AboutScreen" />
-        
-        <screen
-            id="scoreBoard"
-            class="com.turpgames.doubleup.view.ScoreBoardScreen" />
+            background-music="theme"
+            class="com.turpgames.doubleup.view.GameScreen" />
 
         <screen
             id="result"
@@ -99,43 +87,6 @@
     </screens>
 
     <forms>
-        <form id="mainMenu" >
-            <label
-                id="lblGameName"
-                cols="16"
-                font-scale="1.5"
-                rows="2"
-                text="Double Up"
-                x="0"
-                y="26"
-                color="#f9b000ff" />
-
-            <button
-                id="btnPlay"
-                action="screen=game"
-                resource-text="play"
-                y="21" />
-
-            <button
-                id="btnScoreBoard"
-                action="screen=scoreBoard"
-                resource-text="hiScores"
-                y="13" />
-
-            <button
-                id="btnAbout"
-                action="screen=about"
-                resource-text="about"
-                y="7" />
-
-            <button
-                id="btnExitGame"
-                action="exit"
-                focus-color="#d0583bff"
-                hidden-ios="true"
-                resource-text="exitGame"
-                y="2" />
-        </form>
     </forms>
 
     <animations>
@@ -184,6 +135,7 @@
             <texture
                 id="reset"
                 path="img/reset.png" />
+
             <texture
                 id="tb_back"
                 path="img/toolbar/back.png" />
@@ -207,77 +159,81 @@
             <texture
                 id="tb_vibration_on"
                 path="img/toolbar/vibration-on.png" />
-            
+
             <texture
                 id="flag_en_us"
                 path="img/flags/EN_US.png" />
-            
 
+            <texture
+                id="double_up"
+                path="img/double_up.png" />
         </textures>
 
         <sounds>
+
             <sound
                 id="1"
                 path="audio/1.mp3" />
-            
+
             <sound
                 id="2"
                 path="audio/2.mp3" />
-            
+
             <sound
                 id="4"
                 path="audio/4.mp3" />
-            
+
             <sound
                 id="8"
                 path="audio/8.mp3" />
-            
+
             <sound
                 id="16"
                 path="audio/16.mp3" />
-            
+
             <sound
                 id="32"
                 path="audio/32.mp3" />
-            
+
             <sound
                 id="64"
                 path="audio/64.mp3" />
-            
+
             <sound
                 id="128"
                 path="audio/128.mp3" />
-            
+
             <sound
                 id="256"
                 path="audio/256.mp3" />
-            
+
             <sound
                 id="512"
                 path="audio/512.mp3" />
-            
+
             <sound
                 id="1024"
                 path="audio/1024.mp3" />
-            
+
             <sound
                 id="2048"
                 path="audio/2048.mp3" />
-            
+
             <sound
                 id="nomove"
                 path="audio/nomove.mp3" />
-            
+
             <sound
                 id="noscore"
                 path="audio/noscore.mp3" />
-                        
+
             <sound
                 id="gameover"
                 path="audio/gameover.mp3" />
         </sounds>
-        
+
         <musics>
+
             <music
                 id="theme"
                 path="audio/doubleup.mp3" />
@@ -294,6 +250,7 @@
     </languages>
 
     <skins>
+
         <skin id="doubleup" >
 
             <form

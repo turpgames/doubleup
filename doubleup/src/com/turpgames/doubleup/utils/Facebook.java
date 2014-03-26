@@ -77,7 +77,7 @@ public class Facebook {
 			return String.format("%s just made %d points in Double Up!",
 					getPlayer().getName().split(" ")[0], score);
 		return String.format(
-				"%s just reached a new max number %d in Double Up!",
-				getPlayer().getName().split(" ")[0], max);
+				"%s just reached a new max number %d with %d points in Double Up!",
+				getPlayer().getName().split(" ")[0], max, score);
 	}
 }
