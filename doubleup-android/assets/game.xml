@@ -78,10 +78,60 @@
 
         <screen
             id="game"
-            class="com.turpgames.doubleup.view.GameScreen" />
+            class="com.turpgames.doubleup.view.GameScreen" 
+            background-music="theme" />
+        
+        <screen
+            id="menu"
+            class="com.turpgames.doubleup.view.MenuScreen" />
+        
+        <screen
+            id="about"
+            class="com.turpgames.doubleup.view.AboutScreen" />
+        
+        <screen
+            id="scoreBoard"
+            class="com.turpgames.doubleup.view.ScoreBoardScreen" />
     </screens>
 
     <forms>
+        <form id="mainMenu" >
+            <label
+                id="lblGameName"
+                cols="16"
+                font-scale="1.5"
+                rows="2"
+                text="Double Up"
+                x="0"
+                y="26"
+                color="#f9b000ff" />
+
+            <button
+                id="btnPlay"
+                action="screen=game"
+                resource-text="play"
+                y="21" />
+
+            <button
+                id="btnScoreBoard"
+                action="screen=scoreBoard"
+                resource-text="hiScores"
+                y="13" />
+
+            <button
+                id="btnAbout"
+                action="screen=about"
+                resource-text="about"
+                y="7" />
+
+            <button
+                id="btnExitGame"
+                action="exit"
+                focus-color="#d0583bff"
+                hidden-ios="true"
+                resource-text="exitGame"
+                y="2" />
+        </form>
     </forms>
 
     <animations>
@@ -130,6 +180,41 @@
             <texture
                 id="reset"
                 path="img/reset.png" />
+            <texture
+                id="tb_back"
+                path="img/toolbar/back.png" />
+
+            <texture
+                id="tb_settings"
+                path="img/toolbar/settings.png" />
+
+            <texture
+                id="tb_sound_off"
+                path="img/toolbar/sound-off.png" />
+
+            <texture
+                id="tb_sound_on"
+                path="img/toolbar/sound-on.png" />
+
+            <texture
+                id="tb_vibration_off"
+                path="img/toolbar/vibration-off.png" />
+
+            <texture
+                id="tb_vibration_on"
+                path="img/toolbar/vibration-on.png" />
+            <texture
+                id="fb_default"
+                path="img/fb_default.png" />
+            
+            <texture
+                id="facebook"
+                path="img/facebook.png" />
+            
+            <texture
+                id="flag_en_us"
+                path="img/flags/EN_US.png" />
+            
 
         </textures>
 
@@ -212,6 +297,28 @@
     </languages>
 
     <skins>
+        <skin id="doubleup" >
+
+            <form
+                cols="16"
+                rows="32" />
+
+            <button
+                cols="8"
+                default-color="#ffffffff"
+                focus-color="#f9b000ff"
+                font-scale="1.2"
+                halign="center"
+                rows="2"
+                sound-click="flip"
+                vibrate="50"
+                x="4" />
+
+            <label
+                halign="center"
+                rows="2"
+                color="#fff" />
+        </skin>
     </skins>
 
 </game>
