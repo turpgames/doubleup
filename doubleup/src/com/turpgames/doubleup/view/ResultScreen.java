@@ -42,14 +42,15 @@ public class ResultScreen extends Screen {
 
 		String text = "Game Over!";
 
-		int hiscore = DoubleUpSettings.getHiScore();
-		if (GlobalContext.finalScore > hiscore)
+		if (GlobalContext.finalScore > DoubleUpSettings.getHiScore())
 			text += "\n\nNew Hi Score: " + GlobalContext.finalScore;
-
-		int max = DoubleUpSettings.getMaxNumber();
-		if (newMax = GlobalContext.max > max)
+		else
+			text += "\n\nYou Scored " + GlobalContext.finalScore;
+		
+		if (newMax = GlobalContext.max > DoubleUpSettings.getMaxNumber())
 			text += "\n\nNew Maximum: " + GlobalContext.max;
 
+		
 		resultText.setText(text);
 		saveScores();
 	}
