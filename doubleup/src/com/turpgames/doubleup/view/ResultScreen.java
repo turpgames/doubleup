@@ -103,10 +103,10 @@ public class ResultScreen extends Screen {
 
 	private class ShareButton extends TextButton {
 		public ShareButton() {
-			super(Color.fromHex("#6783c2"), Color.fromHex("#40b8ea"));
+			super(Color.fromHex("#71f055"), Color.fromHex("#fb9d49"));
 			setText("Share Score");
 			setFontScale(0.8f);
-			getLocation().set((Game.getVirtualWidth() - getWidth()) / 2, 250);
+			getLocation().set((Game.getVirtualWidth() - getWidth()) / 2, 275);
 			setListener(new IButtonListener() {
 				@Override
 				public void onButtonTapped() {
@@ -123,7 +123,7 @@ public class ResultScreen extends Screen {
 
 	private class NewGameButton extends TextButton {
 		public NewGameButton() {
-			super(Color.fromHex("#6783c2"), Color.fromHex("#40b8ea"));
+			super(Color.fromHex("#71f055"), Color.fromHex("#fb9d49"));
 			setText("New Game");
 			setFontScale(0.8f);
 			getLocation().set((Game.getVirtualWidth() - getWidth()) / 2, 200);

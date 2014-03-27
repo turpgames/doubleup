@@ -14,7 +14,7 @@ public class ResetButton extends ImageButton {
 		setTouchedColor(Color.fromHex("#40b8ea"));
 		setWidth(R.sizes.menuButtonSizeToScreen);
 		setHeight(R.sizes.menuButtonSizeToScreen);
-		setLocation(Button.AlignNW, R.sizes.toolbarMargin, R.sizes.toolbarMargin);
+		setLocation(Button.AlignSW, R.sizes.toolbarMargin, R.sizes.toolbarMargin);
 		
 		final Dialog confirmDialog = new Dialog();
 		confirmDialog.addButton("ok", "Ok");

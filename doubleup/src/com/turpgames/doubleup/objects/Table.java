@@ -56,11 +56,11 @@ public class Table implements IDrawable {
 			rows[i].reset();
 		}
 
-//		setRandomCell();
-//		setRandomCell();
+		setRandomCell();
+		setRandomCell();
 		
-		for (int i = 0; i < matrixSize * matrixSize - 2;i ++)
-			setRandomCell((int)Math.pow(2, i));
+//		for (int i = 0; i < matrixSize * matrixSize - 4;i ++)
+//			setRandomCell((int)Math.pow(2, i));
 
 		score = 0;
 		updateScoreText();

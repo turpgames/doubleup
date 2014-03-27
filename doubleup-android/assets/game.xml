@@ -111,7 +111,7 @@
                 id="btn4x4"
                 action="screen=game5x5"
                 resource-text="Play 5x5"
-                y="14" />
+                y="12" />
         </form>
     </forms>
 

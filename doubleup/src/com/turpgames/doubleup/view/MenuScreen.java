@@ -2,9 +2,7 @@ package com.turpgames.doubleup.view;
 
 import com.turpgames.doubleup.objects.Background;
 import com.turpgames.doubleup.objects.DoubleUpLogo;
-import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.impl.FormScreen;
-import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.util.Game;
 
 public class MenuScreen extends FormScreen {
