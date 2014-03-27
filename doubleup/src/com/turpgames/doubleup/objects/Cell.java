@@ -6,9 +6,9 @@ import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.TextureDrawer;
 
 class Cell extends GameObject {
-	private final static int matrixSize = Table.matrixSize;
+	private final int matrixSize = GlobalContext.matrixSize;
 
-	public final static float size = Table.size / Table.matrixSize;
+	public final float size = Table.size / GlobalContext.matrixSize;
 
 	final int colIndex;
 	final Row row;

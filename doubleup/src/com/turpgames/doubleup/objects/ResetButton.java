@@ -27,7 +27,7 @@ public class ResetButton extends ImageButton {
 			@Override
 			public void onDialogButtonClicked(String id) {
 				if ("ok".equals(id))
-					table.reset();
+					table.init();
 			}
 		});
 		

@@ -34,6 +34,10 @@
             value="splash" />
 
         <param
+            key="default-skin"
+            value="doubleup" />
+
+        <param
             key="screen-switcher"
             value="fading,0.30" />
 
@@ -94,8 +98,8 @@
     </screens>
 
     <forms>
-<form id="mainMenu" >
 
+        <form id="mainMenu">
             <label
                 id="lblGameName"
                 cols="16"
@@ -105,19 +109,19 @@
                 x="0"
                 y="26"
                 color="#f9b000ff" />
-            
+
             <button
                 id="btn4x4"
                 action="screen=game4x4"
                 text="Play 4x4"
-                y="16" />
-            
+                y="18" />
+
             <button
                 id="btn4x4"
                 action="screen=game5x5"
                 resource-text="Play 5x5"
-                y="13" />
-            </form>
+                y="14" />
+        </form>
     </forms>
 
     <animations>
@@ -154,9 +158,6 @@
             <texture
                 id="tile"
                 path="img/tile.png" />
-            <texture
-                id="bg"
-                path="img/bg.png" />
 
             <texture
                 id="reset"
@@ -286,7 +287,7 @@
                 font-scale="1.2"
                 halign="center"
                 rows="2"
-                sound-click="flip"
+                sound-click="8"
                 vibrate="50"
                 x="4" />
 

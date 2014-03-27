@@ -1,5 +1,6 @@
 package com.turpgames.doubleup.utils;
 
+import com.turpgames.doubleup.objects.GlobalContext;
 import com.turpgames.framework.v0.social.ICallback;
 import com.turpgames.framework.v0.social.ISocializer;
 import com.turpgames.framework.v0.social.Player;
@@ -73,11 +74,12 @@ public class Facebook {
 	}
 
 	private static String prepareScoreMessage(long score, long max) {
+		String mode = GlobalContext.matrixSize == 5 ? "5x5" : "4x4";
 		if (max == 0)
-			return String.format("%s just made %d points in Double Up!",
-					getPlayer().getName().split(" ")[0], score);
+			return String.format("%s just made %d points in Double Up %s mode!",
+					getPlayer().getName().split(" ")[0], score, mode);
 		return String.format(
-				"%s just reached a new max number %d with %d points in Double Up!",
-				getPlayer().getName().split(" ")[0], max, score);
+				"%s just reached a new max number %d with %d points in Double Up %s mode!",
+				getPlayer().getName().split(" ")[0], max, score, mode);
 	}
 }

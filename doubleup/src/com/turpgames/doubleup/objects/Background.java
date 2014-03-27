@@ -2,20 +2,14 @@ package com.turpgames.doubleup.objects;
 
 import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.IDrawingInfo;
-import com.turpgames.framework.v0.ITexture;
-import com.turpgames.framework.v0.util.Game;
-import com.turpgames.framework.v0.util.TextureDrawer;
+import com.turpgames.framework.v0.util.Color;
+import com.turpgames.framework.v0.util.ShapeDrawer;
 
 public class Background implements IDrawable {
-	private ITexture bg;
-
-	public Background() {
-		bg = Game.getResourceManager().getTexture("bg");
-	}
 
 	@Override
 	public void draw() {
-		TextureDrawer.draw(bg, IDrawingInfo.screen);
+		ShapeDrawer.drawRect(0, 0, IDrawingInfo.screen.getWidth(), IDrawingInfo.screen.getHeight(), Color.fromHex("#246dc7FF"), true, IDrawingInfo.screen.ignoreViewport());
 	}
 }
 

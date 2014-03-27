@@ -8,7 +8,7 @@ class Row {
 	Row(Table table, int rowIndex) {
 		this.table = table;
 		this.rowIndex = rowIndex;
-		this.cells = new Cell[Table.matrixSize];
+		this.cells = new Cell[GlobalContext.matrixSize];
 
 		for (int i = 0; i < cells.length; i++) {
 			cells[i] = new Cell(table, this, i);

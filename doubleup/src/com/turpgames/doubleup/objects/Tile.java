@@ -33,14 +33,15 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 	private final MoveEffectEndListener moveEffectEndListener;
 
 	public Tile() {
+		float size = Table.size / GlobalContext.matrixSize;
 		text = new Text();
 		text.setAlignment(Text.HAlignCenter, Text.VAlignCenter);
-		text.setSize(Cell.size, Cell.size);
+		text.setSize(size, size);
 		text.getColor().set(Color.white());
-		text.setFontScale(4f / Table.matrixSize);
+		text.setFontScale(4f / GlobalContext.matrixSize);
 
-		setWidth(Cell.size);
-		setHeight(Cell.size);
+		setWidth(size);
+		setHeight(size);
 		
 		popCommand = new TilePopCommand();
 		popCommand.tile = this;
@@ -192,19 +193,19 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 	}
 
 	private final static Color color0 = Color.fromHex("#00000000");
-	private final static Color color1 = Color.fromHex("#fba51a60");
-	private final static Color color2 = Color.fromHex("#f4eb2060");
-	private final static Color color4 = Color.fromHex("#aed36160");
-	private final static Color color8 = Color.fromHex("#71c05560");
-	private final static Color color16 = Color.fromHex("#71c6a560");
-	private final static Color color32 = Color.fromHex("#40b8ea60");
-	private final static Color color64 = Color.fromHex("#436fb660");
-	private final static Color color128 = Color.fromHex("#5b52a360");
-	private final static Color color256 = Color.fromHex("#9a6db060");
-	private final static Color color512 = Color.fromHex("#d1499b60");
-	private final static Color color1024 = Color.fromHex("#f15f9060");
-	private final static Color color2048 = Color.fromHex("#ed1e2460");
-	private final static Color color4096 = Color.fromHex("#00000060");
+	private final static Color color1 = Color.fromHex("#fb831aFF");
+	private final static Color color2 = Color.fromHex("#f4c820FF");
+	private final static Color color4 = Color.fromHex("#aed361FF");
+	private final static Color color8 = Color.fromHex("#71c055FF");
+	private final static Color color16 = Color.fromHex("#71c6a5FF");
+	private final static Color color32 = Color.fromHex("#40b8eaFF");
+	private final static Color color64 = Color.fromHex("#436fb6FF");
+	private final static Color color128 = Color.fromHex("#5b52a3FF");
+	private final static Color color256 = Color.fromHex("#9a6db0FF");
+	private final static Color color512 = Color.fromHex("#d1499bFF");
+	private final static Color color1024 = Color.fromHex("#f15f90FF");
+	private final static Color color2048 = Color.fromHex("#ed1e24FF");
+	private final static Color color4096 = Color.fromHex("#000000F0");
 	
 	private final class MoveEffectEndListener implements IEffectEndListener {
 		Cell to;

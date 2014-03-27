@@ -1,21 +1,22 @@
 package com.turpgames.doubleup.utils;
 
+import com.turpgames.doubleup.objects.GlobalContext;
 import com.turpgames.framework.v0.impl.Settings;
 
 public class DoubleUpSettings {
-	public static long getHiScore() {
-		return Settings.getLong("hi-score", 0);
+	public static int getHiScore() {
+		return Settings.getInteger("hi-score" + GlobalContext.matrixSize, 0);
 	}
-	
-	public static void setHiScore(long hiscore) {
-		Settings.putLong("hi-score", hiscore);
-	}	
-	
-	public static long getMaxNumber() {
-		return Settings.getLong("max-number", 0);
+
+	public static void setHiScore(int hiscore) {
+		Settings.putInteger("hi-score" + GlobalContext.matrixSize, hiscore);
 	}
-	
-	public static void setMaxNumber(long maxnumber) {
-		Settings.putLong("max-number", maxnumber);
+
+	public static int getMaxNumber() {
+		return Settings.getInteger("max-number" + GlobalContext.matrixSize, 0);
+	}
+
+	public static void setMaxNumber(int maxnumber) {
+		Settings.putInteger("max-number" + GlobalContext.matrixSize, maxnumber);
 	}
 }
