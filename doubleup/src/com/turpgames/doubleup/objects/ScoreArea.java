@@ -2,8 +2,6 @@ package com.turpgames.doubleup.objects;
 
 import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.impl.Text;
-import com.turpgames.framework.v0.util.Color;
-import com.turpgames.framework.v0.util.ShapeDrawer;
 
 public class ScoreArea extends GameObject {
 	private final Text text;
@@ -22,8 +20,6 @@ public class ScoreArea extends GameObject {
 		text.setSize(getWidth(), getHeight());
 		
 		setScore(0);
-		
-		getColor().set(Color.fromHex("#0080FF40"));
 	}
 
 	public void setLocation(float x, float y) {
@@ -37,7 +33,6 @@ public class ScoreArea extends GameObject {
 
 	@Override
 	public void draw() {
-//		ShapeDrawer.drawRect(getLocation().x, getLocation().y, getWidth(), getHeight(), getColor(), true, ignoreViewport());
 		text.draw();
 	}
 }
