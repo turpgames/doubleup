@@ -37,7 +37,7 @@ public class DoubleUpAudio {
 		effectTimer.start();
 	}
 
-	public static void playScoreSound(long score) {
+	public static void playScoreSound(int score) {
 		if (score < 2048)
 			queue.add(sounds.get(score));
 		else

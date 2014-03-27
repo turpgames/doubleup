@@ -78,7 +78,6 @@
 
         <screen
             id="game"
-            background-music="theme"
             class="com.turpgames.doubleup.view.GameScreen" />
 
         <screen
@@ -228,10 +227,6 @@
         </sounds>
 
         <musics>
-
-            <music
-                id="theme"
-                path="audio/doubleup.mp3" />
         </musics>
     </resources>
 

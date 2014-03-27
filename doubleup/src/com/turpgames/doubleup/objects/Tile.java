@@ -18,7 +18,7 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 
 	private final Text text;
 	private boolean isActive;
-	private long value;
+	private int value;
 
 	private final static List<TileCommand> commands = new ArrayList<TileCommand>();
 
@@ -79,19 +79,19 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 		moveEffect.setListener(moveEffectEndListener);
 	}
 
-	long getValue() {
+	int getValue() {
 		return value;
 	}
 
-	void setValue(long value) {
+	void setValue(int value) {
 		this.value = value;
 		this.isActive = value > 0;
 		this.text.setText(value + "");
 		this.getColor().set(getColor(value));
 	}
 
-	void addTo(Tile toTile) {
-		addCommand.to = toTile;
+	void addTo(Cell toCell) {
+		addCommand.to = toCell.getTile();
 		addCommand(addCommand);
 	}
 

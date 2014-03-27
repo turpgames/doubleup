@@ -133,12 +133,12 @@ class Cell extends GameObject {
 		add(table.getCell(row.rowIndex + 1, colIndex));
 	}
 
-	long getValue() {
+	int getValue() {
 		return tile == null ? 0 : tile.getValue();
 	}
 
 	private void add(Cell toCell) {
-		this.tile.addTo(toCell.tile);
+		this.tile.addTo(toCell);
 		this.tile = null;
 	}
 
@@ -170,5 +170,9 @@ class Cell extends GameObject {
 		TextureDrawer.draw(Textures.tile, this);
 		if (tile != null)
 			tile.draw();
+	}
+
+	public Tile getTile() {
+		return tile;
 	}
 }

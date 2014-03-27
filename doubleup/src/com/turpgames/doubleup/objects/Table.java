@@ -9,7 +9,7 @@ import com.turpgames.framework.v0.util.Game;
 import com.turpgames.utils.Util;
 
 public class Table implements IDrawable {
-	public final static int matrixSize = 5;
+	public final static int matrixSize = 6;
 	public final static float size = 512f;
 
 	private final Row[] rows;
@@ -76,10 +76,12 @@ public class Table implements IDrawable {
 	}
 
 	private void setRandomCell() {
-		setRandomCell(rand(5) == 1 ? 2 : 1);
+//		setRandomCell(rand(5) == 1 ? 2 : 1);							// klasik
+
+		setRandomCell((int)Math.pow(2, rand(GlobalContext.maxPower))); 	// cash machine
 	}
 
-	private void setRandomCell(long value) {
+	private void setRandomCell(int value) {
 		Cell cell;
 		do {
 			cell = getCell(rand(matrixSize), rand(matrixSize));
