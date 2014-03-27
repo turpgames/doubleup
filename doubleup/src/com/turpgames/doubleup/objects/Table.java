@@ -188,6 +188,7 @@ public class Table extends GameObject {
 
 				DoubleUpAudio.playGameOverSound();
 				Game.getInputManager().activate();
+				
 				ScreenManager.instance.switchTo(R.screens.result, false);
 			}
 		}
@@ -292,6 +293,8 @@ public class Table extends GameObject {
 
 		score = 0;
 		updateScoreText();
+		hiscoreText.setText("Hi: " + DoubleUpSettings.getHiScore());
+		hiscoreBlockText.setText("Max: " + DoubleUpSettings.getMaxNumber());
 	}
 
 	private void updateScoreText() {
