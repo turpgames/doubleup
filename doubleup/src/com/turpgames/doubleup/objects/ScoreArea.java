@@ -37,7 +37,7 @@ public class ScoreArea extends GameObject {
 
 	@Override
 	public void draw() {
-		ShapeDrawer.drawRect(getLocation().x, getLocation().y, getWidth(), getHeight(), getColor(), true, ignoreViewport());
+//		ShapeDrawer.drawRect(getLocation().x, getLocation().y, getWidth(), getHeight(), getColor(), true, ignoreViewport());
 		text.draw();
 	}
 }
