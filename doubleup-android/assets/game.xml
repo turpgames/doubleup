@@ -100,15 +100,6 @@
     <forms>
 
         <form id="mainMenu">
-            <label
-                id="lblGameName"
-                cols="16"
-                font-scale="1.5"
-                rows="2"
-                text="Double Up"
-                x="0"
-                y="26"
-                color="#f9b000ff" />
 
             <button
                 id="btn4x4"

@@ -7,7 +7,9 @@ import com.turpgames.doubleup.objects.GlobalContext;
 import com.turpgames.doubleup.objects.MoveDirection;
 import com.turpgames.doubleup.objects.Table;
 import com.turpgames.doubleup.objects.display.DoubleUpToolbar;
+import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.impl.Screen;
+import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.util.Game;
 
 public abstract class GameScreen extends Screen {
@@ -69,7 +71,7 @@ public abstract class GameScreen extends Screen {
 	}
 	
 	protected boolean onBack() {
-		Game.toHomeScreen();
+		ScreenManager.instance.switchTo(R.game.screens.menu, true);
 		return true;
 	}
 }

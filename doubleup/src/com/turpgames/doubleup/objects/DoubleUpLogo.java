@@ -39,7 +39,7 @@ public class DoubleUpLogo extends GameObject {
 		
 		logo.getLocation().set(
 				(Game.getVirtualWidth() - logo.getWidth() - icon.getWidth()) / 2,
-				Game.getVirtualHeight() - logo.getHeight() - 20f
+				Game.getVirtualHeight() - logo.getHeight() - 45f
 				);
 		
 		icon.getLocation().set(
