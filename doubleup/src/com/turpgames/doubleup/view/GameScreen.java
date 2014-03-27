@@ -9,7 +9,7 @@ import com.turpgames.doubleup.objects.display.DoubleUpToolbar;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.util.Game;
 
-public class GameScreen extends Screen {
+public abstract class GameScreen extends Screen {
 	private Table table;
 
 	@Override
@@ -21,11 +21,6 @@ public class GameScreen extends Screen {
 		registerDrawable(new Background(), Game.LAYER_BACKGROUND);
 
 		registerDrawable(DoubleUpToolbar.getInstance(), Game.LAYER_INFO);
-	}
-	
-	@Override
-	protected boolean onBeforeActivate() {
-		return super.onBeforeActivate();
 	}
 
 	@Override

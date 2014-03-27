@@ -77,8 +77,16 @@
             class="com.turpgames.doubleup.view.SplashScreen" />
 
         <screen
-            id="game"
-            class="com.turpgames.doubleup.view.GameScreen" />
+            id="menu"
+            class="com.turpgames.doubleup.view.MenuScreen" />
+
+        <screen
+            id="game4x4"
+            class="com.turpgames.doubleup.view.Game4x4Screen" />
+
+        <screen
+            id="game5x5"
+            class="com.turpgames.doubleup.view.Game5x5Screen" />
 
         <screen
             id="result"
@@ -86,6 +94,30 @@
     </screens>
 
     <forms>
+<form id="mainMenu" >
+
+            <label
+                id="lblGameName"
+                cols="16"
+                font-scale="1.5"
+                rows="2"
+                text="Double Up"
+                x="0"
+                y="26"
+                color="#f9b000ff" />
+            
+            <button
+                id="btn4x4"
+                action="screen=game4x4"
+                text="Play 4x4"
+                y="16" />
+            
+            <button
+                id="btn4x4"
+                action="screen=game5x5"
+                resource-text="Play 5x5"
+                y="13" />
+            </form>
     </forms>
 
     <animations>

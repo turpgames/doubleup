@@ -8,7 +8,7 @@ import com.turpgames.framework.v0.util.Game;
 import com.turpgames.utils.Util;
 
 public class Table implements IDrawable {
-	public final static int matrixSize = 6;
+	public static int matrixSize = 4;
 	public final static float size = 512f;
 
 	private final Row[] rows;
@@ -39,14 +39,14 @@ public class Table implements IDrawable {
 		resetButton = new ResetButton(this);
 
 		scoreArea = new ScoreArea("Score");
-		scoreArea.setLocation(x + 4, y + size + 5);
+		scoreArea.setLocation(x + 4, y - 75);
 		updateScoreText();
 
 		hiscoreArea = new ScoreArea("Hi");
-		hiscoreArea.setLocation(x + 4, y - 55);
+		hiscoreArea.setLocation((Game.getVirtualWidth() - hiscoreArea.getWidth()) / 2, y - 75);
 		
 		hiscoreBlockArea = new ScoreArea("Max");
-		hiscoreBlockArea.setLocation(x + 4, y - 115);
+		hiscoreBlockArea.setLocation(Game.getVirtualWidth() - hiscoreBlockArea.getWidth() - 4, y - 75);
 
 		GlobalContext.table = this;
 	}
@@ -68,9 +68,9 @@ public class Table implements IDrawable {
 	}
 
 	private void setRandomCell() {
-//		setRandomCell(rand(5) == 1 ? 2 : 1);							// klasik
+		setRandomCell(rand(5) == 1 ? 2 : 1);							// klasik
 
-		setRandomCell((int)Math.pow(2, rand(GlobalContext.maxPower))); 	// cash machine
+		//	setRandomCell((int)Math.pow(2, rand(GlobalContext.maxPower))); 	// cash machine
 	}
 
 	private void setRandomCell(int value) {
