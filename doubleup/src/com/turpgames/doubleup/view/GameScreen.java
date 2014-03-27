@@ -3,19 +3,21 @@ package com.turpgames.doubleup.view;
 import com.badlogic.gdx.Input.Keys;
 import com.turpgames.doubleup.objects.Background;
 import com.turpgames.doubleup.objects.DoubleUpLogo;
+import com.turpgames.doubleup.objects.GlobalContext;
 import com.turpgames.doubleup.objects.MoveDirection;
 import com.turpgames.doubleup.objects.Table;
 import com.turpgames.doubleup.objects.display.DoubleUpToolbar;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.util.Game;
 
-public class GameScreen extends Screen {
+public abstract class GameScreen extends Screen {
 	private Table table;
 
 	@Override
 	public void init() {
 		super.init();
-		table = new Table();
+		GlobalContext.matrixSize = getMatrixSize();
+		table = new Table(getMatrixSize());
 		registerDrawable(table, Game.LAYER_SCREEN);
 		registerDrawable(new DoubleUpLogo(), Game.LAYER_SCREEN);
 		registerDrawable(new Background(), Game.LAYER_BACKGROUND);
@@ -23,8 +25,12 @@ public class GameScreen extends Screen {
 		registerDrawable(DoubleUpToolbar.getInstance(), Game.LAYER_INFO);
 	}
 	
+	protected abstract int getMatrixSize();
+	
 	@Override
 	protected boolean onBeforeActivate() {
+		GlobalContext.matrixSize = getMatrixSize();
+		table.init();
 		return super.onBeforeActivate();
 	}
 

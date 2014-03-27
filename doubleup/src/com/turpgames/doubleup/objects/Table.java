@@ -8,30 +8,28 @@ import com.turpgames.framework.v0.util.Game;
 import com.turpgames.utils.Util;
 
 public class Table implements IDrawable {
-	public final static int matrixSize = 4;
+
 	public final static float size = 512f;
 
+	private final int matrixSize;
 	private final Row[] rows;
 
-	private long score;
+	private int score;
 	private final ResetButton resetButton;
 
 	private final ScoreArea scoreArea;
 	private final ScoreArea hiscoreArea;
 	private final ScoreArea hiscoreBlockArea;
 
-	public Table() {
+	public Table(int size) {
+		GlobalContext.matrixSize = size;
+		matrixSize = size;
+		
 		this.rows = new Row[matrixSize];
 
 		for (int i = 0; i < rows.length; i++) {
 			rows[i] = new Row(this, i);
 		}
-
-		setRandomCell();
-		setRandomCell();
-
-//		for (int i = 0; i < matrixSize * matrixSize - 2;i ++)
-//			setRandomCell((long)Math.pow(2, i));
 
 		float x = (Game.getVirtualWidth() - Table.size) / 2;
 		float y = (Game.getVirtualHeight() - Table.size) / 2;
@@ -39,16 +37,35 @@ public class Table implements IDrawable {
 		resetButton = new ResetButton(this);
 
 		scoreArea = new ScoreArea("Score");
-		scoreArea.setLocation(x + 4, y + size + 5);
-		updateScoreText();
+		scoreArea.setLocation(x + 4, y - 75);
 
 		hiscoreArea = new ScoreArea("Hi");
-		hiscoreArea.setLocation(x + 4, y - 55);
+		hiscoreArea.setLocation((Game.getVirtualWidth() - hiscoreArea.getWidth()) / 2, y - 75);
 		
 		hiscoreBlockArea = new ScoreArea("Max");
-		hiscoreBlockArea.setLocation(x + 4, y - 115);
+		hiscoreBlockArea.setLocation(Game.getVirtualWidth() - hiscoreBlockArea.getWidth() - 4, y - 75);
+	}
 
+	public void init() {
+		GlobalContext.matrixSize = matrixSize;
+		GlobalContext.maxPower = 0;
 		GlobalContext.table = this;
+		GlobalContext.resetMove();
+		
+		for (int i = 0; i < rows.length; i++) {
+			rows[i].reset();
+		}
+
+//		setRandomCell();
+//		setRandomCell();
+		
+		for (int i = 0; i < matrixSize * matrixSize - 2;i ++)
+			setRandomCell((int)Math.pow(2, i));
+
+		score = 0;
+		updateScoreText();
+		hiscoreArea.setScore(DoubleUpSettings.getHiScore());
+		hiscoreBlockArea.setScore(DoubleUpSettings.getMaxNumber());
 	}
 
 	private int rand(int max) {
@@ -68,9 +85,7 @@ public class Table implements IDrawable {
 	}
 
 	private void setRandomCell() {
-		setRandomCell(rand(5) == 1 ? 2 : 1);							// klasik
-
-//		setRandomCell((int)Math.pow(2, rand(GlobalContext.maxPower))); 	// cash machine
+		setRandomCell(rand(5) == 1 ? 2 : 1);	
 	}
 
 	private void setRandomCell(int value) {
@@ -136,21 +151,27 @@ public class Table implements IDrawable {
 			setRandomCell();
 
 			if (!hasMove()) {
-				GlobalContext.finalScore = this.score;
-				GlobalContext.max = 0;
-				for (Row row : rows) {
-					for (Cell cell : row.getCells()) {
-						if (cell.getValue() > GlobalContext.max)
-							GlobalContext.max = cell.getValue();
-					}
-				}
-
-				DoubleUpAudio.playGameOverSound();
-				Game.getInputManager().activate();
-				
-				ScreenManager.instance.switchTo(R.screens.result, false);
+				endGame();
 			}
 		}
+	}
+
+	private void endGame() {
+		GlobalContext.finalScore = this.score;
+		GlobalContext.max = 0;
+		
+		for (Row row : rows) {
+			for (Cell cell : row.getCells()) {
+				if (cell.getValue() > GlobalContext.max)
+					GlobalContext.max = cell.getValue();
+				cell.getTile().setValue(0);
+			}
+		}
+
+		DoubleUpAudio.playGameOverSound();
+		Game.getInputManager().activate();
+		
+		ScreenManager.instance.switchTo(R.screens.result, false);
 	}
 
 	private void moveRight() {
@@ -240,21 +261,6 @@ public class Table implements IDrawable {
 		}
 
 		return false;
-	}
-
-	public void reset() {
-		for (int i = 0; i < rows.length; i++) {
-			rows[i].reset();
-		}
-
-		setRandomCell();
-		setRandomCell();
-
-		GlobalContext.maxPower = 0;
-		score = 0;
-		updateScoreText();
-		hiscoreArea.setScore(DoubleUpSettings.getHiScore());
-		hiscoreBlockArea.setScore(DoubleUpSettings.getMaxNumber());
 	}
 
 	private void updateScoreText() {

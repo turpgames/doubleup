@@ -4,7 +4,6 @@ import com.turpgames.doubleup.objects.Background;
 import com.turpgames.doubleup.objects.GlobalContext;
 import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.Facebook;
-import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.TextButton;
 import com.turpgames.framework.v0.impl.Screen;
@@ -78,8 +77,10 @@ public class ResultScreen extends Screen {
 	}
 
 	private void switchToNewGameScreen() {
-		GlobalContext.table.reset();
-		ScreenManager.instance.switchTo(R.screens.game, false);
+		if (GlobalContext.matrixSize == 5)
+			ScreenManager.instance.switchTo("game5x5", false);
+		else
+			ScreenManager.instance.switchTo("game4x4", false);
 	}
 
 	private void saveScores() {
@@ -141,7 +142,7 @@ public class ResultScreen extends Screen {
 	}
 
 	protected boolean onBack() {
-		Game.toHomeScreen();
+		ScreenManager.instance.switchTo("menu", true);
 		return true;
 	}
 }

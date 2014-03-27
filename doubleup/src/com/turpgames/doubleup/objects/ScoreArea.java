@@ -8,14 +8,14 @@ public class ScoreArea extends GameObject {
 	private final String key;
 
 	public ScoreArea(String key) {
-		setWidth(200);
-		setHeight(50);
+		setWidth(150);
+		setHeight(75);
 
 		this.key = key;
 
 		text = new Text();
 		text.setFontScale(0.75f);
-		text.setAlignment(Text.HAlignLeft, Text.VAlignCenter);
+		text.setAlignment(Text.HAlignCenter, Text.VAlignCenter);
 		text.setPadX(10f);
 		text.setSize(getWidth(), getHeight());
 		
@@ -28,7 +28,7 @@ public class ScoreArea extends GameObject {
 	}
 
 	public void setScore(long score) {
-		this.text.setText(key + ": " + score);
+		this.text.setText(key + "\n" + score);
 	}
 
 	@Override
