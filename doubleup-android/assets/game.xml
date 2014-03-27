@@ -156,8 +156,11 @@
                 path="img/flags/EN_US.png" />
 
             <texture
-                id="double_up"
-                path="img/double_up.png" />
+                id="icon"
+                path="img/icon.png" />
+            <texture
+                id="logo"
+                path="img/logo.png" />
         </textures>
 
         <sounds>

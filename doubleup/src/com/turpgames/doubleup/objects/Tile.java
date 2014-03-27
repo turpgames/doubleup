@@ -190,8 +190,8 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 	}
 
 	private final static Color color0 = Color.fromHex("#00000000");
-	private final static Color color1 = Color.fromHex("#fb831aFF");
-	private final static Color color2 = Color.fromHex("#f4c820FF");
+	private final static Color color1 = Color.fromHex("#fb9d49FF");
+	private final static Color color2 = Color.fromHex("#f4d040FF");
 	private final static Color color4 = Color.fromHex("#aed361FF");
 	private final static Color color8 = Color.fromHex("#71c055FF");
 	private final static Color color16 = Color.fromHex("#71c6a5FF");

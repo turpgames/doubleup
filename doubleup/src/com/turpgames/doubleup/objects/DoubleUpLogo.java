@@ -5,23 +5,53 @@ import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.TextureDrawer;
 
 public class DoubleUpLogo extends GameObject {
-
+	private GameObject icon;
+	private GameObject logo;
+	
 	public DoubleUpLogo() {
-		final float w = 2182f;
-		final float h = 415f;
-		float scale = (Game.getVirtualWidth() * 0.66f) / w;
+		logo = new GameObject() {
+			@Override
+			public void draw() {
+				TextureDrawer.draw(Textures.logo, this);
+			}
+		};
+		
+		float w = 700f;
+		float h = 156f;
+		float scale = (Game.getVirtualWidth() * 0.50f) / w;
+		
+		logo.setWidth(scale * w);
+		logo.setHeight(scale * h);
+		
+		icon = new GameObject() {
+			@Override
+			public void draw() {
+				TextureDrawer.draw(Textures.icon, this);
+			}
+		};
 
-		setWidth(scale * w);
-		setHeight(scale * h);
-		getLocation().set(
-				Game.getVirtualWidth() / 6f,
-				Game.getVirtualHeight() - getHeight() - 10f
+		w = 338f;
+		h = 338f;
+		scale *= 0.66f;
+		
+		icon.setWidth(scale * w);
+		icon.setHeight(scale * h);
+		
+		logo.getLocation().set(
+				(Game.getVirtualWidth() - logo.getWidth() - icon.getWidth()) / 2,
+				Game.getVirtualHeight() - logo.getHeight() - 20f
+				);
+		
+		icon.getLocation().set(
+				logo.getLocation().x + logo.getWidth(),
+				logo.getLocation().y - (icon.getHeight() - logo.getHeight()) / 2 
 				);
 	}
 
 	@Override
 	public void draw() {
-		TextureDrawer.draw(Textures.doubleup, this);
+		logo.draw();
+		icon.draw();
 	}
 
 }
