@@ -8,12 +8,14 @@ import com.turpgames.doubleup.objects.MoveDirection;
 import com.turpgames.doubleup.objects.Table;
 import com.turpgames.doubleup.objects.display.DoubleUpToolbar;
 import com.turpgames.doubleup.utils.R;
+import com.turpgames.framework.v0.component.Toolbar;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.util.Game;
 
 public abstract class GameScreen extends Screen {
 	private Table table;
+	private boolean tableRequiresInit = true;
 
 	@Override
 	public void init() {
@@ -26,14 +28,40 @@ public abstract class GameScreen extends Screen {
 
 		registerDrawable(DoubleUpToolbar.getInstance(), Game.LAYER_INFO);
 	}
-	
+
 	protected abstract int getMatrixSize();
-	
+
 	@Override
 	protected boolean onBeforeActivate() {
-		GlobalContext.matrixSize = getMatrixSize();
-		table.init();
+		DoubleUpToolbar.getInstance().setListener(new Toolbar.IToolbarListener() {
+			@Override
+			public void onToolbarBack() {
+				onBack();
+			}
+		});
+		
+		if (tableRequiresInit) {
+			table.init();
+		}else {
+			GlobalContext.reset(table);
+			tableRequiresInit = true;
+		}
+
 		return super.onBeforeActivate();
+	}
+	
+	@Override
+	protected void onAfterActivate() {
+		table.activate();
+		DoubleUpToolbar.getInstance().enable();
+		super.onAfterActivate();
+	}
+	
+	@Override
+	protected boolean onBeforeDeactivate() {
+		table.deactivate();
+		DoubleUpToolbar.getInstance().disable();
+		return super.onBeforeDeactivate();
 	}
 
 	@Override
@@ -69,8 +97,9 @@ public abstract class GameScreen extends Screen {
 		}
 		return super.fling(vx, vy, button);
 	}
-	
+
 	protected boolean onBack() {
+		tableRequiresInit = false;
 		ScreenManager.instance.switchTo(R.game.screens.menu, true);
 		return true;
 	}

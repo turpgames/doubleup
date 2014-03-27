@@ -35,6 +35,7 @@ public class Table implements IDrawable {
 		float y = (Game.getVirtualHeight() - Table.size) / 2;
 
 		resetButton = new ResetButton(this);
+		resetButton.deactivate();
 
 		scoreArea = new ScoreArea("Score");
 		scoreArea.setLocation(x + 4, y - 75);
@@ -45,12 +46,26 @@ public class Table implements IDrawable {
 		hiscoreBlockArea = new ScoreArea("Max");
 		hiscoreBlockArea.setLocation(Game.getVirtualWidth() - hiscoreBlockArea.getWidth() - 4, y - 75);
 	}
+	
+	int getScore() {
+		return score;
+	}
+	
+	int getMatrixSize() {
+		return matrixSize;
+	}
+	
+	public void deactivate() {
+		resetButton.deactivate();
+	}
+	
+	public void activate() {
+		resetButton.activate();
+	}
 
 	public void init() {
-		GlobalContext.matrixSize = matrixSize;
-		GlobalContext.maxPower = 0;
-		GlobalContext.table = this;
-		GlobalContext.resetMove();
+		score = 0;
+		GlobalContext.reset(this);
 		
 		for (int i = 0; i < rows.length; i++) {
 			rows[i].reset();
@@ -62,8 +77,8 @@ public class Table implements IDrawable {
 //		for (int i = 0; i < matrixSize * matrixSize - 4;i ++)
 //			setRandomCell((int)Math.pow(2, i));
 
-		score = 0;
 		updateScoreText();
+		
 		hiscoreArea.setScore(DoubleUpSettings.getHiScore());
 		hiscoreBlockArea.setScore(DoubleUpSettings.getMaxNumber());
 	}

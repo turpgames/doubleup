@@ -1,12 +1,11 @@
 package com.turpgames.doubleup.objects.display;
 
+import com.turpgames.doubleup.objects.AudioButton;
+import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.component.Button;
 import com.turpgames.framework.v0.component.ImageButton;
 import com.turpgames.framework.v0.component.ToggleButton;
 import com.turpgames.framework.v0.component.Toolbar;
-import com.turpgames.framework.v0.impl.GameObject;
-import com.turpgames.doubleup.objects.AudioButton;
-import com.turpgames.doubleup.utils.R;
 
 public class DoubleUpToolbar extends Toolbar {
 
@@ -19,26 +18,26 @@ public class DoubleUpToolbar extends Toolbar {
 	}
 
 	private DoubleUpToolbar() {
-		soundButton.activate();
+
 	}
 
 	public void disable() {
-		settingsButton.deactivate();
+		soundButton.deactivate();
 		backButton.deactivate();
 	}
 
 	public void enable() {
-		settingsButton.activate();
+		soundButton.activate();
 		backButton.activate();
 	}
 	
-	public GameObject getBackButton() {
+	public ImageButton getBackButton() {
 		return backButton;
 	}
 
 	@Override
 	protected void concreteAddBackButton() {
-		backButton = new ImageButton(R.sizes.menuButtonSizeToScreen, R.sizes.menuButtonSizeToScreen, R.game.textures.toolbar.back, R.colors.buttonDefault, R.colors.buttonTouched);
+		backButton = new ImageButton(R.sizes.menuButtonSizeToScreen, R.sizes.menuButtonSizeToScreen, R.game.textures.toolbar.back, R.colors.buttonDefault, R.colors.buttonDefault);
 		backButton.setLocation(Button.AlignNW, R.sizes.toolbarMargin, R.sizes.toolbarMargin);
 	}
 
@@ -64,5 +63,6 @@ public class DoubleUpToolbar extends Toolbar {
 	@Override
 	public void draw() {
 		soundButton.draw();
+		backButton.draw();
 	}
 }

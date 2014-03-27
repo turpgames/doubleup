@@ -1,5 +1,7 @@
 package com.turpgames.doubleup.objects;
 
+import com.turpgames.doubleup.utils.DoubleUpSettings;
+
 
 public class GlobalContext {
 	public static Table table;
@@ -13,5 +15,14 @@ public class GlobalContext {
 	public static void resetMove() {
 		hasMove = false;
 		moveScore = 0;
+	}
+	
+	public static void reset(Table table) {
+		GlobalContext.table = table;
+		resetMove();
+		finalScore = table.getScore();
+		matrixSize = table.getMatrixSize();
+		max = DoubleUpSettings.getHiScore();
+		maxPower = DoubleUpSettings.getMaxNumber();
 	}
 }

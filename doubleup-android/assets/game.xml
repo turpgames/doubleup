@@ -30,6 +30,10 @@
             value="Akachen,1" />
 
         <param
+            key="disable-vibration"
+            value="true" />
+
+        <param
             key="default-screen"
             value="splash" />
 
@@ -282,7 +286,7 @@
                 halign="center"
                 rows="2"
                 sound-click="8"
-                vibrate="50"
+                vibrate="0"
                 x="4" />
 
             <label

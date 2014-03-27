@@ -2,10 +2,12 @@ package com.turpgames.doubleup.view;
 
 import com.turpgames.doubleup.objects.Background;
 import com.turpgames.doubleup.objects.GlobalContext;
+import com.turpgames.doubleup.objects.display.DoubleUpToolbar;
 import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.Facebook;
 import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.TextButton;
+import com.turpgames.framework.v0.component.Toolbar;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.impl.Text;
@@ -33,12 +35,26 @@ public class ResultScreen extends Screen {
 		super.registerDrawable(shareButton, Game.LAYER_SCREEN);
 		super.registerDrawable(newGameButton, Game.LAYER_SCREEN);
 		super.registerDrawable(new Background(), Game.LAYER_BACKGROUND);
+
+		super.registerDrawable(DoubleUpToolbar.getInstance(), Game.LAYER_INFO);
+	}
+	
+	@Override
+	protected boolean onBeforeActivate() {
+		DoubleUpToolbar.getInstance().setListener(new Toolbar.IToolbarListener() {
+			@Override
+			public void onToolbarBack() {
+				onBack();
+			}
+		});
+		return true;
 	}
 
 	@Override
 	protected void onAfterActivate() {
 		shareButton.activate();
 		newGameButton.activate();
+		DoubleUpToolbar.getInstance().enable();
 
 		String text = "Game Over!";
 
@@ -58,6 +74,7 @@ public class ResultScreen extends Screen {
 	protected boolean onBeforeDeactivate() {
 		shareButton.deactivate();
 		newGameButton.deactivate();
+		DoubleUpToolbar.getInstance().disable();
 		return super.onBeforeDeactivate();
 	}
 
