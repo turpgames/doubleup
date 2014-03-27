@@ -4,21 +4,21 @@ import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.impl.ScreenManager;
-import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.utils.Util;
 
 public class Table implements IDrawable {
-	public final static int matrixSize = 5;
+	public final static int matrixSize = 4;
 	public final static float size = 512f;
 
 	private final Row[] rows;
 
 	private long score;
-	private Text scoreText;
-	private Text hiscoreText;
-	private Text hiscoreBlockText;
 	private final ResetButton resetButton;
+
+	private final ScoreArea scoreArea;
+	private final ScoreArea hiscoreArea;
+	private final ScoreArea hiscoreBlockArea;
 
 	public Table() {
 		this.rows = new Row[matrixSize];
@@ -38,23 +38,15 @@ public class Table implements IDrawable {
 
 		resetButton = new ResetButton(this);
 
-		scoreText = new Text();
-		scoreText.setFontScale(0.8f);
-		scoreText.setAlignment(Text.HAlignLeft, Text.VAlignBottom);
-		scoreText.setLocation(x + 4, y - 35);
+		scoreArea = new ScoreArea("Score");
+		scoreArea.setLocation(x + 4, y + size + 5);
 		updateScoreText();
 
-		hiscoreText = new Text();
-		hiscoreText.setFontScale(0.8f);
-		hiscoreText.setAlignment(Text.HAlignLeft, Text.VAlignTop);
-		hiscoreText.setLocation(x + 4, 35 - y);
-		hiscoreText.setText("Hi: " + DoubleUpSettings.getHiScore());
-
-		hiscoreBlockText = new Text();
-		hiscoreBlockText.setFontScale(0.8f);
-		hiscoreBlockText.setAlignment(Text.HAlignRight, Text.VAlignTop);
-		hiscoreBlockText.setLocation(-x - 4, 35 - y);
-		hiscoreBlockText.setText("Max: " + DoubleUpSettings.getMaxNumber());
+		hiscoreArea = new ScoreArea("Hi");
+		hiscoreArea.setLocation(x + 4, y - 55);
+		
+		hiscoreBlockArea = new ScoreArea("Max");
+		hiscoreBlockArea.setLocation(x + 4, y - 115);
 
 		GlobalContext.table = this;
 	}
@@ -258,22 +250,20 @@ public class Table implements IDrawable {
 
 		score = 0;
 		updateScoreText();
-		hiscoreText.setText("Hi: " + DoubleUpSettings.getHiScore());
-		hiscoreBlockText.setText("Max: " + DoubleUpSettings.getMaxNumber());
+		hiscoreArea.setScore(DoubleUpSettings.getHiScore());
+		hiscoreBlockArea.setScore(DoubleUpSettings.getMaxNumber());
 	}
 
 	private void updateScoreText() {
-		scoreText.setText("Score: " + score);
+		scoreArea.setScore(score);
 	}
 
 	@Override
 	public void draw() {
 		resetButton.draw();
-		scoreText.draw();
-		hiscoreText.draw();
-		hiscoreBlockText.draw();
-
-		//TextureDrawer.draw(Textures.tiles, this);
+		scoreArea.draw();
+		hiscoreArea.draw();
+		hiscoreBlockArea.draw();
 
 		for (Row row : rows) {
 			for (Cell cell : row.getCells()) {
