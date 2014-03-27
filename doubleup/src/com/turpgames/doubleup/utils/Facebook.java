@@ -21,7 +21,7 @@ public class Facebook {
 		return facebook.isLoggedIn();
 	}
 
-	public static void shareScore(final int score, final int max,
+	public static void shareScore(final long score, final long max,
 			final ICallback callback) {
 		if (Facebook.isLoggedIn()) {
 			doShareScore(score, max, callback);
@@ -54,7 +54,7 @@ public class Facebook {
 		});
 	}
 
-	private static void doShareScore(final int score, final int max,
+	private static void doShareScore(final long score, final long max,
 			final ICallback callback) {
 		try {
 			SocialFeed scoreFeed = SocialFeed
@@ -72,7 +72,7 @@ public class Facebook {
 		}
 	}
 
-	private static String prepareScoreMessage(int score, int max) {
+	private static String prepareScoreMessage(long score, long max) {
 		if (max == 0)
 			return String.format("%s just made %d points in Double Up!",
 					getPlayer().getName().split(" ")[0], score);

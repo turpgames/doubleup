@@ -15,7 +15,7 @@ public class DoubleUpLogo extends GameObject {
 		setHeight(scale * h);
 		getLocation().set(
 				Game.getVirtualWidth() / 6f,
-				Game.getVirtualHeight() - getHeight() - 25f
+				Game.getVirtualHeight() - getHeight() - 10f
 				);
 	}
 

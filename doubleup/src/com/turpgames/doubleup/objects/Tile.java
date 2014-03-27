@@ -18,7 +18,7 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 
 	private final Text text;
 	private boolean isActive;
-	private int value;
+	private long value;
 
 	private final static List<TileCommand> commands = new ArrayList<TileCommand>();
 
@@ -37,6 +37,7 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 		text.setAlignment(Text.HAlignCenter, Text.VAlignCenter);
 		text.setSize(Cell.size, Cell.size);
 		text.getColor().set(Color.white());
+		text.setFontScale(4f / Table.matrixSize);
 
 		setWidth(Cell.size);
 		setHeight(Cell.size);
@@ -66,6 +67,7 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 		addEffect = new BreathEffect(this);
 		addEffect.setMinFactor(0.9f);
 		addEffect.setMaxFactor(1.1f);
+		addEffect.setFinalScale(1f);
 		addEffect.setLooping(false);
 		addEffect.setDuration(0.2f);
 
@@ -77,11 +79,11 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 		moveEffect.setListener(moveEffectEndListener);
 	}
 
-	int getValue() {
+	long getValue() {
 		return value;
 	}
 
-	void setValue(int value) {
+	void setValue(long value) {
 		this.value = value;
 		this.isActive = value > 0;
 		this.text.setText(value + "");
@@ -154,8 +156,8 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 		text.draw();
 	}
 
-	private static Color getColor(int value) {
-		switch (value) {
+	private static Color getColor(long value) {
+		switch ((int)value) {
 		case 0:
 			return color0;
 		case 1:

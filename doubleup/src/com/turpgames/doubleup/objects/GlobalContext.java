@@ -7,8 +7,8 @@ public class GlobalContext {
 	
 	public static boolean hasMove;
 	public static int moveScore;
-	public static int max;
-	public static int finalScore;
+	public static long max;
+	public static long finalScore;
 
 	private static int effectCount;
 	

@@ -3,19 +3,19 @@ package com.turpgames.doubleup.utils;
 import com.turpgames.framework.v0.impl.Settings;
 
 public class DoubleUpSettings {
-	public static int getHiScore() {
-		return Settings.getInteger("hi-score", 0);
+	public static long getHiScore() {
+		return Settings.getLong("hi-score", 0);
 	}
 	
-	public static void setHiScore(int hiscore) {
-		Settings.putInteger("hi-score", hiscore);
+	public static void setHiScore(long hiscore) {
+		Settings.putLong("hi-score", hiscore);
 	}	
 	
-	public static int getMaxNumber() {
-		return Settings.getInteger("max-number", 0);
+	public static long getMaxNumber() {
+		return Settings.getLong("max-number", 0);
 	}
 	
-	public static void setMaxNumber(int maxnumber) {
-		Settings.putInteger("max-number", maxnumber);
+	public static void setMaxNumber(long maxnumber) {
+		Settings.putLong("max-number", maxnumber);
 	}
 }

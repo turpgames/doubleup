@@ -47,11 +47,10 @@ public class ResultScreen extends Screen {
 			text += "\n\nNew Hi Score: " + GlobalContext.finalScore;
 		else
 			text += "\n\nYou Scored " + GlobalContext.finalScore;
-		
+
 		if (newMax = GlobalContext.max > DoubleUpSettings.getMaxNumber())
 			text += "\n\nNew Maximum: " + GlobalContext.max;
 
-		
 		resultText.setText(text);
 		saveScores();
 	}
@@ -84,11 +83,11 @@ public class ResultScreen extends Screen {
 	}
 
 	private void saveScores() {
-		int max = DoubleUpSettings.getMaxNumber();
+		long max = DoubleUpSettings.getMaxNumber();
 		if (GlobalContext.max > max)
 			DoubleUpSettings.setMaxNumber(GlobalContext.max);
 
-		int hiscore = DoubleUpSettings.getHiScore();
+		long hiscore = DoubleUpSettings.getHiScore();
 		if (GlobalContext.finalScore > hiscore)
 			DoubleUpSettings.setHiScore(GlobalContext.finalScore);
 	}
@@ -140,7 +139,7 @@ public class ResultScreen extends Screen {
 			return false;
 		}
 	}
-	
+
 	protected boolean onBack() {
 		Game.toHomeScreen();
 		return true;

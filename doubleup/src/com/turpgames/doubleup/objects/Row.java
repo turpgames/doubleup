@@ -8,7 +8,7 @@ class Row {
 	Row(Table table, int rowIndex) {
 		this.table = table;
 		this.rowIndex = rowIndex;
-		this.cells = new Cell[4];
+		this.cells = new Cell[Table.matrixSize];
 
 		for (int i = 0; i < cells.length; i++) {
 			cells[i] = new Cell(table, this, i);
@@ -25,7 +25,7 @@ class Row {
 		return cells[colIndex];
 	}
 
-	public int getCellValue(int colIndex) {
+	public long getCellValue(int colIndex) {
 		return cells[colIndex].getValue();
 	}
 

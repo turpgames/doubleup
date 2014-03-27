@@ -123,12 +123,7 @@
             <texture
                 id="tile"
                 path="img/tile.png" />
-
-            <texture
-                id="tiles"
-                path="img/tiles.png" />
-
-            <texture
+            <texture
                 id="bg"
                 path="img/bg.png" />
 

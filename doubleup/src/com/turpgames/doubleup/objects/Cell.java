@@ -1,7 +1,9 @@
 package com.turpgames.doubleup.objects;
 
 import com.turpgames.framework.v0.impl.GameObject;
+import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
+import com.turpgames.framework.v0.util.TextureDrawer;
 
 class Cell extends GameObject {
 	private final static int matrixSize = Table.matrixSize;
@@ -25,6 +27,7 @@ class Cell extends GameObject {
 		float dy = (Game.getVirtualHeight() - Table.size) / 2;
 		getLocation().set(dx + size * colIndex, dy + size * (matrixSize - 1 - row.rowIndex));
 		getRotation().origin.set(getLocation().x + size / 2, getLocation().y + size / 2);
+		this.getColor().set(Color.fromHex("#f0f0ff20"));
 	}
 
 	public void moveRight() {
@@ -130,7 +133,7 @@ class Cell extends GameObject {
 		add(table.getCell(row.rowIndex + 1, colIndex));
 	}
 
-	int getValue() {
+	long getValue() {
 		return tile == null ? 0 : tile.getValue();
 	}
 
@@ -164,17 +167,8 @@ class Cell extends GameObject {
 
 	@Override
 	public void draw() {
+		TextureDrawer.draw(Textures.tile, this);
 		if (tile != null)
 			tile.draw();
 	}
-
-	// void beginUpdate() {
-	// if (tile != null)
-	// tile.beginUpdate();
-	// }
-	//
-	// void endUpdate() {
-	// if (tile != null)
-	// tile.endUpdate();
-	// }
 }

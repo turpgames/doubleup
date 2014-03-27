@@ -2,31 +2,26 @@ package com.turpgames.doubleup.objects;
 
 import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.R;
-import com.turpgames.framework.v0.impl.GameObject;
+import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.impl.Text;
-import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
-import com.turpgames.framework.v0.util.TextureDrawer;
-import com.turpgames.framework.v0.util.Timer;
 import com.turpgames.utils.Util;
 
-public class Table extends GameObject {
-	public final static int matrixSize = 4;
+public class Table implements IDrawable {
+	public final static int matrixSize = 5;
 	public final static float size = 512f;
 
 	private final Row[] rows;
 
-	private int score;
+	private long score;
 	private Text scoreText;
 	private Text hiscoreText;
 	private Text hiscoreBlockText;
 	private final ResetButton resetButton;
-	
-	private final Timer inputBlockTimer;
 
 	public Table() {
-		this.rows = new Row[4];
+		this.rows = new Row[matrixSize];
 
 		for (int i = 0; i < rows.length; i++) {
 			rows[i] = new Row(this, i);
@@ -35,28 +30,11 @@ public class Table extends GameObject {
 		setRandomCell();
 		setRandomCell();
 
-		// setRandomCell(1);
-		// setRandomCell(2);
-		// setRandomCell(4);
-		// setRandomCell(8);
-		// setRandomCell(16);
-		// setRandomCell(32);
-		// setRandomCell(64);
-		// setRandomCell(128);
-		// setRandomCell(256);
-		// setRandomCell(512);
-		// setRandomCell(1024);
-		// setRandomCell(2048);
-		// setRandomCell(4096);
-		// setRandomCell(8192);
+//		for (int i = 0; i < matrixSize * matrixSize - 2;i ++)
+//			setRandomCell((long)Math.pow(2, i));
 
-		setWidth(size);
-		setHeight(size);
 		float x = (Game.getVirtualWidth() - Table.size) / 2;
 		float y = (Game.getVirtualHeight() - Table.size) / 2;
-		getLocation().set(x, y);
-
-		this.getColor().set(Color.fromHex("#f0f0ff20"));
 
 		resetButton = new ResetButton(this);
 
@@ -77,16 +55,6 @@ public class Table extends GameObject {
 		hiscoreBlockText.setAlignment(Text.HAlignRight, Text.VAlignTop);
 		hiscoreBlockText.setLocation(-x - 4, 35 - y);
 		hiscoreBlockText.setText("Max: " + DoubleUpSettings.getMaxNumber());
-		
-		inputBlockTimer = new Timer();
-		inputBlockTimer.setInterval(0.25f);
-		inputBlockTimer.setTickListener(new Timer.ITimerTickListener() {
-			@Override
-			public void timerTick(Timer timer) {
-				inputBlockTimer.stop();
-				Game.getInputManager().activate();
-			}
-		});
 
 		GlobalContext.table = this;
 	}
@@ -111,7 +79,7 @@ public class Table extends GameObject {
 		setRandomCell(rand(5) == 1 ? 2 : 1);
 	}
 
-	private void setRandomCell(int value) {
+	private void setRandomCell(long value) {
 		Cell cell;
 		do {
 			cell = getCell(rand(matrixSize), rand(matrixSize));
@@ -129,14 +97,11 @@ public class Table extends GameObject {
 		return rows[rowIndex].getCell(colIndex);
 	}
 
-	int getCellValue(int rowIndex, int colIndex) {
+	long getCellValue(int rowIndex, int colIndex) {
 		return getCell(rowIndex, colIndex).getValue();
 	}
 
-	public void move(MoveDirection direction) {
-		Game.getInputManager().deactivate();
-		inputBlockTimer.start();
-		
+	public void move(MoveDirection direction) {		
 		GlobalContext.resetMove();
 
 		switch (direction) {
@@ -308,7 +273,7 @@ public class Table extends GameObject {
 		hiscoreText.draw();
 		hiscoreBlockText.draw();
 
-		TextureDrawer.draw(Textures.tiles, this);
+		//TextureDrawer.draw(Textures.tiles, this);
 
 		for (Row row : rows) {
 			for (Cell cell : row.getCells()) {
