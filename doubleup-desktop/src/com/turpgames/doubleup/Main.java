@@ -2,6 +2,7 @@ package com.turpgames.doubleup;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.turpgames.framework.v0.IAdManager;
 import com.turpgames.framework.v0.IEnvironmentProvider;
 import com.turpgames.framework.v0.impl.libgdx.GdxGame;
 import com.turpgames.framework.v0.social.ICallback;
@@ -92,8 +93,12 @@ public class Main {
 
 			@Override
 			public void toHomeScreen() {
-				// TODO Auto-generated method stub
-				
+
+			}
+
+			@Override
+			public IAdManager createAdManager() {
+				return IAdManager.Null;
 			}
 		});
 

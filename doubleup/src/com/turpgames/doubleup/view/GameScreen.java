@@ -7,6 +7,7 @@ import com.turpgames.doubleup.objects.GlobalContext;
 import com.turpgames.doubleup.objects.MoveDirection;
 import com.turpgames.doubleup.objects.Table;
 import com.turpgames.doubleup.objects.display.DoubleUpToolbar;
+import com.turpgames.doubleup.utils.DoubleUpAds;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.component.Toolbar;
 import com.turpgames.framework.v0.impl.Screen;
@@ -39,24 +40,25 @@ public abstract class GameScreen extends Screen {
 				onBack();
 			}
 		});
-		
+
 		if (tableRequiresInit) {
 			table.init();
-		}else {
+		} else {
 			GlobalContext.reset(table);
 			tableRequiresInit = true;
 		}
 
 		return super.onBeforeActivate();
 	}
-	
+
 	@Override
 	protected void onAfterActivate() {
+		//DoubleUpAds.showAd();
 		table.activate();
 		DoubleUpToolbar.getInstance().enable();
 		super.onAfterActivate();
 	}
-	
+
 	@Override
 	protected boolean onBeforeDeactivate() {
 		table.deactivate();
