@@ -74,8 +74,8 @@ public class Table implements IDrawable {
 		setRandomCell();
 		setRandomCell();
 		
-		for (int i = 0; i < matrixSize * matrixSize - 4;i ++)
-			setRandomCell((int)Math.pow(2, i));
+//		for (int i = 0; i < matrixSize * matrixSize - 4;i ++)
+//			setRandomCell((int)Math.pow(2, i));
 
 		updateScoreText();
 		

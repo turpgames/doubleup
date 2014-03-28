@@ -34,6 +34,7 @@ public abstract class GameScreen extends Screen {
 
 	@Override
 	protected boolean onBeforeActivate() {
+		DoubleUpAds.showAd();
 		DoubleUpToolbar.getInstance().setListener(new Toolbar.IToolbarListener() {
 			@Override
 			public void onToolbarBack() {
@@ -53,7 +54,6 @@ public abstract class GameScreen extends Screen {
 
 	@Override
 	protected void onAfterActivate() {
-		//DoubleUpAds.showAd();
 		table.activate();
 		DoubleUpToolbar.getInstance().enable();
 		super.onAfterActivate();

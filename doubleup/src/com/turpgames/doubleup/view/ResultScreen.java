@@ -3,7 +3,6 @@ package com.turpgames.doubleup.view;
 import com.turpgames.doubleup.objects.Background;
 import com.turpgames.doubleup.objects.GlobalContext;
 import com.turpgames.doubleup.objects.display.DoubleUpToolbar;
-import com.turpgames.doubleup.utils.DoubleUp;
 import com.turpgames.doubleup.utils.DoubleUpAds;
 import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.Facebook;
@@ -43,6 +42,7 @@ public class ResultScreen extends Screen {
 	
 	@Override
 	protected boolean onBeforeActivate() {
+		DoubleUpAds.showAd();
 		DoubleUpToolbar.getInstance().setListener(new Toolbar.IToolbarListener() {
 			@Override
 			public void onToolbarBack() {
@@ -54,7 +54,6 @@ public class ResultScreen extends Screen {
 
 	@Override
 	protected void onAfterActivate() {	
-		//DoubleUpAds.showAd();
 		shareButton.activate();
 		newGameButton.activate();
 		DoubleUpToolbar.getInstance().enable();
@@ -97,7 +96,6 @@ public class ResultScreen extends Screen {
 	}
 
 	private void switchToNewGameScreen() {
-		DoubleUpAds.showNewGameAd();
 		if (GlobalContext.matrixSize == 5)
 			ScreenManager.instance.switchTo("game5x5", false);
 		else

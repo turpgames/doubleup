@@ -16,14 +16,9 @@ public class MenuScreen extends FormScreen {
 	}
 
 	@Override
-	protected void onAfterActivate() {
-		// DoubleUpAds.showAd();
-	}
-
-	@Override
-	protected void onAfterDeactivate() {
-		DoubleUpAds.showMenuToGameAd();
-		super.onAfterDeactivate();
+	protected boolean onBeforeActivate() {
+		DoubleUpAds.showAd();
+		return super.onBeforeActivate();
 	}
 
 	protected boolean onBack() {
