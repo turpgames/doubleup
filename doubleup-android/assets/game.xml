@@ -63,11 +63,11 @@
 
         <param
             key="app-store-address-ios7"
-            value="itms-apps://itunes.apple.com/app/id?????" />
+            value="itms-apps://itunes.apple.com/app/id850225350" />
 
         <param
             key="app-store-address-old"
-            value="itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&amp;id=??????" />
+            value="itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&amp;id=850225350" />
 
         <param
             key="twitter-address"
