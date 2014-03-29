@@ -13,6 +13,7 @@ import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.TextureDrawer;
+import com.turpgames.framework.v0.util.Timer;
 
 class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubject {
 	private final Text text;
@@ -23,6 +24,9 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 	private final TilePopCommand popCommand;
 	private final TileAddCommand addCommand;
 	private final TileMoveCommand moveCommand;
+	
+	private int popValue;
+	private final Timer popEffectDelayTimer;
 
 	private final ScaleUpEffect popEffect;
 	private final BreathEffect addEffect;
@@ -54,6 +58,18 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 		moveCommand.tile = this;
 
 		final float effectDuration = 0.15f;
+		
+		popEffectDelayTimer = new Timer();
+		popEffectDelayTimer.setInterval(effectDuration);
+		popEffectDelayTimer.setTickListener(new Timer.ITimerTickListener() {
+			@Override
+			public void timerTick(Timer timer) {
+				setValue(popValue);
+				popValue = 0;
+				popEffectDelayTimer.stop();
+				popEffect.start();
+			}
+		});
 
 		popEffect = new ScaleUpEffect(this);
 		popEffect.setDuration(effectDuration);
@@ -84,7 +100,7 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 	}
 
 	int getValue() {
-		return value;
+		return popValue > 0 ? popValue : value;
 	}
 
 	void setValue(int value) {
@@ -103,7 +119,8 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 		addCommand(moveCommand);
 	}
 
-	void popInCell(Cell cell) {
+	void popInCell(Cell cell, int value) {
+		popValue = value;
 		popCommand.cell = cell;
 		addCommand(popCommand);
 	}
@@ -124,7 +141,7 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 	}
 
 	public void runPopEffect() {
-		popEffect.start();
+		popEffectDelayTimer.start();
 	}
 
 	public void runAddEffect() {

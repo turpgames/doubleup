@@ -114,8 +114,7 @@ public class Table implements IDrawable {
 		} while (!cell.isEmpty());
 
 		final Tile tile = new Tile();
-		tile.setValue(value);
-		tile.popInCell(cell);
+		tile.popInCell(cell, value);
 
 		cell.setTile(tile);
 		Tile.executeCommands();
@@ -172,6 +171,7 @@ public class Table implements IDrawable {
 			DoubleUpStateManager.saveTableState(this);
 		}
 		else {
+			DoubleUpStateManager.deleteTableState(this);
 			endGame();
 		}
 	}

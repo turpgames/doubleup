@@ -9,8 +9,8 @@ public class DoubleUpStateManager {
 	public static Table loadTable(int matrixSize) {
 		String key = "table" + matrixSize;
 		
-		String data = Settings.getString(key, null);
-		if (data == null)
+		String data = Settings.getString(key, "");
+		if (Util.Strings.isNullOrWhitespace(data))
 			return null;
 
 		byte[] serialized = Util.Strings.fromBase64String(data);
@@ -26,5 +26,10 @@ public class DoubleUpStateManager {
 		byte[] serialized = Util.IO.serialize(state);
 		String data = Util.Strings.toBase64String(serialized);
 		Settings.putString(key, data);
+	}
+
+	public static void deleteTableState(Table table) {
+		String key = "table" + table.getMatrixSize();
+		Settings.putString(key, "");
 	}
 }
