@@ -19,9 +19,9 @@ class Row {
 		state = new RowState();
 	}
 
-	public void reset() {
+	public void empty() {
 		for (int i = 0; i < cells.length; i++) {
-			cells[i].reset();
+			cells[i].empty();
 		}
 	}
 

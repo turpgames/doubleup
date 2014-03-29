@@ -29,7 +29,7 @@ class Cell extends GameObject {
 		getLocation().set(dx + size * colIndex, dy + size * (matrixSize - 1 - row.rowIndex));
 		getRotation().origin.set(getLocation().x + size / 2, getLocation().y + size / 2);
 		this.getColor().set(Color.fromHex("#f0f0ff20"));
-		
+
 		state = new CellState();
 	}
 
@@ -137,7 +137,9 @@ class Cell extends GameObject {
 	}
 
 	int getValue() {
-		return tile == null ? 0 : tile.getValue();
+		if (isEmpty())
+			return 0;
+		return tile.getValue();
 	}
 
 	private void add(Cell toCell) {
@@ -147,7 +149,7 @@ class Cell extends GameObject {
 
 	private void move(Cell toCell) {
 		this.tile.moveToCell(toCell);
-		toCell.tile = this.tile;
+		toCell.setTile(this.tile);
 		this.tile = null;
 	}
 
@@ -162,10 +164,8 @@ class Cell extends GameObject {
 		return tile == null;
 	}
 
-	void reset() {
-		if (tile != null) {
-			tile = null;
-		}
+	void empty() {
+		tile = null;
 	}
 
 	@Override
@@ -178,20 +178,20 @@ class Cell extends GameObject {
 	public Tile getTile() {
 		return tile;
 	}
-	
+
 	public CellState getState() {
-		if (tile != null)
-			state.setTileState(tile.getState());
-		else
+		if (tile == null)
 			state.setTileState(null);
+		else if (tile.getValue() == 0) // pratikte bu if'e girmemesi lazim
+			state.setTileState(null);
+		else
+			state.setTileState(tile.getState());
 		return state;
 	}
 
 	void loadState(CellState cellState) {
-		if (cellState.getTileState() == null)
-			return;
-		
 		tile = Tile.fromState(cellState.getTileState());
-		tile.syncWithCell(this);
+		if (tile != null)
+			tile.fitToCell(this);
 	}
 }

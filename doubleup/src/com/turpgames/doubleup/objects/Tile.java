@@ -24,7 +24,7 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 	private final TilePopCommand popCommand;
 	private final TileAddCommand addCommand;
 	private final TileMoveCommand moveCommand;
-	
+
 	private int popValue;
 	private final Timer popEffectDelayTimer;
 
@@ -58,16 +58,15 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 		moveCommand.tile = this;
 
 		final float effectDuration = 0.15f;
-		
+
 		popEffectDelayTimer = new Timer();
 		popEffectDelayTimer.setInterval(effectDuration);
 		popEffectDelayTimer.setTickListener(new Timer.ITimerTickListener() {
 			@Override
 			public void timerTick(Timer timer) {
-				setValue(popValue);
-				popValue = 0;
 				popEffectDelayTimer.stop();
 				popEffect.start();
+				popValue = 0;
 			}
 		});
 
@@ -100,7 +99,7 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 	}
 
 	int getValue() {
-		return popValue > 0 ? popValue : value;
+		return value;
 	}
 
 	void setValue(int value) {
@@ -142,6 +141,7 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 
 	public void runPopEffect() {
 		popEffectDelayTimer.start();
+		setValue(popValue);
 	}
 
 	public void runAddEffect() {
@@ -155,7 +155,7 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 		moveEffect.start();
 	}
 
-	void syncWithCell(Cell cell) {
+	void fitToCell(Cell cell) {
 		getLocation().set(cell.getLocation());
 		getRotation().set(cell.getRotation());
 		text.setLocation(cell.getLocation());
@@ -169,18 +169,24 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 
 	@Override
 	public void draw() {
-		if (value > 0) {
+		if (value > 0 && popValue == 0) {
 			TextureDrawer.draw(Textures.tile, this);
 			text.draw();
 		}
 	}
 
 	public TileState getState() {
+		if (value == 0) // pratikte bu if'e girmemesi lazim
+			return null;
 		state.setValue(value);
 		return state;
 	}
 
 	public static Tile fromState(TileState tileState) {
+		if (tileState == null)
+			return null;
+		if (tileState.getValue() == 0) // pratikte bu if'e girmemesi lazim
+			return null;
 		Tile tile = new Tile();
 		tile.setValue(tileState.getValue());
 		return tile;
@@ -239,7 +245,7 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 
 		@Override
 		public boolean onEffectEnd(Object obj) {
-			Tile.this.syncWithCell(to);
+			Tile.this.fitToCell(to);
 			return true;
 		}
 	}

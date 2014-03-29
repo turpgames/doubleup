@@ -72,7 +72,7 @@ public class Table implements IDrawable {
 		GlobalContext.reset(this);
 
 		for (int i = 0; i < rows.length; i++) {
-			rows[i].reset();
+			rows[i].empty();
 		}
 
 		setRandomCell();
@@ -81,8 +81,11 @@ public class Table implements IDrawable {
 		// for (int i = 0; i < matrixSize * matrixSize - 4;i ++)
 		// setRandomCell((int)Math.pow(2, i));
 
-		updateScoreText();
+		initScoreTexts();
+	}
 
+	private void initScoreTexts() {
+		updateScoreText();
 		hiscoreArea.setScore(DoubleUpSettings.getHiScore());
 		hiscoreBlockArea.setScore(DoubleUpSettings.getMaxNumber());
 	}
@@ -124,7 +127,7 @@ public class Table implements IDrawable {
 		return rows[rowIndex].getCell(colIndex);
 	}
 
-	long getCellValue(int rowIndex, int colIndex) {
+	int getCellValue(int rowIndex, int colIndex) {
 		return getCell(rowIndex, colIndex).getValue();
 	}
 
@@ -185,6 +188,7 @@ public class Table implements IDrawable {
 				if (cell.getValue() > GlobalContext.max)
 					GlobalContext.max = cell.getValue();
 				cell.getTile().setValue(0);
+				cell.empty();
 			}
 		}
 
@@ -320,6 +324,8 @@ public class Table implements IDrawable {
 
 		for (int i = 0; i < table.rows.length; i++)
 			table.rows[i].loadState(state.getRows()[i]);
+		
+		table.initScoreTexts();
 
 		return table;
 	}
