@@ -7,7 +7,7 @@
 
         <param
             key="debug"
-            value="false" />
+            value="true" />
 
         <param
             key="provider"
@@ -94,6 +94,12 @@
         <param
             key="appflood-banner-size"
             value="middle" />
+
+        <param
+            key="mopub-interstitial-ad-unit-id"
+            value="1fdf446cc1ec40888c810c6e6c86b6cb" />
+        
+        
     </params>
 
     <screens>
