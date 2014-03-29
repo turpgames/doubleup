@@ -5,6 +5,8 @@ class Row {
 	final Table table;
 	final int rowIndex;
 
+	private final RowState state;
+
 	Row(Table table, int rowIndex) {
 		this.table = table;
 		this.rowIndex = rowIndex;
@@ -13,6 +15,8 @@ class Row {
 		for (int i = 0; i < cells.length; i++) {
 			cells[i] = new Cell(table, this, i);
 		}
+
+		state = new RowState();
 	}
 
 	public void reset() {
@@ -31,5 +35,21 @@ class Row {
 
 	public Cell[] getCells() {
 		return cells;
+	}
+
+	public RowState getState() {
+		CellState[] cellStates = new CellState[cells.length];
+		for (int i = 0; i < cells.length; i++)
+			cellStates[i] = cells[i].getState();
+
+		state.setCells(cellStates);
+
+		return state;
+	}
+
+	void loadState(RowState rowState) {
+		for (int i = 0; i < cells.length; i++) {
+			cells[i].loadState(rowState.getCells()[i]);
+		}
 	}
 }

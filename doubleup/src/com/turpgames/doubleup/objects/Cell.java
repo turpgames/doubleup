@@ -15,6 +15,7 @@ class Cell extends GameObject {
 	final Table table;
 
 	private Tile tile;
+	private final CellState state;
 
 	Cell(Table table, Row row, int colIndex) {
 		this.table = table;
@@ -28,6 +29,8 @@ class Cell extends GameObject {
 		getLocation().set(dx + size * colIndex, dy + size * (matrixSize - 1 - row.rowIndex));
 		getRotation().origin.set(getLocation().x + size / 2, getLocation().y + size / 2);
 		this.getColor().set(Color.fromHex("#f0f0ff20"));
+		
+		state = new CellState();
 	}
 
 	public void moveRight() {
@@ -48,10 +51,10 @@ class Cell extends GameObject {
 
 		if (this.colIndex == matrixSize - 1)
 			return;
-		
+
 		if (row.getCellValue(colIndex + 1) != this.getValue())
 			return;
-		
+
 		add(row.getCell(colIndex + 1));
 	}
 
@@ -74,7 +77,7 @@ class Cell extends GameObject {
 
 		if (this.colIndex == 0)
 			return;
-		
+
 		if (row.getCellValue(colIndex - 1) != this.getValue())
 			return;
 
@@ -100,7 +103,7 @@ class Cell extends GameObject {
 
 		if (this.row.rowIndex == 0)
 			return;
-		
+
 		if (table.getCellValue(row.rowIndex - 1, colIndex) != this.getValue())
 			return;
 
@@ -126,7 +129,7 @@ class Cell extends GameObject {
 
 		if (this.row.rowIndex == matrixSize - 1)
 			return;
-		
+
 		if (table.getCellValue(row.rowIndex + 1, colIndex) != this.getValue())
 			return;
 
@@ -147,7 +150,7 @@ class Cell extends GameObject {
 		toCell.tile = this.tile;
 		this.tile = null;
 	}
-	
+
 	void setTile(Tile tile) {
 		if (!this.isEmpty()) {
 			throw new UnsupportedOperationException("Call is not empty!");
@@ -174,5 +177,21 @@ class Cell extends GameObject {
 
 	public Tile getTile() {
 		return tile;
+	}
+	
+	public CellState getState() {
+		if (tile != null)
+			state.setTileState(tile.getState());
+		else
+			state.setTileState(null);
+		return state;
+	}
+
+	void loadState(CellState cellState) {
+		if (cellState.getTileState() == null)
+			return;
+		
+		tile = Tile.fromState(cellState.getTileState());
+		tile.syncWithCell(this);
 	}
 }

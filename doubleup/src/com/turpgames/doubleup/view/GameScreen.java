@@ -8,6 +8,7 @@ import com.turpgames.doubleup.objects.MoveDirection;
 import com.turpgames.doubleup.objects.Table;
 import com.turpgames.doubleup.objects.display.DoubleUpToolbar;
 import com.turpgames.doubleup.utils.DoubleUpAds;
+import com.turpgames.doubleup.utils.DoubleUpStateManager;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.component.Toolbar;
 import com.turpgames.framework.v0.impl.Screen;
@@ -16,13 +17,22 @@ import com.turpgames.framework.v0.util.Game;
 
 public abstract class GameScreen extends Screen {
 	private Table table;
-	private boolean tableRequiresInit = true;
+	private boolean tableRequiresInit;
 
 	@Override
 	public void init() {
 		super.init();
 		GlobalContext.matrixSize = getMatrixSize();
-		table = new Table(getMatrixSize());
+
+		table = DoubleUpStateManager.loadTable(getMatrixSize());
+		if (table == null) {
+			table = new Table(getMatrixSize());
+			tableRequiresInit = true;
+		}
+		else {
+			tableRequiresInit = false;	
+		}
+
 		registerDrawable(table, Game.LAYER_SCREEN);
 		registerDrawable(new DoubleUpLogo(), Game.LAYER_SCREEN);
 		registerDrawable(new Background(), Game.LAYER_BACKGROUND);
