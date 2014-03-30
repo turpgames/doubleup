@@ -169,68 +169,48 @@
                 resource-load="primary" />
 
             <texture
+                id="reset"
+                path="img/reset.png" />
+
+            <texture
                 id="tile"
                 path="img/tile.png" />
+
+            <texture
+                id="fw_close"
+                path="img/framework/close.png"  />
+
+            <texture
+                id="tb_back"
+                path="img/toolbar/back.png" />
+
+            <texture
+                id="tb_sound_off"
+                path="img/toolbar/sound-off.png" />
+
+            <texture
+                id="tb_sound_on"
+                path="img/toolbar/sound-on.png" />
 
             <texture
                 id="main"
                 path="img/textures.png" />
 
             <texture
-                id="fw_close"
-                height="48"
-                region-of="main"
-                width="48"
-                x="300"
-                y="437" />
-
-            <texture
-                id="reset"
-                height="48"
-                region-of="main"
-                width="48"
-                x="250"
-                y="437" />
-
-            <texture
-                id="tb_back"
-                height="48"
-                region-of="main"
-                width="48"
-                x="452"
-                y="115" />
-
-            <texture
                 id="tb_settings"
                 height="48"
                 region-of="main"
                 width="48"
-                x="200"
-                y="437" />
-
-            <texture
-                id="tb_sound_off"
-                height="48"
-                region-of="main"
-                width="48"
-                x="150"
-                y="437" />
-
-            <texture
-                id="tb_sound_on"
-                height="48"
-                region-of="main"
-                width="48"
-                x="100"
-                y="437" />
+                x="96"
+                y="433" />
 
             <texture
                 id="tb_vibration_off"
                 height="48"
                 region-of="main"
                 width="48"
-                x="50"
-                y="437" />
+                x="48"
+                y="433" />
 
             <texture
                 id="tb_vibration_on"
@@ -238,15 +218,15 @@
                 region-of="main"
                 width="48"
                 x="0"
-                y="437" />
+                y="433" />
 
             <texture
                 id="flag_en_us"
                 height="100"
                 region-of="main"
                 width="100"
-                x="350"
-                y="115" />
+                x="320"
+                y="113" />
 
             <texture
                 id="icon"
@@ -254,7 +234,7 @@
                 region-of="main"
                 width="320"
                 x="0"
-                y="115" />
+                y="113" />
 
             <texture
                 id="logo"
