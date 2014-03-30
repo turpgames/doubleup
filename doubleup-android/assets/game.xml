@@ -160,7 +160,7 @@
 
             <font
                 id="Akachen"
-                path="fonts/akachen.fnt" />
+                path="fonts/akachen_1024.fnt" />
         </fonts>
 
         <textures>
@@ -187,24 +187,12 @@
                 path="img/toolbar/back.png" />
 
             <texture
-                id="tb_settings"
-                path="img/toolbar/settings.png" />
-
-            <texture
                 id="tb_sound_off"
                 path="img/toolbar/sound-off.png" />
 
             <texture
                 id="tb_sound_on"
                 path="img/toolbar/sound-on.png" />
-
-            <texture
-                id="tb_vibration_off"
-                path="img/toolbar/vibration-off.png" />
-
-            <texture
-                id="tb_vibration_on"
-                path="img/toolbar/vibration-on.png" />
 
             <texture
                 id="flag_en_us"

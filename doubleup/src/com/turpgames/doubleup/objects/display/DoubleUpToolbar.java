@@ -3,12 +3,21 @@ package com.turpgames.doubleup.objects.display;
 import com.turpgames.doubleup.objects.AudioButton;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.component.Button;
+import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.ImageButton;
 import com.turpgames.framework.v0.component.ToggleButton;
 import com.turpgames.framework.v0.component.Toolbar;
+import com.turpgames.framework.v0.component.Toolbar.IToolbarListener;
+import com.turpgames.framework.v0.impl.GameObject;
+import com.turpgames.framework.v0.util.Game;
 
-public class DoubleUpToolbar extends Toolbar {
+public class DoubleUpToolbar extends GameObject {
 
+	protected ImageButton backButton;
+	protected ToggleButton soundButton;
+	
+	private IToolbarListener listener;
+	
 	private static DoubleUpToolbar instance;
 
 	public static DoubleUpToolbar getInstance() {
@@ -18,9 +27,23 @@ public class DoubleUpToolbar extends Toolbar {
 	}
 
 	private DoubleUpToolbar() {
-
+		addBackButton();
+		addSoundButton();
+		listenInput(true);
 	}
 
+	public void setListener(IToolbarListener listener) {
+		this.listener = listener;
+	}
+
+	public void activateBackButton() {
+		backButton.activate();
+	}
+
+	public void deactivateBackButton() {
+		backButton.deactivate();
+	}
+	
 	public void disable() {
 		soundButton.deactivate();
 		backButton.deactivate();
@@ -35,34 +58,33 @@ public class DoubleUpToolbar extends Toolbar {
 		return backButton;
 	}
 
-	@Override
-	protected void concreteAddBackButton() {
+	protected void addBackButton() {
 		backButton = new ImageButton(R.sizes.menuButtonSizeToScreen, R.sizes.menuButtonSizeToScreen, R.game.textures.toolbar.back, R.colors.buttonDefault, R.colors.buttonDefault);
 		backButton.setLocation(Button.AlignNW, R.sizes.toolbarMargin, R.sizes.toolbarMargin);
+		backButton.deactivate();
+		backButton.setListener(new IButtonListener() {
+			@Override
+			public void onButtonTapped() {
+				if (listener != null)
+					listener.onToolbarBack();
+			}
+		});
 	}
 
-	@Override
-	protected void concreteAddSettingsButton() {
-		settingsButton = new ImageButton(R.sizes.menuButtonSizeToScreen, R.sizes.menuButtonSizeToScreen, R.game.textures.toolbar.settings, R.colors.buttonDefault, R.colors.buttonTouched);
-		settingsButton.setLocation(Button.AlignNE,R.sizes. toolbarMargin, R.sizes.toolbarMargin);
-	}
-
-	@Override
-	protected void concreteAddSoundButton() {
+	protected void addSoundButton() {
 		soundButton = new AudioButton();
 		soundButton.setLocation(Button.AlignNE, R.sizes.toolbarMargin, R.sizes.toolbarMargin);
-	}
-
-	@Override
-	protected void concreteAddVibrationButton() {
-		vibrationButton = new ToggleButton(R.sizes.menuButtonSizeToScreen, R.sizes.menuButtonSizeToScreen, R.settings.vibration, R.game.textures.toolbar.vibrationOn, 
-				R.game.textures.toolbar.vibrationOff, R.colors.ichiguCyan, R.colors.ichiguWhite);
-		vibrationButton.setLocation(Button.AlignNE, 2 * R.sizes.menuButtonSizeToScreen + 3 * R.sizes.menuButtonSpacing + R.sizes.toolbarMargin, R.sizes.toolbarMargin);	
+		soundButton.deactivate();
 	}
 	
 	@Override
 	public void draw() {
 		soundButton.draw();
 		backButton.draw();
+	}
+
+	@Override
+	public boolean ignoreViewport() {
+		return true;
 	}
 }
