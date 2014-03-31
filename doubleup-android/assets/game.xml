@@ -197,52 +197,20 @@
                 path="img/textures.png" />
 
             <texture
-                id="tb_settings"
-                height="48"
-                region-of="main"
-                width="48"
-                x="96"
-                y="433" />
-
-            <texture
-                id="tb_vibration_off"
-                height="48"
-                region-of="main"
-                width="48"
-                x="48"
-                y="433" />
-
-            <texture
-                id="tb_vibration_on"
-                height="48"
-                region-of="main"
-                width="48"
-                x="0"
-                y="433" />
-
-            <texture
-                id="flag_en_us"
-                height="100"
-                region-of="main"
-                width="100"
-                x="320"
-                y="113" />
-
-            <texture
                 id="icon"
                 height="320"
                 region-of="main"
                 width="320"
-                x="0"
-                y="113" />
+                x="2"
+                y="114" />
 
             <texture
                 id="logo"
-                height="113"
+                height="110"
                 region-of="main"
-                width="512"
-                x="0"
-                y="0" />
+                width="500"
+                x="2"
+                y="2" />
         </textures>
 
         <sounds>

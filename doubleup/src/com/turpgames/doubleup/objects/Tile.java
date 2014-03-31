@@ -71,7 +71,7 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 		});
 
 		popEffect = new ScaleUpEffect(this);
-		popEffect.setDuration(effectDuration);
+		popEffect.setDuration(effectDuration * 1.5f);
 		popEffect.setLooping(false);
 		popEffect.setMaxScale(1.0f);
 		popEffect.setMinScale(0.2f);
@@ -88,7 +88,7 @@ class Tile extends GameObject implements IMovingEffectSubject, IScaleEffectSubje
 		addEffect.setMaxFactor(1.1f);
 		addEffect.setFinalScale(1f);
 		addEffect.setLooping(false);
-		addEffect.setDuration(effectDuration);
+		addEffect.setDuration(effectDuration * 1.5f);
 
 		moveEffectEndListener = new MoveEffectEndListener();
 

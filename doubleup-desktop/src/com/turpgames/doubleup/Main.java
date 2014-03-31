@@ -19,7 +19,7 @@ public class Main {
 		cfg.title = "Double Up";
 		cfg.useGL20 = true;
 
-		float w = 10f;
+		float w = 10.6f;
 		float h = 16f;
 		float x = 40;
 
