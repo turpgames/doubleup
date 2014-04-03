@@ -18,7 +18,7 @@ public abstract class GridMover implements IGridMover {
 		if (targetCell == null)
 			return;
 		
-		GlobalContext.hasMove = true;
+		GlobalContext.didMove = true;
 
 		Tile tile = cell.getTile();
 		cell.setTileAsTemp();
@@ -30,11 +30,12 @@ public abstract class GridMover implements IGridMover {
 		}
 		else if (targetCell.getValue() == tile.getValue()) {
 			targetCell.getTile().setUsed(true);
+			targetCell.getTile().setValue(targetCell.getValue() * 2);
 
 			tile.runMoveEffect(targetCell, cell, true);
-			
-			DoubleUpAudio.playScoreSound(targetCell.getValue() * 2);
-			GlobalContext.moveScore += targetCell.getValue() * 2;
+
+			DoubleUpAudio.playScoreSound(targetCell.getValue());
+			GlobalContext.moveScore += targetCell.getValue();
 		}
 		else {
 			throw new UnsupportedOperationException("Cannot move or add to target cell!");

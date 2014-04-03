@@ -13,18 +13,20 @@ import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.util.Game;
 
 public abstract class GameScreen extends Screen implements IDoubleUpView {
-	private GridController grid;
+	private GridController controller;
 
 	@Override
 	public void init() {
 		super.init();
 
-		grid = new DoubleUp2048Controller(this, getMatrixSize());
+		controller = new DoubleUp2048Controller(this, getMatrixSize());
 		
 		registerDrawable(new DoubleUpLogo(), Game.LAYER_SCREEN);
 		registerDrawable(new Background(), Game.LAYER_BACKGROUND);
 
 		registerDrawable(DoubleUpToolbar.getInstance(), Game.LAYER_INFO);
+		
+		registerInputListener(this);
 	}
 
 	protected abstract int getMatrixSize();
@@ -39,21 +41,19 @@ public abstract class GameScreen extends Screen implements IDoubleUpView {
 			}
 		});
 
-		grid.init();
+		controller.init();
 
 		return super.onBeforeActivate();
 	}
 
 	@Override
 	protected void onAfterActivate() {
-		grid.activate();
 		DoubleUpToolbar.getInstance().enable();
 		super.onAfterActivate();
 	}
 
 	@Override
 	protected boolean onBeforeDeactivate() {
-		grid.deactivate();
 		DoubleUpToolbar.getInstance().disable();
 		return super.onBeforeDeactivate();
 	}

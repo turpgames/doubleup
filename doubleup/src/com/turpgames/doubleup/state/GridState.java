@@ -4,16 +4,16 @@ import java.io.Serializable;
 
 public class GridState implements Serializable {
 	private static final long serialVersionUID = -7190257567355292842L;
-	
-	private int matrixSize;
+
+	private int score;
 	private RowState[] rows;
 
-	public int getMatrixSize() {
-		return matrixSize;
+	public int getScore() {
+		return score;
 	}
 
-	public void setMatrixSize(int matrixSize) {
-		this.matrixSize = matrixSize;
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 	public RowState[] getRows() {

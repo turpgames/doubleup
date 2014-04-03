@@ -109,5 +109,6 @@ public class Cell extends GameObject {
 		tile.loadState(state.getTileState());
 		tile.fitToCell(this);
 		tile.updateView();
+		tile.runPopEffect();
 	}
 }

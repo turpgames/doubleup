@@ -4,16 +4,13 @@ import com.badlogic.gdx.Input.Keys;
 import com.turpgames.doubleup.components.ResetButton;
 import com.turpgames.doubleup.entities.Cell;
 import com.turpgames.doubleup.entities.Grid;
-import com.turpgames.doubleup.utils.DoubleUpAudio;
-import com.turpgames.doubleup.utils.GlobalContext;
 import com.turpgames.doubleup.view.IDoubleUpView;
 import com.turpgames.framework.v0.IInputListener;
-import com.turpgames.framework.v0.IView;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.Vector;
 import com.turpgames.utils.Util;
 
-public abstract class GridController implements IView, IInputListener {
+public abstract class GridController implements IInputListener {
 	protected final Grid grid;
 	protected final IDoubleUpView view;
 	protected final ResetButton resetButton;
@@ -22,10 +19,16 @@ public abstract class GridController implements IView, IInputListener {
 		this.view = view;
 		this.grid = new Grid();
 		this.resetButton = new ResetButton(this);
+
+		view.registerDrawable(grid, Game.LAYER_GAME);
+		view.registerDrawable(resetButton, Game.LAYER_GAME);
+		view.registerInputListener(resetButton);
+		view.registerInputListener(this);
 	}
 
 	public void reset() {
 		grid.reset();
+		init();
 	}
 
 	public abstract void init();
@@ -47,16 +50,17 @@ public abstract class GridController implements IView, IInputListener {
 	}
 
 	protected void putRandom() {
+		putRandom(Util.Random.randInt(5) == 0 ? 2 : 1);
+	}
+
+	protected void putRandom(int value) {
 		Cell cell;
 
 		do {
 			cell = grid.getCell(rand(), rand());
 		} while (!cell.isEmpty());
 
-		grid.putTile(
-				cell.getRow().getRowIndex(),
-				cell.getColIndex(),
-				Util.Random.randInt(5) == 0 ? 2 : 1);
+		grid.putTile(cell.getRow().getRowIndex(), cell.getColIndex(), value);
 	}
 
 	private void moveDown() {
@@ -83,57 +87,9 @@ public abstract class GridController implements IView, IInputListener {
 		afterMove();
 	}
 
-	protected void beforeMove() {
-		GlobalContext.hasMove = false;
-		GlobalContext.moveScore = 0;
-	}
+	protected abstract void beforeMove();
 
-	protected void afterMove() {
-		if (!GlobalContext.hasMove) {
-			DoubleUpAudio.playNoMoveSound();
-			return;
-		}
-
-		if (GlobalContext.moveScore > 0) {
-			// TODO:
-		} else {
-			DoubleUpAudio.playNoScoreSound();
-		}
-
-		putRandom();
-
-		if (grid.hasMove()) {
-			// TODO:
-		} else {
-			onGameOver();
-		}
-	}
-
-	protected void onGameOver() {
-		// TODO:
-	}
-
-	@Override
-	public void activate() {
-		view.registerDrawable(grid, Game.LAYER_GAME);
-		view.registerDrawable(resetButton, Game.LAYER_GAME);
-		view.registerInputListener(resetButton);
-		view.registerInputListener(this);
-	}
-
-	@Override
-	public boolean deactivate() {
-		view.unregisterDrawable(grid);
-		view.unregisterDrawable(resetButton);
-		view.unregisterInputListener(resetButton);
-		view.unregisterInputListener(this);
-		return true;
-	}
-
-	@Override
-	public void draw() {
-
-	}
+	protected abstract void afterMove();
 
 	@Override
 	public boolean keyDown(int keycode) {

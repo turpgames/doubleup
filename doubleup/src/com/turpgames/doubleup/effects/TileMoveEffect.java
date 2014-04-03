@@ -60,7 +60,6 @@ public class TileMoveEffect implements ITileEffect {
 			tile.setValue(0);
 			fromCell.removeTempTile();
 			
-			toTile.setValue(toTile.getValue() * 2);
 			toTile.updateView();
 			toTile.runAddEffect();
 		}
