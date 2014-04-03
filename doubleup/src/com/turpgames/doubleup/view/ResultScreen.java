@@ -1,11 +1,11 @@
 package com.turpgames.doubleup.view;
 
-import com.turpgames.doubleup.objects.Background;
-import com.turpgames.doubleup.objects.GlobalContext;
-import com.turpgames.doubleup.objects.display.DoubleUpToolbar;
+import com.turpgames.doubleup.components.Background;
+import com.turpgames.doubleup.components.DoubleUpToolbar;
 import com.turpgames.doubleup.utils.DoubleUpAds;
 import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.Facebook;
+import com.turpgames.doubleup.utils.GlobalContext;
 import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.TextButton;
 import com.turpgames.framework.v0.component.Toolbar;
@@ -58,18 +58,22 @@ public class ResultScreen extends Screen {
 		newGameButton.activate();
 		DoubleUpToolbar.getInstance().enable();
 
-		String text = "Game Over!";
+		String text = "";
+		
+		if (GlobalContext.hasNewHiScore || GlobalContext.hasNewMaxNumber)
+			text = "Congratulations!";
+		else
+			text = "Game Over!";
 
-		if (GlobalContext.finalScore > DoubleUpSettings.getHiScore())
+		if (GlobalContext.hasNewHiScore)
 			text += "\n\nNew Hi Score: " + GlobalContext.finalScore;
 		else
 			text += "\n\nYou Scored " + GlobalContext.finalScore;
 
-		if (newMax = GlobalContext.max > DoubleUpSettings.getMaxNumber())
-			text += "\n\nNew Maximum: " + GlobalContext.max;
+		if (GlobalContext.hasNewMaxNumber)
+			text += "\n\nNew Maximum: " + DoubleUpSettings.getMaxNumber();
 
 		resultText.setText(text);
-		saveScores();
 	}
 
 	@Override
@@ -100,16 +104,6 @@ public class ResultScreen extends Screen {
 			ScreenManager.instance.switchTo("game5x5", false);
 		else
 			ScreenManager.instance.switchTo("game4x4", false);
-	}
-
-	private void saveScores() {
-		long max = DoubleUpSettings.getMaxNumber();
-		if (GlobalContext.max > max)
-			DoubleUpSettings.setMaxNumber(GlobalContext.max);
-
-		long hiscore = DoubleUpSettings.getHiScore();
-		if (GlobalContext.finalScore > hiscore)
-			DoubleUpSettings.setHiScore(GlobalContext.finalScore);
 	}
 
 	private class ResultText extends Text {

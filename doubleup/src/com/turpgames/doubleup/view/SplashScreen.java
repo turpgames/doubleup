@@ -1,6 +1,6 @@
 package com.turpgames.doubleup.view;
 
-import com.turpgames.doubleup.objects.TurpLogo;
+import com.turpgames.doubleup.components.TurpLogo;
 import com.turpgames.doubleup.updates.DoubleUpUpdateManager;
 import com.turpgames.doubleup.utils.ConnectionManager;
 import com.turpgames.doubleup.utils.R;
