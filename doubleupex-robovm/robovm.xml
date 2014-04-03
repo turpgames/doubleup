@@ -1,36 +1,55 @@
 <config>
-  <executableName>${app.executable}</executableName>
-  <mainClass>${app.mainclass}</mainClass>
-  <os>ios</os>
-  <arch>thumbv7</arch>
-  <target>ios</target>
-  <iosInfoPList>Info.plist.xml</iosInfoPList>
-  <resources>
-    <resource>
-      <directory>../doubleupex-android/assets</directory>
-      <includes>
-        <include>**</include>
-      </includes>
-      <skipPngCrush>true</skipPngCrush>
-    </resource>
-    <resource>
-        <directory>data</directory>
-    </resource>
-  </resources>
-  <forceLinkClasses>
-    <pattern>com.badlogic.gdx.scenes.scene2d.ui.*</pattern>
-  </forceLinkClasses>  
-  <libs>
-    <lib>libs/ios/libgdx.a</lib>
-    <lib>libs/ios/libObjectAL.a</lib>
-  </libs>
-  <frameworks>
-    <framework>UIKit</framework>
-    <framework>OpenGLES</framework>
-    <framework>QuartzCore</framework>
-    <framework>CoreGraphics</framework>
-    <framework>OpenAL</framework>
-    <framework>AudioToolbox</framework>
-    <framework>AVFoundation</framework>
-  </frameworks>
+	<executableName>${app.executable}</executableName>
+	<mainClass>${app.mainclass}</mainClass>
+	<os>ios</os>
+	<arch>thumbv7</arch>
+	<target>ios</target>
+	<iosInfoPList>Info.plist.xml</iosInfoPList>
+	<resources>
+		<resource>
+			<directory>../doubleupex-android/assets</directory>
+			<includes>
+				<include>**</include>
+			</includes>
+			<skipPngCrush>true</skipPngCrush>
+		</resource>
+		<resource>
+			<directory>data</directory>
+		</resource>
+		<!--<resource> <directory>mopub</directory> <skipPngCrush>true</skipPngCrush> 
+			</resource> -->
+	</resources>
+	<forceLinkClasses>
+		<pattern>com.badlogic.gdx.scenes.scene2d.ui.*</pattern>
+		<pattern>com.turpgames.framework.v0.impl.libgdx.GdxGameProvider</pattern>
+		<pattern>com.turpgames.doubleup.view.*</pattern>
+		<pattern>com.turpgames.doubleupex.view.*</pattern>
+		<pattern>org.apache.harmony.xnet.provider.jsse.*</pattern>
+		<pattern>org.apache.harmony.security.provider.cert.*</pattern>
+		<pattern>org.apache.harmony.security.provider.crypto.*</pattern>
+		<pattern>com.android.org.bouncycastle.jce.provider.*</pattern>
+	</forceLinkClasses>
+	<libs>
+		<lib>libs/ios/libgdx.a</lib>
+		<lib>libs/ios/libObjectAL.a</lib>
+		<lib>libs/ios/libarclite.a</lib>
+		<lib>libs/ios/libfacebook.a</lib>
+		<!--<lib>libs/ios/libmopub.a</lib> -->
+	</libs>
+	<frameworks>
+		<framework>UIKit</framework>
+		<framework>OpenGLES</framework>
+		<framework>QuartzCore</framework>
+		<framework>CoreGraphics</framework>
+		<framework>OpenAL</framework>
+		<framework>AudioToolbox</framework>
+		<framework>AVFoundation</framework>
+		<!-- mopub frameworks <framework>AddressBook</framework> <framework>AddressBookUI</framework> 
+			<framework>CoreLocation</framework> <framework>CoreMedia</framework> <framework>CoreTelephony</framework> 
+			<framework>EventKit</framework> <framework>EventKitUI</framework> <framework>iAd</framework> 
+			<framework>MediaPlayer</framework> <framework>MessageUI</framework> <framework>MobileCoreServices</framework> 
+			<framework>Security</framework> <framework>SystemConfiguration</framework> -->
+	</frameworks>
+	<!--<weakFrameworks> mopub frameworks <framework>AdSupport</framework> <framework>Social</framework> 
+		<framework>StoreKit</framework> <framework>Twitter</framework> </weakFrameworks> -->
 </config>

@@ -21,7 +21,7 @@ import com.turpgames.framework.v0.impl.libgdx.GdxGame;
 import com.turpgames.framework.v0.util.Game;
 
 public class MainActivity extends AndroidApplication {
-	private IAndroidLifecycleListener lifecycleListener;
+//	private IAndroidLifecycleListener lifecycleListener;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,8 +39,8 @@ public class MainActivity extends AndroidApplication {
 
 		Game.setEnvironmentProvider(prov);
 
-		lifecycleListener = prov.getLifecycleListener();
-		lifecycleListener.onCreate(savedInstanceState);
+//		lifecycleListener = prov.getLifecycleListener();
+//		lifecycleListener.onCreate(savedInstanceState);
 
 		initialize(new GdxGame(), cfg);
 	}
@@ -63,34 +63,34 @@ public class MainActivity extends AndroidApplication {
 		}
 	}
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		lifecycleListener.onActivityResult(requestCode, resultCode, data);
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		lifecycleListener.onSaveInstanceState(outState);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		lifecycleListener.onResume();
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		lifecycleListener.onPause();
-	}
+//	@Override
+//	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		super.onActivityResult(requestCode, resultCode, data);
+//		lifecycleListener.onActivityResult(requestCode, resultCode, data);
+//	}
+//
+//	@Override
+//	protected void onSaveInstanceState(Bundle outState) {
+//		super.onSaveInstanceState(outState);
+//		lifecycleListener.onSaveInstanceState(outState);
+//	}
+//
+//	@Override
+//	protected void onResume() {
+//		super.onResume();
+//		lifecycleListener.onResume();
+//	}
+//
+//	@Override
+//	protected void onPause() {
+//		super.onPause();
+//		lifecycleListener.onPause();
+//	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		lifecycleListener.onDestroy();
+//		lifecycleListener.onDestroy();
 		System.exit(0);
 	}
 }

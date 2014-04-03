@@ -79,7 +79,7 @@
 
         <param
             key="enable-ads"
-            value="true" />
+            value="false" />
 
         <param
             key="appflood-appkey"
@@ -104,11 +104,11 @@
 
         <screen
             id="splash"
-            class="com.turpgames.doubleupex.view.SplashScreen" />
+            class="com.turpgames.doubleup.view.SplashScreen" />
 
         <screen
             id="menu"
-            class="com.turpgames.doubleupex.view.MenuScreen" />
+            class="com.turpgames.doubleup.view.MenuScreen" />
 
         <screen
             id="game"
@@ -124,7 +124,7 @@
         <form id="mainMenu" >
 
             <button
-                id="btn4x4"
+                id="btnPlay"
                 action="screen=game"
                 text="Play"
                 y="16" />

@@ -1,10 +1,8 @@
 package com.turpgames.doubleupex.view;
 
-import com.turpgames.doubleupex.objects.Background;
-import com.turpgames.doubleupex.objects.GlobalContext;
-import com.turpgames.doubleupex.objects.display.DoubleUpToolbar;
-import com.turpgames.doubleupex.utils.DoubleUpAds;
-import com.turpgames.doubleupex.utils.DoubleUpSettings;
+import com.turpgames.doubleup.components.Background;
+import com.turpgames.doubleup.components.DoubleUpToolbar;
+import com.turpgames.doubleup.utils.DoubleUpAds;
 import com.turpgames.doubleupex.utils.Facebook;
 import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.TextButton;
@@ -20,8 +18,6 @@ public class ResultScreen extends Screen {
 	private ResultText resultText;
 	private ShareButton shareButton;
 	private NewGameButton newGameButton;
-
-	private boolean newMax;
 
 	@Override
 	public void init() {
@@ -39,38 +35,26 @@ public class ResultScreen extends Screen {
 
 		super.registerDrawable(DoubleUpToolbar.getInstance(), Game.LAYER_INFO);
 	}
-
+	
 	@Override
 	protected boolean onBeforeActivate() {
 		DoubleUpAds.showAd();
-		DoubleUpToolbar.getInstance().setListener(
-				new Toolbar.IToolbarListener() {
-					@Override
-					public void onToolbarBack() {
-						onBack();
-					}
-				});
+		DoubleUpToolbar.getInstance().setListener(new Toolbar.IToolbarListener() {
+			@Override
+			public void onToolbarBack() {
+				onBack();
+			}
+		});
 		return true;
 	}
 
 	@Override
-	protected void onAfterActivate() {
+	protected void onAfterActivate() {	
 		shareButton.activate();
 		newGameButton.activate();
 		DoubleUpToolbar.getInstance().enable();
 
-		String text = "Game Over!";
-
-		if (GlobalContext.finalScore > DoubleUpSettings.getHiScore())
-			text += "\n\nNew Hi Score: " + GlobalContext.finalScore;
-		else
-			text += "\n\nYou Scored " + GlobalContext.finalScore;
-
-		if (newMax = GlobalContext.max > DoubleUpSettings.getMaxNumber())
-			text += "\n\nNew Maximum: " + GlobalContext.max;
-
-		resultText.setText(text);
-		saveScores();
+		resultText.setText("Game Over!");
 	}
 
 	@Override
@@ -82,8 +66,7 @@ public class ResultScreen extends Screen {
 	}
 
 	private void shareScoreOnFacebook() {
-		Facebook.shareScore(GlobalContext.finalScore,
-				newMax ? DoubleUpSettings.getMaxNumber() : 0, new ICallback() {
+		Facebook.shareScore(1, 1, new ICallback() {
 					@Override
 					public void onSuccess() {
 
@@ -97,17 +80,7 @@ public class ResultScreen extends Screen {
 	}
 
 	private void switchToNewGameScreen() {
-		ScreenManager.instance.switchTo("game", false);
-	}
-
-	private void saveScores() {
-		long max = DoubleUpSettings.getMaxNumber();
-		if (GlobalContext.max > max)
-			DoubleUpSettings.setMaxNumber(GlobalContext.max);
-
-		long hiscore = DoubleUpSettings.getHiScore();
-		if (GlobalContext.finalScore > hiscore)
-			DoubleUpSettings.setHiScore(GlobalContext.finalScore);
+		ScreenManager.instance.switchTo("game", true);
 	}
 
 	private class ResultText extends Text {

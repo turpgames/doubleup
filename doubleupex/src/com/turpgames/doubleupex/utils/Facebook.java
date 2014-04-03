@@ -1,6 +1,5 @@
 package com.turpgames.doubleupex.utils;
 
-import com.turpgames.doubleupex.objects.GlobalContext;
 import com.turpgames.framework.v0.social.ICallback;
 import com.turpgames.framework.v0.social.ISocializer;
 import com.turpgames.framework.v0.social.Player;
@@ -22,15 +21,14 @@ public class Facebook {
 		return facebook.isLoggedIn();
 	}
 
-	public static void shareScore(final long score, final long max,
-			final ICallback callback) {
+	public static void shareScore(final int mode, final int level, final ICallback callback) {
 		if (Facebook.isLoggedIn()) {
-			doShareScore(score, max, callback);
+			doShareScore(mode, level, callback);
 		} else {
 			Facebook.login(new ICallback() {
 				@Override
 				public void onSuccess() {
-					doShareScore(score, max, callback);
+					doShareScore(mode, level, callback);
 				}
 
 				@Override
@@ -55,17 +53,16 @@ public class Facebook {
 		});
 	}
 
-	private static void doShareScore(final long score, final long max,
-			final ICallback callback) {
+	private static void doShareScore(int mode, int level, final ICallback callback) {
 		try {
 			SocialFeed scoreFeed = SocialFeed
 					.newBuilder()
-					.setTitle(prepareScoreMessage(score, max))
+					.setTitle(prepareMessage(mode, level))
 					.setSubtitle("turpgames")
 					.setMessage("Double Up")
-					.setHref("http://www.turpgames.com/doubleupredirect.html")
+					.setHref("http://www.turpgames.com/doubleupexredirect.html")
 					.setImageUrl(
-							"http://www.turpgames.com/res/img/doubleup_logo.png")
+							"http://www.turpgames.com/res/img/doubleupex_logo.png")
 					.build();
 			facebook.postFeed(scoreFeed, callback);
 		} catch (Throwable t) {
@@ -73,13 +70,8 @@ public class Facebook {
 		}
 	}
 
-	private static String prepareScoreMessage(long score, long max) {
-		String mode = GlobalContext.matrixSize == 5 ? "5x5" : "4x4";
-		if (max == 0)
-			return String.format("%s just made %d points in Double Up %s mode!",
-					getPlayer().getName().split(" ")[0], score, mode);
-		return String.format(
-				"%s just reached a new max number %d with %d points in Double Up %s mode!",
-				getPlayer().getName().split(" ")[0], max, score, mode);
+	private static String prepareMessage(int mode, int level) {
+		return String.format("%s has just completed level %d of %d mode in Double Up Ex!",
+				getPlayer().getName().split(" ")[0], level, mode);
 	}
 }

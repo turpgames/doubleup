@@ -1,44 +1,46 @@
 package com.turpgames.doubleupex.view;
 
-import com.turpgames.doubleupex.objects.Background;
-import com.turpgames.doubleupex.objects.DoubleUpLogo;
-import com.turpgames.doubleupex.objects.display.DoubleUpToolbar;
-import com.turpgames.doubleupex.objects2.GridController;
-import com.turpgames.doubleupex.utils.DoubleUpAds;
-import com.turpgames.doubleupex.utils.R;
+import com.turpgames.doubleup.components.Background;
+import com.turpgames.doubleup.components.DoubleUpLogo;
+import com.turpgames.doubleup.components.DoubleUpToolbar;
+import com.turpgames.doubleup.controllers.GridController;
+import com.turpgames.doubleup.utils.DoubleUpAds;
+import com.turpgames.doubleup.utils.R;
+import com.turpgames.doubleup.view.IDoubleUpView;
+import com.turpgames.doubleupex.controllers.mode1.Level1;
 import com.turpgames.framework.v0.component.Toolbar;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.util.Game;
 
-public class GameScreen extends Screen {
-	private GridController mode;
+public class GameScreen extends Screen implements IDoubleUpView {
+	private GridController controller;
 
 	@Override
 	public void init() {
 		super.init();
 
-		mode = new GridController(this);
-
+		controller = new Level1(this);
+		
 		registerDrawable(new DoubleUpLogo(), Game.LAYER_SCREEN);
 		registerDrawable(new Background(), Game.LAYER_BACKGROUND);
 
 		registerDrawable(DoubleUpToolbar.getInstance(), Game.LAYER_INFO);
+		
+		registerInputListener(this);
 	}
 
 	@Override
 	protected boolean onBeforeActivate() {
 		DoubleUpAds.showAd();
-		DoubleUpToolbar.getInstance().setListener(
-				new Toolbar.IToolbarListener() {
-					@Override
-					public void onToolbarBack() {
-						onBack();
-					}
-				});
+		DoubleUpToolbar.getInstance().setListener(new Toolbar.IToolbarListener() {
+			@Override
+			public void onToolbarBack() {
+				onBack();
+			}
+		});
 
-		mode.init();
-		mode.activate();
+		controller.init();
 
 		return super.onBeforeActivate();
 	}
@@ -46,14 +48,12 @@ public class GameScreen extends Screen {
 	@Override
 	protected void onAfterActivate() {
 		DoubleUpToolbar.getInstance().enable();
-		mode.activate();
 		super.onAfterActivate();
 	}
 
 	@Override
 	protected boolean onBeforeDeactivate() {
 		DoubleUpToolbar.getInstance().disable();
-		mode.deactivate();
 		return super.onBeforeDeactivate();
 	}
 

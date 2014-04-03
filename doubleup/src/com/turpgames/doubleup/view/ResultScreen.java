@@ -21,8 +21,6 @@ public class ResultScreen extends Screen {
 	private ShareButton shareButton;
 	private NewGameButton newGameButton;
 
-	private boolean newMax;
-
 	@Override
 	public void init() {
 		super.init();
@@ -86,7 +84,7 @@ public class ResultScreen extends Screen {
 
 	private void shareScoreOnFacebook() {
 		Facebook.shareScore(GlobalContext.finalScore,
-				newMax ? DoubleUpSettings.getMaxNumber() : 0, new ICallback() {
+				GlobalContext.hasNewMaxNumber ? DoubleUpSettings.getMaxNumber() : 0, new ICallback() {
 					@Override
 					public void onSuccess() {
 
