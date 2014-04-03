@@ -123,13 +123,13 @@ public class DoubleUp2048Controller extends GridController {
 	}
 
 	private void onGameOver() {
+		DoubleUpAudio.playGameOverSound();
 		DoubleUpStateManager.deleteGridState(getGridStateKey());
 
 		GlobalContext.finalScore = this.score;
-
-		DoubleUpAudio.playGameOverSound();
-
+		this.score = 0;
 		grid.reset();
+		updateScoreTexts();
 
 		ScreenManager.instance.switchTo(R.screens.result, false);
 	}
