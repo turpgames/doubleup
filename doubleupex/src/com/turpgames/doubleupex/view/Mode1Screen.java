@@ -13,7 +13,7 @@ import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.util.Game;
 
-public class GameScreen extends Screen implements IDoubleUpView {
+public class Mode1Screen extends Screen implements IDoubleUpView {
 	private GridController controller;
 
 	@Override

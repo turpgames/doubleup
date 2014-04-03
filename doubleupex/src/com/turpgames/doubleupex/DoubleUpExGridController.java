@@ -1,23 +1,25 @@
-package com.turpgames.doubleupex.controllers.mode1;
+package com.turpgames.doubleupex;
 
 import com.turpgames.doubleup.controllers.GridController;
 import com.turpgames.doubleup.state.GridState;
-import com.turpgames.doubleup.utils.DoubleUpAudio;
 import com.turpgames.doubleup.utils.DoubleUpStateManager;
 import com.turpgames.doubleup.utils.GlobalContext;
-import com.turpgames.doubleup.utils.R;
 import com.turpgames.doubleup.view.IDoubleUpView;
-import com.turpgames.framework.v0.impl.ScreenManager;
 
-public abstract class Mode1LevelController extends GridController {
-	private final int matrixSize;
-	private int score;
-
-	protected Mode1LevelController(IDoubleUpView view, int matrixSize) {
+public abstract class DoubleUpExGridController extends GridController {
+	protected final int matrixSize;
+	
+	public DoubleUpExGridController(IDoubleUpView view, int matrixSize) {
 		super(view);
 		this.matrixSize = matrixSize;
 	}
+	
+	protected abstract int getMode();
+	
+	protected abstract int getLevel();
 
+	protected abstract int[][] getLevelData();
+	
 	@Override
 	public void reset() {
 		DoubleUpStateManager.deleteGridState(getGridStateKey());
@@ -33,17 +35,11 @@ public abstract class Mode1LevelController extends GridController {
 		GridState state = DoubleUpStateManager.getGridState(getGridStateKey());
 		if (state == null) {
 			initLevel();
-
-			score = 0;
-
 			saveState();
 		} else {
 			grid.loadState(state);
-			score = state.getScore();
 		}
 	}
-
-	protected abstract int[][] getLevelData();
 
 	private void initLevel() {
 		int[][] levelData = getLevelData();
@@ -68,47 +64,13 @@ public abstract class Mode1LevelController extends GridController {
 	protected void beforeMove() {
 		GlobalContext.resetMove();
 	}
-
-	@Override
-	protected void afterMove() {
-		if (!GlobalContext.didMove) {
-			DoubleUpAudio.playNoMoveSound();
-			return;
-		}
-
-		if (GlobalContext.moveScore > 0) {
-			score += GlobalContext.moveScore;
-		} else {
-			DoubleUpAudio.playNoScoreSound();
-		}
-
-		putRandom();
-
-		if (grid.hasMove()) {
-			saveState();
-		} else {
-			onGameOver();
-		}
-	}
-
-	private void saveState() {
+	
+	protected final void saveState() {
 		GridState state = grid.getState();
-		state.setScore(score);
 		DoubleUpStateManager.saveGridState(getGridStateKey(), state);
 	}
 
-	private void onGameOver() {
-		DoubleUpAudio.playGameOverSound();
-		DoubleUpStateManager.deleteGridState(getGridStateKey());
-
-		GlobalContext.finalScore = this.score;
-		this.score = 0;
-		grid.reset();
-
-		ScreenManager.instance.switchTo(R.screens.result, false);
-	}
-
-	private String getGridStateKey() {
-		return "grid-state-" + grid.getMatrixSize();
+	protected final String getGridStateKey() {
+		return "grid-state-" + getMode() + "-" + getLevel();
 	}
 }

@@ -111,8 +111,12 @@
             class="com.turpgames.doubleup.view.MenuScreen" />
 
         <screen
-            id="game"
-            class="com.turpgames.doubleupex.view.GameScreen" />
+            id="mode1"
+            class="com.turpgames.doubleupex.view.Mode1Screen" />
+
+        <screen
+            id="mode2"
+            class="com.turpgames.doubleupex.view.Mode2Screen" />
 
         <screen
             id="result"
@@ -124,10 +128,16 @@
         <form id="mainMenu" >
 
             <button
-                id="btnPlay"
-                action="screen=game"
-                text="Play"
+                id="btnMode1"
+                action="screen=mode1"
+                text="Mode 1"
                 y="16" />
+
+            <button
+                id="btnMode2"
+                action="screen=mode2"
+                text="Mode 2"
+                y="12" />
         </form>
     </forms>
 
