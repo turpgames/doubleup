@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<game
+    id="DoubleUpEx"
+    class="com.turpgames.doubleupex.view.DoubleUpExGame" >
+
+    <params>
+
+        <param
+            key="debug"
+            value="false" />
+
+        <param
+            key="provider"
+            value="com.turpgames.framework.v0.impl.libgdx.GdxGameProvider" />
+
+        <param
+            key="settings-key"
+            value="com.turpgames.doubleupex" />
+
+        <param
+            key="virtual-width"
+            value="550" />
+
+        <param
+            key="virtual-height"
+            value="800" />
+
+        <param
+            key="default-font"
+            value="Akachen,1" />
+
+        <param
+            key="disable-vibration"
+            value="true" />
+
+        <param
+            key="default-screen"
+            value="splash" />
+
+        <param
+            key="default-skin"
+            value="doubleupex" />
+
+        <param
+            key="screen-switcher"
+            value="fading,0.30" />
+
+        <param
+            key="form-switcher"
+            value="fading,0.30" />
+
+        <param
+            key="allow-exit-on-back"
+            value="true" />
+
+        <param
+            key="turp-address"
+            value="http://www.turpgames.com" />
+
+        <param
+            key="play-store-address"
+            value="market://details?id=com.turpgames.doubleup" />
+
+        <param
+            key="app-store-address-ios7"
+            value="itms-apps://itunes.apple.com/app/id850225350" />
+
+        <param
+            key="app-store-address-old"
+            value="itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&amp;id=850225350" />
+
+        <param
+            key="twitter-address"
+            value="http://www.twitter.com/turpgames" />
+
+        <param
+            key="facebook-address"
+            value="http://www.facebook.com/turpgames" />
+
+        <param
+            key="enable-ads"
+            value="true" />
+
+        <param
+            key="appflood-appkey"
+            value="LH0K0qfNfAigNvGe" />
+
+        <param
+            key="appflood-secretkey"
+            value="6BmUd7lR3a00L53356eaa" />
+
+        <!-- small | middle | large -->
+
+        <param
+            key="appflood-banner-size"
+            value="middle" />
+
+        <param
+            key="mopub-interstitial-ad-unit-id"
+            value="1fdf446cc1ec40888c810c6e6c86b6cb" />
+    </params>
+
+    <screens>
+
+        <screen
+            id="splash"
+            class="com.turpgames.doubleupex.view.SplashScreen" />
+
+        <screen
+            id="menu"
+            class="com.turpgames.doubleupex.view.MenuScreen" />
+
+        <screen
+            id="game"
+            class="com.turpgames.doubleupex.view.GameScreen" />
+
+        <screen
+            id="result"
+            class="com.turpgames.doubleupex.view.ResultScreen" />
+    </screens>
+
+    <forms>
+
+        <form id="mainMenu" >
+
+            <button
+                id="btn4x4"
+                action="screen=game"
+                text="Play"
+                y="16" />
+        </form>
+    </forms>
+
+    <animations>
+
+        <animation
+            id="loading"
+            frame-duration="0.040"
+            frame-height="74"
+            frame-width="74"
+            loop="true"
+            texture="loading" />
+    </animations>
+
+    <resources>
+
+        <fonts>
+
+            <font
+                id="Akachen"
+                path="fonts/akachen_1024.fnt" />
+        </fonts>
+
+        <textures>
+
+            <texture
+                id="turp_logo"
+                path="img/turpgames_logo.png"
+                resource-load="primary" />
+
+            <texture
+                id="reset"
+                path="img/reset.png" />
+
+            <texture
+                id="tile"
+                path="img/tile.png" />
+
+            <texture
+                id="fw_close"
+                path="img/framework/close.png"  />
+
+            <texture
+                id="tb_back"
+                path="img/toolbar/back.png" />
+
+            <texture
+                id="tb_sound_off"
+                path="img/toolbar/sound-off.png" />
+
+            <texture
+                id="tb_sound_on"
+                path="img/toolbar/sound-on.png" />
+
+            <texture
+                id="main"
+                path="img/textures.png" />
+
+            <texture
+                id="icon"
+                height="320"
+                region-of="main"
+                width="320"
+                x="2"
+                y="114" />
+
+            <texture
+                id="logo"
+                height="110"
+                region-of="main"
+                width="500"
+                x="2"
+                y="2" />
+        </textures>
+
+        <sounds>
+
+            <sound
+                id="1"
+                path="audio/1.mp3" />
+
+            <sound
+                id="2"
+                path="audio/2.mp3" />
+
+            <sound
+                id="4"
+                path="audio/4.mp3" />
+
+            <sound
+                id="8"
+                path="audio/8.mp3" />
+
+            <sound
+                id="16"
+                path="audio/16.mp3" />
+
+            <sound
+                id="32"
+                path="audio/32.mp3" />
+
+            <sound
+                id="64"
+                path="audio/64.mp3" />
+
+            <sound
+                id="128"
+                path="audio/128.mp3" />
+
+            <sound
+                id="256"
+                path="audio/256.mp3" />
+
+            <sound
+                id="512"
+                path="audio/512.mp3" />
+
+            <sound
+                id="1024"
+                path="audio/1024.mp3" />
+
+            <sound
+                id="2048"
+                path="audio/2048.mp3" />
+
+            <sound
+                id="nomove"
+                path="audio/nomove.mp3" />
+
+            <sound
+                id="noscore"
+                path="audio/noscore.mp3" />
+
+            <sound
+                id="gameover"
+                path="audio/gameover.mp3" />
+        </sounds>
+
+        <musics>
+        </musics>
+    </resources>
+
+    <languages>
+
+        <language
+            id="en-US"
+            encoding="UTF8"
+            flag-texture-id="flag_en_us"
+            path="lang/Strings_en_US.properties" />
+    </languages>
+
+    <skins>
+
+        <skin id="doubleupex" >
+
+            <form
+                cols="16"
+                rows="32" />
+
+            <button
+                cols="8"
+                default-color="#ffffffff"
+                focus-color="#f9b000ff"
+                font-scale="1.2"
+                halign="center"
+                rows="2"
+                sound-click="8"
+                vibrate="0"
+                x="4" />
+
+            <label
+                halign="center"
+                rows="2"
+                color="#fff" />
+        </skin>
+    </skins>
+
+</game>
