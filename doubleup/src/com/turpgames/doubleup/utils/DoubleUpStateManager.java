@@ -1,35 +1,37 @@
 package com.turpgames.doubleup.utils;
 
-import com.turpgames.doubleup.objects.Table;
-import com.turpgames.doubleup.objects.TableState;
+import com.turpgames.doubleup.entities.Grid;
+import com.turpgames.doubleup.state.GridState;
 import com.turpgames.framework.v0.impl.Settings;
 import com.turpgames.utils.Util;
 
 public class DoubleUpStateManager {
-	public static Table loadTable(int matrixSize) {
-		String key = "table" + matrixSize;
+	public static Grid loadGrid(int matrixSize) {
+		String key = "grid" + matrixSize;
 		
 		String data = Settings.getString(key, "");
 		if (Util.Strings.isNullOrWhitespace(data))
 			return null;
 
 		byte[] serialized = Util.Strings.fromBase64String(data);
-		TableState state = (TableState) Util.IO.deserialize(serialized);
-		Table table = Table.fromState(state);
-		return table;
+		GridState state = (GridState) Util.IO.deserialize(serialized);
+		
+		Grid grid = new Grid();
+		grid.loadState(state);
+		return grid;
 	}
 
-	public static void saveTableState(Table table) {
-		String key = "table" + table.getMatrixSize();
+	public static void saveTableState(Grid grid) {
+		String key = "grid" + grid.getMatrixSize();
 
-		TableState state = table.getState();
+		GridState state = grid.getState();
 		byte[] serialized = Util.IO.serialize(state);
 		String data = Util.Strings.toBase64String(serialized);
 		Settings.putString(key, data);
 	}
 
-	public static void deleteTableState(Table table) {
-		String key = "table" + table.getMatrixSize();
+	public static void deleteGridState(Grid grid) {
+		String key = "grid" + grid.getMatrixSize();
 		Settings.putString(key, "");
 	}
 }

@@ -1,11 +1,11 @@
 package com.turpgames.doubleup.view;
 
-import com.turpgames.doubleup.objects.Background;
-import com.turpgames.doubleup.objects.GlobalContext;
-import com.turpgames.doubleup.objects.display.DoubleUpToolbar;
+import com.turpgames.doubleup.components.Background;
+import com.turpgames.doubleup.components.DoubleUpToolbar;
 import com.turpgames.doubleup.utils.DoubleUpAds;
 import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.Facebook;
+import com.turpgames.doubleup.utils.GlobalContext;
 import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.TextButton;
 import com.turpgames.framework.v0.component.Toolbar;

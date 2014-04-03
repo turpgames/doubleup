@@ -1,6 +1,5 @@
 package com.turpgames.doubleup.utils;
 
-import com.turpgames.doubleup.objects.GlobalContext;
 import com.turpgames.framework.v0.impl.Settings;
 
 public class DoubleUpSettings {

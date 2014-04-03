@@ -1,6 +1,5 @@
 package com.turpgames.doubleup.utils;
 
-import com.turpgames.doubleup.objects.GlobalContext;
 import com.turpgames.framework.v0.social.ICallback;
 import com.turpgames.framework.v0.social.ISocializer;
 import com.turpgames.framework.v0.social.Player;
