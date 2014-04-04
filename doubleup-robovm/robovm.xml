@@ -22,6 +22,7 @@
 	<forceLinkClasses>
 		<pattern>com.badlogic.gdx.scenes.scene2d.ui.*</pattern>
 		<pattern>com.turpgames.framework.v0.impl.libgdx.GdxGameProvider</pattern>
+		<pattern>com.turpgames.doubleup.GADInterstitialDelegateImpl</pattern>
 		<pattern>com.turpgames.doubleup.view.*</pattern>
 		<pattern>org.apache.harmony.xnet.provider.jsse.*</pattern>
 		<pattern>org.apache.harmony.security.provider.cert.*</pattern>
@@ -33,6 +34,7 @@
 		<lib>libs/ios/libObjectAL.a</lib>
 		<lib>libs/ios/libarclite.a</lib>
 		<lib>libs/ios/libfacebook.a</lib>
+		<lib>libs/ios/libadmob.a</lib>
 		<!--<lib>libs/ios/libmopub.a</lib> -->
 	</libs>
 	<frameworks>
@@ -43,12 +45,25 @@
 		<framework>OpenAL</framework>
 		<framework>AudioToolbox</framework>
 		<framework>AVFoundation</framework>
+
+		<!-- admob frameworks -->
+		<framework>CoreTelephony</framework>
+		<framework>MessageUI</framework>
+		<framework>SystemConfiguration</framework>
+
 		<!-- mopub frameworks <framework>AddressBook</framework> <framework>AddressBookUI</framework> 
 			<framework>CoreLocation</framework> <framework>CoreMedia</framework> <framework>CoreTelephony</framework> 
 			<framework>EventKit</framework> <framework>EventKitUI</framework> <framework>iAd</framework> 
 			<framework>MediaPlayer</framework> <framework>MessageUI</framework> <framework>MobileCoreServices</framework> 
 			<framework>Security</framework> <framework>SystemConfiguration</framework> -->
 	</frameworks>
-	<!--<weakFrameworks> mopub frameworks <framework>AdSupport</framework> <framework>Social</framework> 
-		<framework>StoreKit</framework> <framework>Twitter</framework> </weakFrameworks> -->
+	<!-- admob frameworks -->
+	<weakFrameworks>
+		<framework>AdSupport</framework>
+		<framework>StoreKit</framework>
+	</weakFrameworks>
+
+	<!--mopub frameworks <framework>AdSupport</framework> <framework>Social</framework> 
+		<framework>StoreKit</framework> <framework>Twitter</framework> -->
+
 </config>
