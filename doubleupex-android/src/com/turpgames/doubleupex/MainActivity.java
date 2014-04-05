@@ -3,7 +3,6 @@ package com.turpgames.doubleupex;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -16,7 +15,6 @@ import android.view.WindowManager;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.turpgames.framework.v0.impl.android.AndroidProvider;
-import com.turpgames.framework.v0.impl.android.IAndroidLifecycleListener;
 import com.turpgames.framework.v0.impl.libgdx.GdxGame;
 import com.turpgames.framework.v0.util.Game;
 
@@ -28,7 +26,6 @@ public class MainActivity extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
-		cfg.useGL20 = false;
 		cfg.useAccelerometer = false;
 		cfg.useCompass = false;
 

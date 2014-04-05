@@ -4,7 +4,6 @@ import org.robovm.apple.foundation.NSObject;
 import org.robovm.bindings.admob.GADErrorCode;
 import org.robovm.bindings.admob.GADInterstitial;
 import org.robovm.bindings.admob.GADInterstitialDelegate;
-import org.robovm.objc.ObjCObject;
 
 public class GADInterstitialDelegateImpl extends NSObject implements GADInterstitialDelegate {
 	@Override

@@ -1,22 +1,10 @@
 package com.turpgames.doubleup;
 
-import org.robovm.apple.coregraphics.CGSize;
-import org.robovm.apple.foundation.NSArray;
-import org.robovm.apple.foundation.NSMutableArray;
-import org.robovm.apple.foundation.NSString;
-import org.robovm.bindings.admob.GADAdSize;
-import org.robovm.bindings.admob.GADAdSizeManager;
-import org.robovm.bindings.admob.GADBannerView;
-import org.robovm.bindings.admob.GADBannerViewDelegate;
-import org.robovm.bindings.admob.GADInterstitial;
-import org.robovm.bindings.admob.GADRequest;
-import org.robovm.bindings.admob.GADRequestError;
+import org.robovm.apple.foundation.NSAutoreleasePool;
+import org.robovm.apple.foundation.NSObject;
+import org.robovm.apple.foundation.NSURL;
+import org.robovm.apple.uikit.UIApplication;
 import org.robovm.bindings.facebook.manager.FacebookManager;
-import org.robovm.cocoatouch.foundation.NSAutoreleasePool;
-import org.robovm.cocoatouch.foundation.NSDictionary;
-import org.robovm.cocoatouch.foundation.NSObject;
-import org.robovm.cocoatouch.foundation.NSURL;
-import org.robovm.cocoatouch.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
@@ -39,7 +27,7 @@ public class RobovmLauncher extends IOSApplication.Delegate {
 	public static void main(String[] argv) {
 		NSAutoreleasePool pool = new NSAutoreleasePool();
 		UIApplication.main(argv, null, RobovmLauncher.class);
-		pool.drain();
+		pool.close();
 	}
 
 	@Override
