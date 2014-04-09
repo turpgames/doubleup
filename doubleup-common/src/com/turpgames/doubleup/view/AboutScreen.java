@@ -8,6 +8,7 @@ import com.turpgames.framework.v0.component.TextButton;
 import com.turpgames.framework.v0.component.Toolbar;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
+import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
 
@@ -21,6 +22,7 @@ public class AboutScreen extends Screen {
 	public void init() {
 		super.init();
 
+		initVersionText();
 		initFacebookButton();
 		initTwitterButton();
 		initWebSiteButton();
@@ -28,6 +30,16 @@ public class AboutScreen extends Screen {
 
 		registerDrawable(new DoubleUpLogo(), Game.LAYER_SCREEN);
 		registerDrawable(DoubleUpToolbar.getInstance(), Game.LAYER_INFO);
+	}
+	
+
+	private void initVersionText() {
+		Text versionText = new Text();
+		versionText.setText("v" + Game.getVersion());
+		versionText.setFontScale(0.66f);
+		versionText.setAlignment(Text.HAlignCenter, Text.VAlignTop);
+		versionText.setPadY(125f);
+		registerDrawable(versionText, Game.LAYER_SCREEN);
 	}
 
 	private void initFacebookButton() {
