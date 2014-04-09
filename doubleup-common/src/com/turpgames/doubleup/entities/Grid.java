@@ -94,7 +94,7 @@ public class Grid implements IDrawable {
 		return false;
 	}
 
-	public void putBrick(int rowIndex, int colIndex) {
+	public Tile putBrick(int rowIndex, int colIndex) {
 		Cell cell = getCell(rowIndex, colIndex);
 
 		Tile tile = new Tile();
@@ -104,9 +104,11 @@ public class Grid implements IDrawable {
 		tile.updateView();
 
 		cell.setTile(tile);
+		
+		return tile;
 	}
 
-	public void putTile(int rowIndex, int colIndex, int value) {
+	public Tile putTile(int rowIndex, int colIndex, int value) {
 		Cell cell = getCell(rowIndex, colIndex);
 
 		Tile tile = new Tile();
@@ -117,6 +119,8 @@ public class Grid implements IDrawable {
 		cell.setTile(tile);
 
 		tile.runPopEffect();
+		
+		return tile;
 	}
 
 	public void moveDown() {

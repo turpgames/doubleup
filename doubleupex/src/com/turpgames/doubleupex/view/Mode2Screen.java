@@ -1,6 +1,5 @@
 package com.turpgames.doubleupex.view;
 
-import com.turpgames.doubleup.components.Background;
 import com.turpgames.doubleup.components.DoubleUpLogo;
 import com.turpgames.doubleup.components.DoubleUpToolbar;
 import com.turpgames.doubleup.controllers.GridController;
@@ -23,7 +22,6 @@ public class Mode2Screen extends Screen implements IDoubleUpView {
 		controller = new Level1(this);
 		
 		registerDrawable(new DoubleUpLogo(), Game.LAYER_SCREEN);
-		registerDrawable(new Background(), Game.LAYER_BACKGROUND);
 
 		registerDrawable(DoubleUpToolbar.getInstance(), Game.LAYER_INFO);
 		

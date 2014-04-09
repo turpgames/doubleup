@@ -35,12 +35,17 @@ public class SplashScreen extends Screen {
 		progressColor = new Color(R.colors.turpYellow);
 		resourceManager = Game.getResourceManager();
 	}
+	
+	@Override
+	protected void onAfterDeactivate() {
+		super.onAfterDeactivate();
+		Game.getCurrent().getBgColor().set(Color.fromHex("#246dc7FF"));
+	}
 
 	@Override
 	public void update() {
 		if (!resourceManager.isLoading()) {
 			DoubleUpUpdateManager.runUpdates();
-
 			switchToGame();
 		}
 	}

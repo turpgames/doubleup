@@ -61,8 +61,9 @@ public abstract class DoubleUpExGridController extends GridController {
 	}
 
 	@Override
-	protected void beforeMove() {
+	protected boolean beforeMove() {
 		GlobalContext.resetMove();
+		return true;
 	}
 	
 	protected final void saveState() {

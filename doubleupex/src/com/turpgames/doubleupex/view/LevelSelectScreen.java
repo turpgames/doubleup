@@ -1,6 +1,5 @@
 package com.turpgames.doubleupex.view;
 
-import com.turpgames.doubleup.components.Background;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.doubleupex.levels.ModeView;
 import com.turpgames.framework.v0.impl.Screen;
@@ -13,7 +12,6 @@ public class LevelSelectScreen extends Screen {
 		super.init();
 
 		registerDrawable(new ModeView(), Game.LAYER_GAME);
-		registerDrawable(new Background(), Game.LAYER_BACKGROUND);
 	}
 	
 	@Override

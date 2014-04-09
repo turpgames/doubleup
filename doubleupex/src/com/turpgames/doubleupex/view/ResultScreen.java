@@ -1,6 +1,5 @@
 package com.turpgames.doubleupex.view;
 
-import com.turpgames.doubleup.components.Background;
 import com.turpgames.doubleup.components.DoubleUpToolbar;
 import com.turpgames.doubleup.utils.DoubleUpAds;
 import com.turpgames.doubleupex.utils.Facebook;
@@ -31,7 +30,6 @@ public class ResultScreen extends Screen {
 		super.registerDrawable(resultText, Game.LAYER_SCREEN);
 		super.registerDrawable(shareButton, Game.LAYER_SCREEN);
 		super.registerDrawable(newGameButton, Game.LAYER_SCREEN);
-		super.registerDrawable(new Background(), Game.LAYER_BACKGROUND);
 
 		super.registerDrawable(DoubleUpToolbar.getInstance(), Game.LAYER_INFO);
 	}

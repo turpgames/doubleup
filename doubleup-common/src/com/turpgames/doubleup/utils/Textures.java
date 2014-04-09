@@ -7,4 +7,5 @@ public class Textures {
 	public final static ITexture tile = Game.getResourceManager().getTexture("tile");
 	public final static ITexture logo = Game.getResourceManager().getTexture("logo");
 	public final static ITexture icon = Game.getResourceManager().getTexture("icon");
+	public final static ITexture overlay = Game.getResourceManager().getTexture("overlay");
 }

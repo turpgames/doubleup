@@ -4,6 +4,7 @@ import com.turpgames.doubleup.effects.TileAddEffect;
 import com.turpgames.doubleup.effects.TileMoveEffect;
 import com.turpgames.doubleup.effects.TilePopEffect;
 import com.turpgames.doubleup.state.TileState;
+import com.turpgames.doubleup.utils.DoubleUpColors;
 import com.turpgames.doubleup.utils.Textures;
 import com.turpgames.framework.v0.effects.moving.IMovingEffectSubject;
 import com.turpgames.framework.v0.effects.scaling.IScaleEffectSubject;
@@ -51,6 +52,10 @@ public class Tile extends GameObject implements IMovingEffectSubject, IScaleEffe
 		getLocation().set(cell.getLocation());
 		getRotation().set(cell.getRotation());
 	}
+	
+	public void setCustomFontScale(float scale) {
+		text.setFontScale(scale);
+	}
 
 	public boolean isUsed() {
 		return isUsed;
@@ -87,11 +92,11 @@ public class Tile extends GameObject implements IMovingEffectSubject, IScaleEffe
 	public void updateView() {
 		if (isBrick) {
 			text.setText("");
-			getColor().set(brickColor);
+			getColor().set(DoubleUpColors.brickColor);
 		}
 		else {
 			text.setText(value + "");
-			getColor().set(getColor(value));
+			getColor().set(DoubleUpColors.getColor(value));
 		}
 	}
 	
@@ -145,53 +150,4 @@ public class Tile extends GameObject implements IMovingEffectSubject, IScaleEffe
 		setValue(state.getValue());
 		setBrick(state.isBrick());
 	}
-
-	private static Color getColor(long value) {
-		switch ((int) value) {
-		case 0:
-			return color0;
-		case 1:
-			return color1;
-		case 2:
-			return color2;
-		case 4:
-			return color4;
-		case 8:
-			return color8;
-		case 16:
-			return color16;
-		case 32:
-			return color32;
-		case 64:
-			return color64;
-		case 128:
-			return color128;
-		case 256:
-			return color256;
-		case 512:
-			return color512;
-		case 1024:
-			return color1024;
-		case 2048:
-			return color2048;
-		default:
-			return color4096;
-		}
-	}
-
-	private final static Color brickColor = Color.fromHex("#000000ff");
-	private final static Color color0 = Color.fromHex("#00000000");
-	private final static Color color1 = Color.fromHex("#fb9d49FF");
-	private final static Color color2 = Color.fromHex("#f4d040FF");
-	private final static Color color4 = Color.fromHex("#aed361FF");
-	private final static Color color8 = Color.fromHex("#71c055FF");
-	private final static Color color16 = Color.fromHex("#71c6a5FF");
-	private final static Color color32 = Color.fromHex("#40b8eaFF");
-	private final static Color color64 = Color.fromHex("#039fd6FF");
-	private final static Color color128 = Color.fromHex("#5b52a3FF");
-	private final static Color color256 = Color.fromHex("#9a6db0FF");
-	private final static Color color512 = Color.fromHex("#d1499bFF");
-	private final static Color color1024 = Color.fromHex("#f15f90FF");
-	private final static Color color2048 = Color.fromHex("#ed1e24FF");
-	private final static Color color4096 = Color.fromHex("#000000F0");
 }

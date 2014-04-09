@@ -19,11 +19,11 @@ public abstract class GridController implements IInputListener {
 		this.view = view;
 		this.grid = new Grid();
 		this.resetButton = new ResetButton(this);
+		this.resetButton.deactivate();
 
 		view.registerDrawable(grid, Game.LAYER_GAME);
-		view.registerDrawable(resetButton, Game.LAYER_GAME);
-		view.registerInputListener(resetButton);
 		view.registerInputListener(this);
+		view.registerDrawable(resetButton, Game.LAYER_GAME);
 	}
 
 	public void reset() {
@@ -31,26 +31,22 @@ public abstract class GridController implements IInputListener {
 		init();
 	}
 
-	public abstract void init();
+	public void activate() {
+		resetButton.activate();
+	}
 
-	// {
-	// grid.init(6);
-	// grid.putBrick(1, 2);
-	// grid.putBrick(2, 1);
-	// grid.putBrick(3, 4);
-	// grid.putBrick(4, 3);
-	// grid.putBrick(1, 4);
-	// grid.putBrick(4, 1);
-	// grid.putTile(0, 0, 1);
-	// grid.putTile(5, 5, 1);
-	// }
+	public void deactivate() {
+		resetButton.deactivate();
+	}
+
+	public abstract void init();
 
 	protected int rand() {
 		return Util.Random.randInt(grid.getMatrixSize());
 	}
 
 	protected void putRandom() {
-		putRandom(Util.Random.randInt(5) == 0 ? 2 : 1);
+		putRandom(Util.Random.randInt(10) == 0 ? 2 : 1);
 	}
 
 	protected void putRandom(int value) {
@@ -64,30 +60,34 @@ public abstract class GridController implements IInputListener {
 	}
 
 	private void moveDown() {
-		beforeMove();
+		if (!beforeMove())
+			return;
 		grid.moveDown();
 		afterMove();
 	}
 
 	private void moveUp() {
-		beforeMove();
+		if (!beforeMove())
+			return;
 		grid.moveUp();
 		afterMove();
 	}
 
 	private void moveLeft() {
-		beforeMove();
+		if (!beforeMove())
+			return;
 		grid.moveLeft();
 		afterMove();
 	}
 
 	private void moveRight() {
-		beforeMove();
+		if (!beforeMove())
+			return;
 		grid.moveRight();
 		afterMove();
 	}
 
-	protected abstract void beforeMove();
+	protected abstract boolean beforeMove();
 
 	protected abstract void afterMove();
 
