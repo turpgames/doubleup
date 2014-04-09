@@ -1,20 +1,20 @@
 package com.turpgames.doubleup.utils;
 
 import com.turpgames.framework.v0.social.ICallback;
-import com.turpgames.framework.v0.social.ISocializer;
-import com.turpgames.framework.v0.social.Player;
+import com.turpgames.framework.v0.social.IFacebookConnector;
 import com.turpgames.framework.v0.social.SocialFeed;
+import com.turpgames.framework.v0.social.SocialUser;
 import com.turpgames.framework.v0.util.Game;
 
 public class Facebook {
-	private static ISocializer facebook;
+	private static IFacebookConnector facebook;
 
 	static {
-		facebook = Game.getSocializer("facebook");
+		facebook = Game.getFacebookConnector();
 	}
 
-	private static Player getPlayer() {
-		return facebook.getPlayer();
+	private static SocialUser getUser() {
+		return facebook.getUser();
 	}
 
 	private static boolean isLoggedIn() {
@@ -76,9 +76,9 @@ public class Facebook {
 		String mode = GlobalContext.matrixSize == 5 ? "5x5" : "4x4";
 		if (max == 0)
 			return String.format("%s just made %d points in Double Up %s mode!",
-					getPlayer().getName().split(" ")[0], score, mode);
+					getUser().getName().split(" ")[0], score, mode);
 		return String.format(
 				"%s just reached a new max number %d with %d points in Double Up %s mode!",
-				getPlayer().getName().split(" ")[0], max, score, mode);
+				getUser().getName().split(" ")[0], max, score, mode);
 	}
 }

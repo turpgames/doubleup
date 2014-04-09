@@ -18,6 +18,7 @@ public class RobovmLauncher extends IOSApplication.Delegate {
 		IOSApplicationConfiguration config = new IOSApplicationConfiguration();
 		config.orientationLandscape = false;
 		config.orientationPortrait = true;
+		config.allowIpod = true;
 
 		Game.setEnvironmentProvider(new IOSProvider());
 

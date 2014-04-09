@@ -1,20 +1,20 @@
 package com.turpgames.doubleupex.utils;
 
 import com.turpgames.framework.v0.social.ICallback;
-import com.turpgames.framework.v0.social.ISocializer;
-import com.turpgames.framework.v0.social.Player;
+import com.turpgames.framework.v0.social.IFacebookConnector;
 import com.turpgames.framework.v0.social.SocialFeed;
+import com.turpgames.framework.v0.social.SocialUser;
 import com.turpgames.framework.v0.util.Game;
 
 public class Facebook {
-	private static ISocializer facebook;
+	private static IFacebookConnector facebook;
 
 	static {
-		facebook = Game.getSocializer("facebook");
+		facebook = Game.getFacebookConnector();
 	}
 
-	private static Player getPlayer() {
-		return facebook.getPlayer();
+	private static SocialUser getUser() {
+		return facebook.getUser();
 	}
 
 	private static boolean isLoggedIn() {
@@ -72,6 +72,6 @@ public class Facebook {
 
 	private static String prepareMessage(int mode, int level) {
 		return String.format("%s has just completed level %d of %d mode in Double Up Ex!",
-				getPlayer().getName().split(" ")[0], level, mode);
+				getUser().getName().split(" ")[0], level, mode);
 	}
 }
