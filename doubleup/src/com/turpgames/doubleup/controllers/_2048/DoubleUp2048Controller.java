@@ -8,9 +8,7 @@ import com.turpgames.doubleup.utils.DoubleUpAudio;
 import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.DoubleUpStateManager;
 import com.turpgames.doubleup.utils.GlobalContext;
-import com.turpgames.doubleup.utils.R;
 import com.turpgames.doubleup.view.IDoubleUpView;
-import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.util.Game;
 
 public class DoubleUp2048Controller extends GridController {
@@ -21,12 +19,18 @@ public class DoubleUp2048Controller extends GridController {
 	private final ScoreArea hiscoreArea;
 	private final ScoreArea hiscoreBlockArea;
 
+	private final ResultView resultView;
+
+	private boolean isGameOver;
+
 	public DoubleUp2048Controller(IDoubleUpView view, int matrixSize) {
 		super(view);
 		this.matrixSize = matrixSize;
 
 		float x = (Game.getVirtualWidth() - Grid.size) / 2;
 		float y = (Game.getVirtualHeight() - Grid.size) / 2;
+
+		resultView = new ResultView(this);
 
 		scoreArea = new ScoreArea("Score");
 		scoreArea.setLocation(x + 4, y - 75);
@@ -49,10 +53,30 @@ public class DoubleUp2048Controller extends GridController {
 	}
 
 	@Override
+	public void deactivate() {
+		if (isGameOver) {
+			this.score = 0;
+			grid.reset();
+			updateScoreTexts();
+
+			resultView.deactivate();
+			view.unregisterDrawable(resultView);
+		}
+		super.deactivate();
+	}
+
+	@Override
 	public void init() {
+		resultView.deactivate();
+		view.unregisterDrawable(resultView);
+
+		resetButton.activate();
+
 		GlobalContext.matrixSize = matrixSize;
-		
+
 		grid.init(matrixSize);
+
+		isGameOver = false;
 
 		GridState state = DoubleUpStateManager.getGridState(getGridStateKey());
 		if (state == null) {
@@ -60,7 +84,7 @@ public class DoubleUp2048Controller extends GridController {
 			putRandom();
 
 			score = 0;
-			
+
 			saveState();
 		} else {
 			grid.loadState(state);
@@ -71,8 +95,11 @@ public class DoubleUp2048Controller extends GridController {
 	}
 
 	@Override
-	protected void beforeMove() {
+	protected boolean beforeMove() {
+		if (isGameOver)
+			return false;
 		GlobalContext.resetMove();
+		return true;
 	}
 
 	@Override
@@ -127,11 +154,15 @@ public class DoubleUp2048Controller extends GridController {
 		DoubleUpStateManager.deleteGridState(getGridStateKey());
 
 		GlobalContext.finalScore = this.score;
-		this.score = 0;
-		grid.reset();
+
 		updateScoreTexts();
 
-		ScreenManager.instance.switchTo(R.screens.result, false);
+		resetButton.deactivate();
+
+		isGameOver = true;
+
+		resultView.activate();
+		view.registerDrawable(resultView, Game.LAYER_DIALOG);
 	}
 
 	private String getGridStateKey() {
