@@ -7,7 +7,7 @@
 
         <param
             key="debug"
-            value="true" />
+            value="false" />
 
         <param
             key="provider"
@@ -96,8 +96,12 @@
             value="middle" />
 
         <param
-            key="mopub-interstitial-ad-unit-id"
-            value="1fdf446cc1ec40888c810c6e6c86b6cb" />
+            key="admob-interstitial-ad-unit-id"
+            value="ca-app-pub-9430411208134016/3931947478" />
+
+        <param
+            key="admob-banner-ad-unit-id"
+            value="ca-app-pub-9430411208134016/5157355074" />
     </params>
 
     <screens>
