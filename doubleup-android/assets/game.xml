@@ -10,8 +10,16 @@
             value="false" />
 
         <param
+            key="server"
+            value="test" />
+
+        <param
             key="provider"
             value="com.turpgames.framework.v0.impl.libgdx.GdxGameProvider" />
+
+        <param
+            key="auth-class"
+            value="com.turpgames.doubleup.utils.DoubleUpAuth" />
 
         <param
             key="settings-key"
@@ -52,6 +60,30 @@
         <param
             key="allow-exit-on-back"
             value="true" />
+
+        <param
+            key="prod-server"
+            value="http://doubleup.turpgam.es/" />
+
+        <param
+            key="test-server"
+            value="http://doubleuptest.turpgam.es/" />
+
+        <param
+            key="local-server"
+            value="http://192.168.2.4:8080/doubleup-server/" />
+
+        <param
+            key="send-score-params"
+            value="?a=h&amp;p=%d&amp;m=%d&amp;s=%d&amp;n=%d" />
+
+        <param
+            key="get-leadersboard-params"
+            value="?a=l&amp;p=%d&amp;m=%d&amp;d=%d&amp;w=%d" />
+
+        <param
+            key="register-player-params"
+            value="?a=r&amp;f=%s&amp;e=%s&amp;u=%s" />
 
         <param
             key="turp-address"
@@ -127,6 +159,10 @@
             class="com.turpgames.doubleup.view.AchievementsScreen" />
 
         <screen
+            id="leadersboard"
+            class="com.turpgames.doubleup.view.LeadersBoardScreen" />
+
+        <screen
             id="about"
             class="com.turpgames.doubleup.view.AboutScreen" />
     </screens>
@@ -139,25 +175,31 @@
                 id="btn4x4"
                 action="screen=game4x4"
                 text="Play 4x4"
-                y="20" />
+                y="21" />
 
             <button
                 id="btn4x4"
                 action="screen=game5x5"
                 resource-text="Play 5x5"
-                y="16" />
+                y="17" />
 
             <button
                 id="btnAchievements"
                 action="screen=achievements"
                 resource-text="Achievements"
-                y="10" />
+                y="11" />
+
+            <button
+                id="btnLeadersBoard"
+                action="screen=leadersboard"
+                resource-text="Leaders Board"
+                y="7" />
 
             <button
                 id="btnAbout"
                 action="screen=about"
                 resource-text="About"
-                y="4" />
+                y="3" />
         </form>
     </forms>
 
@@ -189,6 +231,14 @@
                 resource-load="primary" />
 
             <texture
+                id="loading"
+                path="img/loading.png" />
+
+            <texture
+                id="facebook"
+                path="img/facebook.png" />
+
+            <texture
                 id="reset"
                 path="img/reset.png" />
 
@@ -198,7 +248,7 @@
 
             <texture
                 id="fw_close"
-                path="img/framework/close.png"  />
+                path="img/framework/close.png" />
 
             <texture
                 id="tb_back"

@@ -8,6 +8,7 @@ public class GlobalContext {
 	public static int matrixSize;
 	public static int moveScore;
 	public static int finalScore;
+	public static int finalMax;
 	public static boolean didMove;
 	public static boolean hasNewHiScore;
 	public static boolean hasNewMaxNumber;

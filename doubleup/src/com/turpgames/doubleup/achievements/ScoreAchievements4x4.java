@@ -1,6 +1,7 @@
 package com.turpgames.doubleup.achievements;
 
-import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.turpgames.doubleup.entities.Cell;
@@ -12,7 +13,7 @@ import com.turpgames.framework.v0.util.Color;
 
 public class ScoreAchievements4x4 extends AchievementView {
 	private final static Color noColor = new Color(0f, 0f);
-	private static Map<Integer, Color> colors = new HashMap<Integer, Color>();
+	private static Map<Integer, Color> colors = new LinkedHashMap<Integer, Color>();
 
 	static {
 		colors.put(500, DoubleUpColors.getColor(1));
@@ -40,22 +41,14 @@ public class ScoreAchievements4x4 extends AchievementView {
 
 	@Override
 	protected void initTiles() {
-		putTile(0, 0, 500);
-		putTile(0, 1, 1000);
-		putTile(0, 2, 2000);
-		putTile(0, 3, 3000);
-		putTile(1, 0, 4000);
-		putTile(1, 1, 5000);
-		putTile(1, 2, 7500);
-		putTile(1, 3, 10000);
-		putTile(2, 0, 15000);
-		putTile(2, 1, 20000);
-		putTile(2, 2, 25000);
-		putTile(2, 3, 30000);
-		putTile(3, 0, 35000);
-		putTile(3, 1, 40000);
-		putTile(3, 2, 45000);
-		putTile(3, 3, 50000);
+		Iterator<Integer> scores = colors.keySet().iterator();
+
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				Integer score = scores.next();
+				putTile(i, j, score);
+			}
+		}
 	}
 
 	@Override

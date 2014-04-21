@@ -6,7 +6,7 @@ public class DoubleUpAds {
 	private static int counter = 0;
 
 	public static void showAd() {
-		if (!Game.isDebug() && ConnectionManager.hasConnection() && counter++ % 5 == 0)
+		if (!Game.isDebug() && ConnectionManager.hasConnection() && counter++ % 5 == 2)
 			Game.showPopUpAd();
 	}
 }

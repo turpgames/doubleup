@@ -21,6 +21,7 @@
 		<pattern>com.badlogic.gdx.scenes.scene2d.ui.*</pattern>
 		<pattern>com.turpgames.framework.v0.impl.libgdx.GdxGameProvider</pattern>
 		<pattern>com.turpgames.doubleup.view.*</pattern>
+		<pattern>com.turpgames.doubleup.utils.DoubleUpAuth</pattern>
 		<pattern>org.apache.harmony.xnet.provider.jsse.*</pattern>
 		<pattern>org.apache.harmony.security.provider.cert.*</pattern>
 		<pattern>org.apache.harmony.security.provider.crypto.*</pattern>

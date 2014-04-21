@@ -91,6 +91,44 @@ public abstract class GridController implements IInputListener {
 
 	protected abstract void afterMove();
 
+	private boolean isTouched;
+	private float dx;
+	private float dy;
+
+	@Override
+	public boolean touchDown(float x, float y, int pointer, int button) {
+		if (y < Game.getScreenHeight() * 0.8f) {
+			isTouched = true;
+			dx = x;
+			dy = y;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(float x, float y, int pointer, int button) {
+		if (isTouched) {
+			isTouched = false;
+			
+			dx = x - dx;
+			dy = y - dy;
+
+			if (Math.abs(dx) > Math.abs(dy)) {
+				if (dx > 0)
+					moveRight();
+				else
+					moveLeft();
+			}
+			if (Math.abs(dy) > Math.abs(dx)) {
+				if (dy > 0)
+					moveUp();
+				else
+					moveDown();
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public boolean keyDown(int keycode) {
 		if (keycode == Keys.DOWN) {
@@ -110,28 +148,6 @@ public abstract class GridController implements IInputListener {
 
 	@Override
 	public boolean fling(float vx, float vy, int button) {
-		if (Math.abs(vx) > Math.abs(vy)) {
-			if (vx > 0)
-				moveRight();
-			else
-				moveLeft();
-		}
-		if (Math.abs(vy) > Math.abs(vx)) {
-			if (vy > 0)
-				moveDown();
-			else
-				moveUp();
-		}
-		return true;
-	}
-
-	@Override
-	public boolean touchDown(float x, float y, int pointer, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(float x, float y, int pointer, int button) {
 		return false;
 	}
 

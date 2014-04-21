@@ -1,11 +1,12 @@
 package com.turpgames.doubleup.components;
 
 import com.turpgames.doubleup.utils.Textures;
+import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.TextureDrawer;
 
-public class DoubleUpLogo extends GameObject {
+public class DoubleUpLogo implements IDrawable {
 	private GameObject icon;
 	private GameObject logo;
 	

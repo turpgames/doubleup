@@ -3,11 +3,13 @@ package com.turpgames.doubleup.controllers._2048;
 import com.turpgames.doubleup.components.ScoreArea;
 import com.turpgames.doubleup.controllers.GridController;
 import com.turpgames.doubleup.entities.Grid;
+import com.turpgames.doubleup.entity.Score;
 import com.turpgames.doubleup.state.GridState;
 import com.turpgames.doubleup.utils.DoubleUpAudio;
 import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.DoubleUpStateManager;
 import com.turpgames.doubleup.utils.GlobalContext;
+import com.turpgames.doubleup.utils.ScoreManager;
 import com.turpgames.doubleup.view.IDoubleUpView;
 import com.turpgames.framework.v0.util.Game;
 
@@ -117,10 +119,10 @@ public class DoubleUp2048Controller extends GridController {
 				DoubleUpSettings.setHiScore(score);
 			}
 
-			int maxNumber = grid.getMaxNumber();
-			if (maxNumber > DoubleUpSettings.getMaxNumber()) {
+			GlobalContext.finalMax = grid.getMaxNumber();
+			if (GlobalContext.finalMax > DoubleUpSettings.getMaxNumber()) {
 				GlobalContext.hasNewMaxNumber = true;
-				DoubleUpSettings.setMaxNumber(maxNumber);
+				DoubleUpSettings.setMaxNumber(GlobalContext.finalMax);
 			}
 
 			updateScoreTexts();
@@ -154,6 +156,11 @@ public class DoubleUp2048Controller extends GridController {
 		DoubleUpStateManager.deleteGridState(getGridStateKey());
 
 		GlobalContext.finalScore = this.score;
+
+		ScoreManager.instance.sendScore(
+				matrixSize == 4 ? Score.Mode4x4 : Score.Mode5x5,
+				GlobalContext.finalScore,
+				GlobalContext.finalMax);
 
 		updateScoreTexts();
 

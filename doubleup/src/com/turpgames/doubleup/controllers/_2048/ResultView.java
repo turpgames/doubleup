@@ -81,18 +81,23 @@ public class ResultView implements IDrawable {
 	}
 
 	private void shareScoreOnFacebook() {
-		Facebook.shareScore(GlobalContext.finalScore,
-				GlobalContext.hasNewMaxNumber ? DoubleUpSettings.getMaxNumber() : 0, new ICallback() {
-					@Override
-					public void onSuccess() {
+		String mode = GlobalContext.matrixSize == 5 ? "5x5" : "4x4";
+		String name = Facebook.getUser().getName().split(" ")[0];
 
-					}
+		String title = String.format("%s just reached %d with %d points in Double Up %s mode!",
+				name, GlobalContext.finalMax, GlobalContext.finalScore, mode);
 
-					@Override
-					public void onFail(Throwable t) {
+		Facebook.shareScore(title, new ICallback() {
+			@Override
+			public void onSuccess() {
 
-					}
-				});
+			}
+
+			@Override
+			public void onFail(Throwable t) {
+
+			}
+		});
 	}
 
 	private class ResultText extends Text {
