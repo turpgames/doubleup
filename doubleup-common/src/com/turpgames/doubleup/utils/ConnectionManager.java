@@ -6,7 +6,7 @@ import java.net.URLConnection;
 import com.turpgames.utils.Util;
 
 public class ConnectionManager {
-	private final static int connectTimeout = 1000; // 1 sec
+	private final static int connectTimeout = 2000; // 2 sec
 	private final static long checkInterval = 5 * 60 * 1000; // 5 mins
 	
 	private static long lastCheck;
@@ -25,7 +25,7 @@ public class ConnectionManager {
 		long now = System.currentTimeMillis();
 		
 		if (now - lastCheck > checkInterval)
-			checkConnection();
+			init();
 		
 		return hasConnection;
 	}
@@ -40,6 +40,9 @@ public class ConnectionManager {
 		}
 		catch (Throwable t) {
 			hasConnection = false;
+		}
+		finally {
+			lastCheck = System.currentTimeMillis();	
 		}
 	}
 }
