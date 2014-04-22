@@ -32,7 +32,7 @@ public class MenuScreen extends FormScreen {
 			isFirstActivate = false;
 			loginWithFacebook();
 		}
-		DoubleUpAds.showAd();
+		DoubleUpAds.showAd(false);
 	}
 
 	private void loginWithFacebook() {

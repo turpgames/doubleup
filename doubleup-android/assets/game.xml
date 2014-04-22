@@ -11,7 +11,7 @@
 
         <param
             key="server"
-            value="test" />
+            value="prod" />
 
         <param
             key="provider"
@@ -112,20 +112,6 @@
         <param
             key="enable-ads"
             value="true" />
-
-        <param
-            key="appflood-appkey"
-            value="LH0K0qfNfAigNvGe" />
-
-        <param
-            key="appflood-secretkey"
-            value="6BmUd7lR3a00L53356eaa" />
-
-        <!-- small | middle | large -->
-
-        <param
-            key="appflood-banner-size"
-            value="middle" />
 
         <param
             key="admob-interstitial-ad-unit-id"

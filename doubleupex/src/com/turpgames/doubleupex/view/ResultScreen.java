@@ -1,7 +1,6 @@
 package com.turpgames.doubleupex.view;
 
 import com.turpgames.doubleup.components.DoubleUpToolbar;
-import com.turpgames.doubleup.utils.DoubleUpAds;
 import com.turpgames.doubleupex.utils.Facebook;
 import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.TextButton;
@@ -33,10 +32,9 @@ public class ResultScreen extends Screen {
 
 		super.registerDrawable(DoubleUpToolbar.getInstance(), Game.LAYER_INFO);
 	}
-	
+
 	@Override
 	protected boolean onBeforeActivate() {
-		DoubleUpAds.showAd();
 		DoubleUpToolbar.getInstance().setListener(new Toolbar.IToolbarListener() {
 			@Override
 			public void onToolbarBack() {
@@ -47,7 +45,7 @@ public class ResultScreen extends Screen {
 	}
 
 	@Override
-	protected void onAfterActivate() {	
+	protected void onAfterActivate() {
 		shareButton.activate();
 		newGameButton.activate();
 		DoubleUpToolbar.getInstance().enable();
@@ -65,16 +63,16 @@ public class ResultScreen extends Screen {
 
 	private void shareScoreOnFacebook() {
 		Facebook.shareScore(1, 1, new ICallback() {
-					@Override
-					public void onSuccess() {
+			@Override
+			public void onSuccess() {
 
-					}
+			}
 
-					@Override
-					public void onFail(Throwable t) {
+			@Override
+			public void onFail(Throwable t) {
 
-					}
-				});
+			}
+		});
 	}
 
 	private void switchToNewGameScreen() {

@@ -3,7 +3,6 @@ package com.turpgames.doubleupex.view;
 import com.turpgames.doubleup.components.DoubleUpLogo;
 import com.turpgames.doubleup.components.DoubleUpToolbar;
 import com.turpgames.doubleup.controllers.GridController;
-import com.turpgames.doubleup.utils.DoubleUpAds;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.doubleup.view.IDoubleUpView;
 import com.turpgames.doubleupex.controllers.mode1.Level1;
@@ -30,7 +29,6 @@ public class Mode1Screen extends Screen implements IDoubleUpView {
 
 	@Override
 	protected boolean onBeforeActivate() {
-		DoubleUpAds.showAd();
 		DoubleUpToolbar.getInstance().setListener(new Toolbar.IToolbarListener() {
 			@Override
 			public void onToolbarBack() {

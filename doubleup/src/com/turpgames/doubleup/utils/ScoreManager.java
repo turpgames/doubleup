@@ -25,11 +25,12 @@ public class ScoreManager {
 
 	private ScoreManager() {
 		loadScoresToSend();
-		sendScores();
+		sendScoresInBackground();
 	}
 
 	public void sendScore(int mode, int score, int maxNumber) {
 		addScore(mode, score, maxNumber);
+		sendScoresInBackground();
 	}
 
 	public void getLeadersBoard(final int mode, final int days, final int whose, final ILeadersBoardCallback callback) {
@@ -63,20 +64,18 @@ public class ScoreManager {
 		});
 	}
 
-	private void sendScores() {
-		Util.Threading.runInBackground(new Runnable() {
-			@Override
-			public void run() {
-				while (true) {
-					if (Facebook.isLoggedIn())
-						sendScoresThread();
-					Util.Threading.threadSleep(60000);
+	private void sendScoresInBackground() {
+		if (Facebook.isLoggedIn()) {
+			Util.Threading.runInBackground(new Runnable() {
+				@Override
+				public void run() {
+					sendScores();
 				}
-			}
-		});
+			});
+		}
 	}
 
-	private void sendScoresThread() {
+	private void sendScores() {
 		try {
 			loadScoresToSend();
 			addOldHiScores();
@@ -138,7 +137,7 @@ public class ScoreManager {
 
 	private void addOldHiScores() {
 		final String flagSettingsKey = "old-hiscores-sent-to-server";
-
+		
 		boolean scoreAlreadySent = Settings.getBoolean(flagSettingsKey, false);
 		if (scoreAlreadySent)
 			return;

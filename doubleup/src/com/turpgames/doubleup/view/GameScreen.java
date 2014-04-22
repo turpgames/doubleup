@@ -4,7 +4,6 @@ import com.turpgames.doubleup.components.DoubleUpLogo;
 import com.turpgames.doubleup.components.DoubleUpToolbar;
 import com.turpgames.doubleup.controllers.GridController;
 import com.turpgames.doubleup.controllers._2048.DoubleUp2048Controller;
-import com.turpgames.doubleup.utils.DoubleUpAds;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.component.Toolbar;
 import com.turpgames.framework.v0.impl.Screen;
@@ -31,7 +30,6 @@ public abstract class GameScreen extends Screen implements IDoubleUpView {
 
 	@Override
 	protected boolean onBeforeActivate() {
-		DoubleUpAds.showAd();
 		DoubleUpToolbar.getInstance().setListener(new Toolbar.IToolbarListener() {
 			@Override
 			public void onToolbarBack() {

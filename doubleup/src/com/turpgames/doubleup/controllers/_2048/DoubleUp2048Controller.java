@@ -5,6 +5,7 @@ import com.turpgames.doubleup.controllers.GridController;
 import com.turpgames.doubleup.entities.Grid;
 import com.turpgames.doubleup.entity.Score;
 import com.turpgames.doubleup.state.GridState;
+import com.turpgames.doubleup.utils.DoubleUpAds;
 import com.turpgames.doubleup.utils.DoubleUpAudio;
 import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.DoubleUpStateManager;
@@ -152,6 +153,9 @@ public class DoubleUp2048Controller extends GridController {
 	}
 
 	private void onGameOver() {
+
+		DoubleUpAds.showAd(true);
+		
 		DoubleUpAudio.playGameOverSound();
 		DoubleUpStateManager.deleteGridState(getGridStateKey());
 
