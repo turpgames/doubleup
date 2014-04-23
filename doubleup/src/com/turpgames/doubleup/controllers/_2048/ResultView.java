@@ -2,11 +2,13 @@ package com.turpgames.doubleup.controllers._2048;
 
 import com.turpgames.doubleup.controllers.GridController;
 import com.turpgames.doubleup.entities.Grid;
+import com.turpgames.doubleup.entity.Score;
 import com.turpgames.doubleup.utils.DoubleUpColors;
 import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.Facebook;
 import com.turpgames.doubleup.utils.GlobalContext;
 import com.turpgames.doubleup.utils.R;
+import com.turpgames.doubleup.utils.ScoreManager;
 import com.turpgames.doubleup.utils.Textures;
 import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.component.IButtonListener;
@@ -22,6 +24,7 @@ public class ResultView implements IDrawable {
 	private final static Color bgColor = Color.fromHex("#000000B0");
 
 	private ResultText resultText;
+	private SendScoreButton sendScoreButton;
 	private ShareButton shareButton;
 	private NewGameButton newGameButton;
 	private final ResultViewOverlay overlay;
@@ -34,6 +37,7 @@ public class ResultView implements IDrawable {
 		resultText = new ResultText();
 		resultText.setFontScale(0.8f);
 
+		sendScoreButton = new SendScoreButton();
 		shareButton = new ShareButton();
 		newGameButton = new NewGameButton();
 
@@ -43,6 +47,10 @@ public class ResultView implements IDrawable {
 	public void activate() {
 		shareButton.activate();
 		newGameButton.activate();
+
+		if (!Facebook.isLoggedIn())
+			sendScoreButton.activate();
+		sendScore();
 
 		String text = "";
 
@@ -63,6 +71,7 @@ public class ResultView implements IDrawable {
 	}
 
 	public void deactivate() {
+		sendScoreButton.deactivate();
 		shareButton.deactivate();
 		newGameButton.deactivate();
 	}
@@ -73,6 +82,8 @@ public class ResultView implements IDrawable {
 		shareButton.draw();
 		newGameButton.draw();
 		resultText.draw();
+		if (sendScoreButton.isActive())
+			sendScoreButton.draw();
 	}
 
 	private void closeResultView() {
@@ -80,17 +91,19 @@ public class ResultView implements IDrawable {
 		controller.init();
 	}
 
-	private void shareScoreOnFacebook() {
-		String mode = GlobalContext.matrixSize == 5 ? "5x5" : "4x4";
-		String name = Facebook.getUser().getName().split(" ")[0];
+	private void sendScore() {
+		ScoreManager.instance.sendScore(
+				GlobalContext.matrixSize == 4 ? Score.Mode4x4 : Score.Mode5x5,
+				GlobalContext.finalScore,
+				GlobalContext.finalMax);
+	}
 
-		String title = String.format("%s just reached %d with %d points in Double Up %s mode!",
-				name, GlobalContext.finalMax, GlobalContext.finalScore, mode);
-
-		Facebook.shareScore(title, new ICallback() {
+	private void loginWithFacebook() {
+		Facebook.login(new ICallback() {
 			@Override
 			public void onSuccess() {
-
+				ScoreManager.instance.sendScoresInBackground();
+				sendScoreButton.deactivate();
 			}
 
 			@Override
@@ -98,6 +111,15 @@ public class ResultView implements IDrawable {
 
 			}
 		});
+	}
+
+	private void shareScoreOnFacebook() {
+		Score score = new Score();
+		score.setMode(GlobalContext.matrixSize == 5 ? Score.Mode5x5 : Score.Mode4x4);
+		score.setScore(GlobalContext.finalScore);
+		score.setMaxNumber(GlobalContext.finalMax);
+
+		Facebook.shareScore(score, ICallback.NULL);
 	}
 
 	private class ResultText extends Text {
@@ -109,12 +131,32 @@ public class ResultView implements IDrawable {
 		}
 	}
 
+	private class SendScoreButton extends TextButton {
+		public SendScoreButton() {
+			super(DoubleUpColors.color32, R.colors.turpYellow);
+			setText("Send Score");
+			setFontScale(0.8f);
+			getLocation().set((Game.getVirtualWidth() - getWidth()) / 2, 310);
+			setListener(new IButtonListener() {
+				@Override
+				public void onButtonTapped() {
+					loginWithFacebook();
+				}
+			});
+		}
+
+		@Override
+		public boolean ignoreViewport() {
+			return false;
+		}
+	}
+
 	private class ShareButton extends TextButton {
 		public ShareButton() {
 			super(DoubleUpColors.color32, R.colors.turpYellow);
 			setText("Share Score");
 			setFontScale(0.8f);
-			getLocation().set((Game.getVirtualWidth() - getWidth()) / 2, 275);
+			getLocation().set((Game.getVirtualWidth() - getWidth()) / 2, 250);
 			setListener(new IButtonListener() {
 				@Override
 				public void onButtonTapped() {
@@ -134,7 +176,7 @@ public class ResultView implements IDrawable {
 			super(DoubleUpColors.color32, R.colors.turpYellow);
 			setText("New Game");
 			setFontScale(0.8f);
-			getLocation().set((Game.getVirtualWidth() - getWidth()) / 2, 200);
+			getLocation().set((Game.getVirtualWidth() - getWidth()) / 2, 190);
 			setListener(new IButtonListener() {
 				@Override
 				public void onButtonTapped() {

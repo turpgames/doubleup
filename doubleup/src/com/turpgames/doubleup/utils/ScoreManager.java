@@ -25,6 +25,7 @@ public class ScoreManager {
 
 	private ScoreManager() {
 		loadScoresToSend();
+		addOldHiScores();
 		sendScoresInBackground();
 	}
 
@@ -64,7 +65,7 @@ public class ScoreManager {
 		});
 	}
 
-	private void sendScoresInBackground() {
+	public void sendScoresInBackground() {
 		if (Facebook.isLoggedIn()) {
 			Util.Threading.runInBackground(new Runnable() {
 				@Override
@@ -78,7 +79,6 @@ public class ScoreManager {
 	private void sendScores() {
 		try {
 			loadScoresToSend();
-			addOldHiScores();
 			scoreToSendIndex = 0;
 			sendNextScore();
 		} catch (Throwable t) {
@@ -91,6 +91,7 @@ public class ScoreManager {
 			return;
 
 		Score score = scoresToSend.get(scoreToSendIndex);
+		score.setPlayerId(DoubleUpClient.getPlayer().getId());
 		scoreToSendIndex++;
 		sendScoreImpl(score);
 	}
@@ -116,7 +117,6 @@ public class ScoreManager {
 		scr.setMode(mode);
 		scr.setScore(score);
 		scr.setMaxNumber(maxNumber);
-		scr.setPlayerId(DoubleUpClient.getPlayer().getId());
 
 		scoresToSend.add(scr);
 		saveScoresToSend();
@@ -137,16 +137,20 @@ public class ScoreManager {
 
 	private void addOldHiScores() {
 		final String flagSettingsKey = "old-hiscores-sent-to-server";
-		
-		boolean scoreAlreadySent = Settings.getBoolean(flagSettingsKey, false);
-		if (scoreAlreadySent)
+
+		boolean scoresAlreadySent = Settings.getBoolean(flagSettingsKey, false);
+		if (scoresAlreadySent)
 			return;
+
+		int matrixSize = GlobalContext.matrixSize;
 
 		GlobalContext.matrixSize = 4;
 		addOldHiScore(Score.Mode4x4, DoubleUpSettings.getHiScore(), DoubleUpSettings.getMaxNumber());
 
 		GlobalContext.matrixSize = 5;
 		addOldHiScore(Score.Mode5x5, DoubleUpSettings.getHiScore(), DoubleUpSettings.getMaxNumber());
+
+		GlobalContext.matrixSize = matrixSize;
 
 		Settings.putBoolean(flagSettingsKey, true);
 	}

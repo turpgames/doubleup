@@ -3,6 +3,7 @@ package com.turpgames.doubleup.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.turpgames.doubleup.entity.Score;
 import com.turpgames.framework.v0.social.ICallback;
 import com.turpgames.framework.v0.social.IFacebookConnector;
 import com.turpgames.framework.v0.social.SocialFeed;
@@ -24,20 +25,20 @@ public class Facebook {
 	static {
 		facebook = Game.getFacebookConnector();
 		listeners = new ArrayList<Facebook.IFacebookListener>();
-		
+
 		String authClass = Game.getParam("auth-class");
-		auth = (IDoubleUpAuth)Util.Misc.createInstance(authClass);
+		auth = (IDoubleUpAuth) Util.Misc.createInstance(authClass);
 	}
-	
+
 	public static void registerListener(IFacebookListener listener) {
 		listeners.add(listener);
 	}
-	
+
 	private static void notifyLogin() {
 		for (IFacebookListener listener : listeners)
 			listener.onLogin();
 	}
-	
+
 	private static void notifyLogout() {
 		for (IFacebookListener listener : listeners)
 			listener.onLogout();
@@ -55,14 +56,14 @@ public class Facebook {
 		return !"".equals(CommonSettings.getPlayerFacebookId());
 	}
 
-	public static void shareScore(final String title, final ICallback callback) {
+	public static void shareScore(final Score score, final ICallback callback) {
 		if (Facebook.isLoggedIn()) {
-			doShareScore(title, callback);
+			doShareScore(score, callback);
 		} else {
 			login(new ICallback() {
 				@Override
 				public void onSuccess() {
-					doShareScore(title, callback);
+					doShareScore(score, callback);
 				}
 
 				@Override
@@ -83,19 +84,19 @@ public class Facebook {
 					public void onSuccess() {
 						DoubleUp.unblockUI();
 						DoubleUpToast.showInfo("Login Successful");
-						
+
 						notifyLogin();
-						
+
 						callback.onSuccess();
 					}
-					
+
 					@Override
 					public void onFail(Throwable t) {
-						facebook.logout(ICallback.NULL);
-						
+						logout(ICallback.NULL);
+
 						DoubleUp.unblockUI();
 						DoubleUpToast.showError("Login Failed");
-						
+
 						callback.onFail(t);
 					}
 				});
@@ -104,9 +105,9 @@ public class Facebook {
 			@Override
 			public void onFail(Throwable t) {
 				DoubleUp.unblockUI();
-				
+
 				DoubleUpToast.showError("Login Failed");
-				
+
 				callback.onFail(t);
 			}
 		});
@@ -118,11 +119,11 @@ public class Facebook {
 			public void onSuccess() {
 				CommonSettings.setPlayerId("");
 				CommonSettings.setPlayerFacebookId("");
-				
+
 				DoubleUpToast.showInfo("Logout Successful");
-				
+
 				notifyLogout();
-				
+
 				callback.onSuccess();
 			}
 
@@ -134,13 +135,13 @@ public class Facebook {
 		});
 	}
 
-	private static void doShareScore(String title, final ICallback callback) {
+	private static void doShareScore(Score score, final ICallback callback) {
 		try {
 			DoubleUp.blockUI("Sharing score...");
 
 			SocialFeed scoreFeed = SocialFeed
 					.newBuilder()
-					.setTitle(title)
+					.setTitle(buildTitle(score))
 					.setSubtitle("turpgames")
 					.setMessage("Double Up")
 					.setHref("http://www.turpgames.com/doubleupredirect.html")
@@ -167,6 +168,17 @@ public class Facebook {
 			DoubleUpToast.showError("Score Share Failed");
 			callback.onFail(t);
 		}
+	}
+
+	private static String buildTitle(Score score) {
+		if (score.getMode() == Score.Mode4x4 || score.getMode() == Score.Mode5x5) {
+			String mode = score.getMode() == Score.Mode5x5 ? "5x5" : "4x4";
+			String name = Facebook.getUser().getName().split(" ")[0];
+
+			return String.format("%s just reached %d with %d points in Double Up %s mode!",
+					name, score.getMaxNumber(), score.getScore(), mode);
+		}
+		return "";
 	}
 
 	public static void loadFriendList(ICallback callback) {

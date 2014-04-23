@@ -21,7 +21,7 @@ import com.turpgames.framework.v0.util.Debug;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.utils.Util;
 
-class DoubleUpClient {
+public class DoubleUpClient {
 	private final static String sendScoreUrlFormat;
 	private final static String getLeadersBoardUrlFormat;
 	private final static String registerPlayerUrlFormat;
@@ -35,20 +35,38 @@ class DoubleUpClient {
 		registerPlayerUrlFormat = baseUrl + Game.getParam("register-player-params");
 	}
 
+	public static void init() {
+		Facebook.registerListener(new Facebook.IFacebookListener() {
+			@Override
+			public void onLogout() {
+				player = null;
+			}
+
+			@Override
+			public void onLogin() {
+				initPlayer();
+			}
+		});
+	}
+
 	private static Player player;
 
 	public static Player getPlayer() {
-		if (player == null && Facebook.isLoggedIn()) {
-			SocialUser user = Facebook.getUser();
+		initPlayer();
+		return player;
+	}
 
+	private static void initPlayer() {
+		if (player == null)
 			player = new Player();
+		
+		if (Facebook.isLoggedIn()) {
+			SocialUser user = Facebook.getUser();
 
 			player.setEmail(user.getEmail());
 			player.setFacebookId(user.getSocialId());
 			player.setUsername(user.getName());
 		}
-
-		return player;
 	}
 
 	public static void sendScore(Score score, final ICallback callback) {
