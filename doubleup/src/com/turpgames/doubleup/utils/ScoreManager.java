@@ -24,14 +24,7 @@ public class ScoreManager {
 	private ArrayList<Score> scoresToSend;
 
 	private ScoreManager() {
-		loadScoresToSend();
-		addOldHiScores();
-		sendScoresInBackground();
-	}
 
-	public void sendScore(int mode, int score, int maxNumber) {
-		addScore(mode, score, maxNumber);
-		sendScoresInBackground();
 	}
 
 	public void getLeadersBoard(final int mode, final int days, final int whose, final ILeadersBoardCallback callback) {
@@ -65,7 +58,12 @@ public class ScoreManager {
 		});
 	}
 
-	public void sendScoresInBackground() {
+	public void sendScore(int mode, int score, int maxNumber) {
+		addScore(mode, score, maxNumber);
+		sendScoresInBackground();
+	}
+
+	private void sendScoresInBackground() {
 		if (Facebook.isLoggedIn()) {
 			Util.Threading.runInBackground(new Runnable() {
 				@Override
@@ -76,9 +74,8 @@ public class ScoreManager {
 		}
 	}
 
-	private void sendScores() {
+	private synchronized void sendScores() {
 		try {
-			loadScoresToSend();
 			scoreToSendIndex = 0;
 			sendNextScore();
 		} catch (Throwable t) {
@@ -86,7 +83,7 @@ public class ScoreManager {
 		}
 	}
 
-	private synchronized void sendNextScore() {
+	private void sendNextScore() {
 		if (scoresToSend.size() == 0 || scoreToSendIndex >= scoresToSend.size())
 			return;
 
@@ -96,7 +93,7 @@ public class ScoreManager {
 		sendScoreImpl(score);
 	}
 
-	private synchronized void sendScoreImpl(final Score score) {
+	private void sendScoreImpl(final Score score) {
 		DoubleUpClient.sendScore(score, new ICallback() {
 			@Override
 			public void onSuccess() {
@@ -118,6 +115,9 @@ public class ScoreManager {
 		scr.setScore(score);
 		scr.setMaxNumber(maxNumber);
 
+		if (scoresToSend == null)
+			loadScoresToSend();
+		
 		scoresToSend.add(scr);
 		saveScoresToSend();
 	}
@@ -133,6 +133,7 @@ public class ScoreManager {
 
 	private synchronized void loadScoresToSend() {
 		scoresToSend = CommonSettings.getScoresToSend();
+		addOldHiScores();
 	}
 
 	private void addOldHiScores() {

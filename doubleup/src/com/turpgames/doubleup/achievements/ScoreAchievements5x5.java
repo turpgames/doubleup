@@ -22,24 +22,24 @@ public class ScoreAchievements5x5 extends AchievementView {
 		colors.put(30000, DoubleUpColors.getColor(16));
 		colors.put(40000, DoubleUpColors.getColor(32));
 		colors.put(50000, DoubleUpColors.getColor(64));
-		colors.put(60000, DoubleUpColors.getColor(128));
-		colors.put(70000, DoubleUpColors.getColor(256));
-		colors.put(80000, DoubleUpColors.getColor(512));
-		colors.put(90000, DoubleUpColors.getColor(1024));
-		colors.put(100000, DoubleUpColors.getColor(2048));
-		colors.put(110000, DoubleUpColors.getColor(4096));
-		colors.put(120000, DoubleUpColors.getColor(8192));
-		colors.put(130000, DoubleUpColors.getColor(8192 * 2));
-		colors.put(140000, DoubleUpColors.getColor(8192 * 4));
-		colors.put(150000, DoubleUpColors.getColor(1));
-		colors.put(175000, DoubleUpColors.getColor(2));
-		colors.put(200000, DoubleUpColors.getColor(4));
-		colors.put(225000, DoubleUpColors.getColor(8));
-		colors.put(250000, DoubleUpColors.getColor(16));
-		colors.put(275000, DoubleUpColors.getColor(32));
-		colors.put(300000, DoubleUpColors.getColor(64));
-		colors.put(350000, DoubleUpColors.getColor(128));
-		colors.put(400000, DoubleUpColors.getColor(256));
+		colors.put(75000, DoubleUpColors.getColor(128));
+		colors.put(100000, DoubleUpColors.getColor(256));
+		colors.put(125000, DoubleUpColors.getColor(512));
+		colors.put(150000, DoubleUpColors.getColor(1024));
+		colors.put(175000, DoubleUpColors.getColor(2048));
+		colors.put(200000, DoubleUpColors.getColor(4096));
+		colors.put(225000, DoubleUpColors.getColor(8192));
+		colors.put(250000, DoubleUpColors.getColor(8192 * 2));
+		colors.put(275000, DoubleUpColors.getColor(8192 * 4));
+		colors.put(300000, DoubleUpColors.getColor(1));
+		colors.put(325000, DoubleUpColors.getColor(2));
+		colors.put(350000, DoubleUpColors.getColor(4));
+		colors.put(375000, DoubleUpColors.getColor(8));
+		colors.put(400000, DoubleUpColors.getColor(16));
+		colors.put(425000, DoubleUpColors.getColor(32));
+		colors.put(450000, DoubleUpColors.getColor(64));
+		colors.put(475000, DoubleUpColors.getColor(128));
+		colors.put(500000, DoubleUpColors.getColor(256));
 	}
 
 	@Override

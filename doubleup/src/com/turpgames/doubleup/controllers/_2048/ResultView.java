@@ -48,9 +48,10 @@ public class ResultView implements IDrawable {
 		shareButton.activate();
 		newGameButton.activate();
 
-		if (!Facebook.isLoggedIn())
+		if (Facebook.isLoggedIn())
+			sendScore();
+		else
 			sendScoreButton.activate();
-		sendScore();
 
 		String text = "";
 
@@ -102,7 +103,7 @@ public class ResultView implements IDrawable {
 		Facebook.login(new ICallback() {
 			@Override
 			public void onSuccess() {
-				ScoreManager.instance.sendScoresInBackground();
+				sendScore();
 				sendScoreButton.deactivate();
 			}
 

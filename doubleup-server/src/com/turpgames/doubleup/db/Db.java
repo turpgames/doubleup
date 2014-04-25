@@ -140,7 +140,7 @@ public final class Db {
 				if (!playerIdsToSelect.contains(score.getPlayerId()))
 					playerIdsToSelect.add(score.getPlayerId());
 			}
-			
+
 			Player[] players = Players.selectPlayersById(playerIdsToSelect.toArray(new Integer[0]));
 
 			return createLeadersBoard(mode, days, playerId, scores, players);
@@ -163,13 +163,13 @@ public final class Db {
 				if (!playerIdsToSelect.contains(score.getPlayerId()))
 					playerIdsToSelect.add(score.getPlayerId());
 			}
-			
+
 			Player[] players = Players.selectPlayersById(playerIdsToSelect.toArray(new Integer[0]));
 
 			return createLeadersBoard(mode, days, playerId, scores, players);
 		}
 
-		public static int getRank(int mode, int days, int score) {			
+		public static int getRank(int mode, int days, int score) {
 			SqlQuery sql = new SqlQuery("select count(*) + 1 rank from (select * from scores where score > " + score);
 
 			sql.append(" and mode = " + mode);
@@ -201,7 +201,7 @@ public final class Db {
 		}
 
 		public static int getRank(int mode, int days, int score, String[] facebookIds) {
-			SqlQuery sql = new SqlQuery("select count(*) + 1 rank from (select s.* from scores s, players p where s.player_id = p.id and s.score > " +  score);
+			SqlQuery sql = new SqlQuery("select count(*) + 1 rank from (select s.* from scores s, players p where s.player_id = p.id and s.score > " + score);
 
 			sql.append(" and s.mode = " + mode);
 
@@ -211,7 +211,7 @@ public final class Db {
 
 				sql.append(" and s.time > ?").addParameter(cal.getTimeInMillis(), Types.BIGINT);
 			}
-			
+
 			sql.append(" and p.facebook_id in (");
 			for (int i = 0; i < facebookIds.length; i++) {
 				sql.append("?");
@@ -220,7 +220,7 @@ public final class Db {
 					sql.append(",");
 			}
 			sql.append(")");
-			
+
 			sql.append(" order by s.score desc");
 
 			sql.append(", s.time) ss");
@@ -332,13 +332,24 @@ public final class Db {
 
 		public static boolean insert(Score score) {
 			try {
-				DbManager.executeInsert(new SqlQuery(
-						"insert into scores (player_id,mode,score,max_number,time) values (?,?,?,?,?)")
-						.addParameter(score.getPlayerId(), Types.INTEGER)
-						.addParameter(score.getMode(), Types.INTEGER)
-						.addParameter(score.getScore(), Types.INTEGER)
-						.addParameter(score.getMaxNumber(), Types.INTEGER)
-						.addParameter(score.getTime(), Types.BIGINT));
+				Score existingScore = DbManager.executeSelectSingle(
+						new SqlQuery("select * from scores where player_id=? and mode=? and score=? and max_number=?")
+								.addParameter(score.getPlayerId(), Types.INTEGER)
+								.addParameter(score.getMode(), Types.INTEGER)
+								.addParameter(score.getScore(), Types.INTEGER)
+								.addParameter(score.getMaxNumber(), Types.INTEGER),
+						factory);
+
+				if (existingScore == null) {
+					DbManager.executeInsert(
+							new SqlQuery("insert into scores (player_id,mode,score,max_number,time) values (?,?,?,?,?)")
+									.addParameter(score.getPlayerId(), Types.INTEGER)
+									.addParameter(score.getMode(), Types.INTEGER)
+									.addParameter(score.getScore(), Types.INTEGER)
+									.addParameter(score.getMaxNumber(), Types.INTEGER)
+									.addParameter(score.getTime(), Types.BIGINT));
+				}
+
 				return true;
 			} catch (SQLException e) {
 				e.printStackTrace();

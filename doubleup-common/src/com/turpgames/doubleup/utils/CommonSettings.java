@@ -25,7 +25,6 @@ public class CommonSettings {
 	
 	@SuppressWarnings("unchecked")
 	public static ArrayList<Score> getScoresToSend() {
-		ArrayList<Score> scores = new ArrayList<Score>();
 		try {
 			String encoded = Settings.getString(R.settings.scoresToSend, "");
 			if (!Util.Strings.isNullOrWhitespace(encoded)) {
@@ -35,7 +34,7 @@ public class CommonSettings {
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
-		return scores;
+		return new ArrayList<Score>();
 	}
 
 	public static void setScoresToSend(ArrayList<Score> scoresToSend) {

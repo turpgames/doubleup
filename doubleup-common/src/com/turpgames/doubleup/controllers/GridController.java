@@ -11,6 +11,8 @@ import com.turpgames.framework.v0.util.Vector;
 import com.turpgames.utils.Util;
 
 public abstract class GridController implements IInputListener {
+	private final static float minMove = Game.scale(30f);
+	
 	protected final Grid grid;
 	protected final IDoubleUpView view;
 	protected final ResetButton resetButton;
@@ -112,6 +114,9 @@ public abstract class GridController implements IInputListener {
 			
 			dx = x - dx;
 			dy = y - dy;
+
+			if (Math.abs(dx) < minMove && Math.abs(dy) < minMove)
+				return false;
 
 			if (Math.abs(dx) > Math.abs(dy)) {
 				if (dx > 0)
