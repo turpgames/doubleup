@@ -7,24 +7,50 @@ import com.turpgames.doubleup.entity.LeadersBoard;
 import com.turpgames.doubleup.entity.Player;
 import com.turpgames.doubleup.entity.Score;
 import com.turpgames.doubleup.utils.DoubleUpToast;
+import com.turpgames.doubleup.utils.ScoreManager;
 import com.turpgames.doubleup.utils.ScoreManager.ILeadersBoardCallback;
 import com.turpgames.framework.v0.IView;
 import com.turpgames.framework.v0.impl.Text;
 
-public abstract class LeadersBoardView implements IView {
+class LeadersBoardView implements IView {
+	private final int mode;
+	private final int days;
+
+	private final String id;
 	private final Text title;
+	private final Text subTitle;
 	private volatile List<LeadersBoardRow> rows = new ArrayList<LeadersBoardRow>();
 
-	protected LeadersBoardView() {
+	public LeadersBoardView(int mode, int days) {
+		this.mode = mode;
+		this.days = days;
+
 		title = new Text();
 		title.setAlignment(Text.HAlignCenter, Text.VAlignTop);
 		title.setPadY(150f);
-		title.setText(getId());
+
+		subTitle = new Text();
+		subTitle.setAlignment(Text.HAlignCenter, Text.VAlignTop);
+		subTitle.setPadY(200f);
+		subTitle.setFontScale(0.5f);
+
+		title.setText(mode == Score.Mode4x4 ? "4x4" : "5x5");
+		if (days == Score.AllTime)
+			subTitle.setText("All Time");
+		if (days == Score.Monthly)
+			subTitle.setText("Last Month");
+		if (days == Score.Weekly)
+			subTitle.setText("Last Week");
+		if (days == Score.Daily)
+			subTitle.setText("Today");
+		
+		id = title.getText() + subTitle.getText();
 	}
 
 	@Override
 	public void draw() {
 		title.draw();
+		subTitle.draw();
 		for (LeadersBoardRow row : rows)
 			row.draw();
 	}
@@ -38,7 +64,7 @@ public abstract class LeadersBoardView implements IView {
 	public boolean deactivate() {
 		return true;
 	}
-	
+
 	public void loadScores() {
 		loadLeadersBoard(new ILeadersBoardCallback() {
 			@Override
@@ -63,5 +89,12 @@ public abstract class LeadersBoardView implements IView {
 		rows = tmpRows;
 	}
 
-	protected abstract void loadLeadersBoard(ILeadersBoardCallback callback);
+	private void loadLeadersBoard(ILeadersBoardCallback callback) {
+		ScoreManager.instance.getLeadersBoard(mode, days, Score.General, callback);
+	}
+
+	@Override
+	public String getId() {
+		return id;
+	}
 }

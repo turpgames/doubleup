@@ -1,5 +1,6 @@
 package com.turpgames.doubleup.leadersboard;
 
+import com.turpgames.doubleup.entity.Score;
 import com.turpgames.doubleup.utils.Facebook;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.IView;
@@ -9,18 +10,21 @@ import com.turpgames.framework.v0.social.ICallback;
 import com.turpgames.framework.v0.util.Game;
 
 public class LeadersBoardController implements IView {
-	private final LeadersBoard4x4 leadersBoard4x4;
-	private final LeadersBoard5x5 leadersBoard5x5;
 
 	private TouchSlidingViewSwitcher viewSwitcher;
 
 	public LeadersBoardController() {
-		leadersBoard4x4 = new LeadersBoard4x4();
-		leadersBoard5x5 = new LeadersBoard5x5();
+		int[] modes = new int[] { Score.Mode4x4, Score.Mode5x5 };
+		int[] days = new int[] { Score.Daily, Score.Weekly, Score.Monthly, Score.AllTime };
 
 		viewSwitcher = new TouchSlidingViewSwitcher(false);
-		viewSwitcher.addView(leadersBoard4x4);
-		viewSwitcher.addView(leadersBoard5x5);
+
+		for (int mode : modes) {
+			for (int day : days) {
+				viewSwitcher.addView(new LeadersBoardView(mode, day));
+			}
+		}
+
 		viewSwitcher.setArea(0, 0, Game.getVirtualWidth(), Game.getVirtualHeight());
 	}
 
@@ -37,16 +41,14 @@ public class LeadersBoardController implements IView {
 	@Override
 	public void activate() {
 		if (Facebook.isLoggedIn()) {
-			leadersBoard4x4.loadScores();
-			leadersBoard5x5.loadScores();
+			loadScores();
 			viewSwitcher.activate();
 		}
 		else {
 			Facebook.login(new ICallback() {
 				@Override
 				public void onSuccess() {
-					leadersBoard4x4.loadScores();
-					leadersBoard5x5.loadScores();
+					loadScores();
 					viewSwitcher.activate();
 				}
 
@@ -58,11 +60,23 @@ public class LeadersBoardController implements IView {
 		}
 	}
 
+	private void loadScores() {
+		for (IView view : viewSwitcher.getViews()) {
+			if (view instanceof LeadersBoardView)
+				((LeadersBoardView) view).loadScores();
+		}
+	}
+
+	private void deactivateViews() {
+		for (IView view : viewSwitcher.getViews()) {
+			view.deactivate();
+		}
+	}
+
 	@Override
 	public boolean deactivate() {
 		viewSwitcher.deactivate();
-		leadersBoard4x4.deactivate();
-		leadersBoard5x5.deactivate();
+		deactivateViews();
 		return true;
 	}
 }

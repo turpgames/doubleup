@@ -9,7 +9,9 @@ public class DoubleUpAds {
 		if (!ConnectionManager.hasConnection())
 			return;
 
-		if (force || ++counter % 5 == 0)
+		if (force || ++counter % 3 == 0) {
+			counter = 0;
 			Game.showPopUpAd();
+		}
 	}
 }
