@@ -1,11 +1,12 @@
-package com.turpgames.doubleup.entity;
+package com.turpgames.doubleup.entity2;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Score implements Serializable {
-	private static final long serialVersionUID = 3869159083949235971L;
-
+	private static final long serialVersionUID = -8262228719369352379L;
+	
 	public static final int Mode4x4 = 1;
 	public static final int Mode5x5 = 2;
 
@@ -23,7 +24,6 @@ public class Score implements Serializable {
 	private int score;
 	private int maxNumber;
 	private long time;
-	private Date date;
 
 	public int getPlayerId() {
 		return playerId;
@@ -66,9 +66,8 @@ public class Score implements Serializable {
 	}
 
 	public Date getDate() {
-		if (date == null) {
-			date = new Date(time);
-		}
-		return date;
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(time);
+		return cal.getTime();
 	}
 }

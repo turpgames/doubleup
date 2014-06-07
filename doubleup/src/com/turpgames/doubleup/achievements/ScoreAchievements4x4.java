@@ -58,7 +58,7 @@ public class ScoreAchievements4x4 extends AchievementView {
 
 	@Override
 	protected void updateTileColors() {
-		int max = DoubleUpSettings.getHiScore();
+		int max = DoubleUpSettings.getHiScore(getMatrixSize());
 
 		for (Row row : grid.getRows()) {
 			for (Cell cell : row.getCells()) {
@@ -74,7 +74,7 @@ public class ScoreAchievements4x4 extends AchievementView {
 	}
 
 	private void putTile(int rowIndex, int colIndex, int value) {
-		int max = DoubleUpSettings.getHiScore();
+		int max = DoubleUpSettings.getHiScore(getMatrixSize());
 
 		Tile tile = grid.putTile(rowIndex, colIndex, value);
 		tile.getColor().set(
@@ -87,6 +87,6 @@ public class ScoreAchievements4x4 extends AchievementView {
 
 	@Override
 	protected void updateText() {
-		text.setText("Hi Score\n" + DoubleUpSettings.getHiScore());
+		text.setText("Hi Score\n" + DoubleUpSettings.getHiScore(getMatrixSize()));
 	}
 }

@@ -1,6 +1,6 @@
 package com.turpgames.doubleup.leadersboard;
 
-import com.turpgames.doubleup.entity.Score;
+import com.turpgames.doubleup.entity2.Score;
 import com.turpgames.doubleup.utils.Facebook;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.IView;

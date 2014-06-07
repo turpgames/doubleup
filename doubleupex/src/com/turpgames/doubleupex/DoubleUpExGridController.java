@@ -28,8 +28,6 @@ public abstract class DoubleUpExGridController extends GridController {
 
 	@Override
 	public void init() {
-		GlobalContext.matrixSize = matrixSize;
-
 		grid.init(matrixSize);
 
 		GridState state = DoubleUpStateManager.getGridState(getGridStateKey());

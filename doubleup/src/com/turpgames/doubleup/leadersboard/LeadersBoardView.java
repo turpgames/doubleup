@@ -3,9 +3,9 @@ package com.turpgames.doubleup.leadersboard;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.turpgames.doubleup.entity.LeadersBoard;
-import com.turpgames.doubleup.entity.Player;
-import com.turpgames.doubleup.entity.Score;
+import com.turpgames.doubleup.entity2.LeadersBoard;
+import com.turpgames.doubleup.entity2.Player;
+import com.turpgames.doubleup.entity2.Score;
 import com.turpgames.doubleup.utils.DoubleUpToast;
 import com.turpgames.doubleup.utils.ScoreManager;
 import com.turpgames.doubleup.utils.ScoreManager.ILeadersBoardCallback;

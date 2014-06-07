@@ -5,7 +5,6 @@ import com.turpgames.doubleup.entities.Grid;
 
 public class GlobalContext {
 	public static Grid grid;
-	public static int matrixSize;
 	public static int moveScore;
 	public static int finalScore;
 	public static int finalMax;
@@ -21,7 +20,6 @@ public class GlobalContext {
 	public static void reset(Grid grid) {
 		GlobalContext.grid = grid;
 		finalScore = 0;
-		matrixSize = grid.getMatrixSize();
 		hasNewHiScore = false;
 		hasNewMaxNumber = false;
 		resetMove();

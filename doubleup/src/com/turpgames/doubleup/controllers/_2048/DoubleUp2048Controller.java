@@ -31,7 +31,7 @@ public class DoubleUp2048Controller extends GridController {
 		float x = (Game.getVirtualWidth() - Grid.size) / 2;
 		float y = (Game.getVirtualHeight() - Grid.size) / 2;
 
-		resultView = new ResultView(this);
+		resultView = new ResultView(this, matrixSize);
 
 		scoreArea = new ScoreArea("Score");
 		scoreArea.setLocation(x + 4, y - 75);
@@ -72,8 +72,6 @@ public class DoubleUp2048Controller extends GridController {
 		view.unregisterDrawable(resultView);
 
 		resetButton.activate();
-
-		GlobalContext.matrixSize = matrixSize;
 
 		grid.init(matrixSize);
 
@@ -118,15 +116,15 @@ public class DoubleUp2048Controller extends GridController {
 		if (GlobalContext.moveScore > 0) {
 			score += GlobalContext.moveScore;
 
-			if (score > DoubleUpSettings.getHiScore()) {
+			if (score > DoubleUpSettings.getHiScore(matrixSize)) {
 				GlobalContext.hasNewHiScore = true;
-				DoubleUpSettings.setHiScore(score);
+				DoubleUpSettings.setHiScore(matrixSize, score);
 			}
 
 			GlobalContext.finalMax = grid.getMaxNumber();
-			if (GlobalContext.finalMax > DoubleUpSettings.getMaxNumber()) {
+			if (GlobalContext.finalMax > DoubleUpSettings.getMaxNumber(matrixSize)) {
 				GlobalContext.hasNewMaxNumber = true;
-				DoubleUpSettings.setMaxNumber(GlobalContext.finalMax);
+				DoubleUpSettings.setMaxNumber(matrixSize, GlobalContext.finalMax);
 			}
 
 			updateScoreTexts();
@@ -151,8 +149,8 @@ public class DoubleUp2048Controller extends GridController {
 
 	private void updateScoreTexts() {
 		scoreArea.setScore(score);
-		hiscoreArea.setScore(DoubleUpSettings.getHiScore());
-		hiscoreBlockArea.setScore(DoubleUpSettings.getMaxNumber());
+		hiscoreArea.setScore(DoubleUpSettings.getHiScore(matrixSize));
+		hiscoreBlockArea.setScore(DoubleUpSettings.getMaxNumber(matrixSize));
 	}
 
 	private void onGameOver() {

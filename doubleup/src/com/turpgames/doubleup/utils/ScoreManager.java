@@ -2,8 +2,8 @@ package com.turpgames.doubleup.utils;
 
 import java.util.ArrayList;
 
-import com.turpgames.doubleup.entity.LeadersBoard;
-import com.turpgames.doubleup.entity.Score;
+import com.turpgames.doubleup.entity2.LeadersBoard;
+import com.turpgames.doubleup.entity2.Score;
 import com.turpgames.doubleup.leadersboard.LeadersBoardCache;
 import com.turpgames.framework.v0.impl.Settings;
 import com.turpgames.framework.v0.social.ICallback;
@@ -88,7 +88,7 @@ public class ScoreManager {
 			return;
 
 		Score score = scoresToSend.get(scoreToSendIndex);
-		score.setPlayerId(DoubleUpClient.getPlayer().getId());
+		score.setPlayerId(DoubleUpPlayer.getInstance().getId());
 		scoreToSendIndex++;
 		sendScoreImpl(score);
 	}
@@ -117,7 +117,7 @@ public class ScoreManager {
 
 		if (scoresToSend == null)
 			loadScoresToSend();
-		
+
 		scoresToSend.add(scr);
 		saveScoresToSend();
 	}
@@ -128,11 +128,11 @@ public class ScoreManager {
 	}
 
 	private synchronized void saveScoresToSend() {
-		CommonSettings.setScoresToSend(scoresToSend);
+		saveScoresToSend(scoresToSend);
 	}
 
 	private synchronized void loadScoresToSend() {
-		scoresToSend = CommonSettings.getScoresToSend();
+		scoresToSend = getScoresToSend();
 		addOldHiScores();
 	}
 
@@ -143,15 +143,8 @@ public class ScoreManager {
 		if (scoresAlreadySent)
 			return;
 
-		int matrixSize = GlobalContext.matrixSize;
-
-		GlobalContext.matrixSize = 4;
-		addOldHiScore(Score.Mode4x4, DoubleUpSettings.getHiScore(), DoubleUpSettings.getMaxNumber());
-
-		GlobalContext.matrixSize = 5;
-		addOldHiScore(Score.Mode5x5, DoubleUpSettings.getHiScore(), DoubleUpSettings.getMaxNumber());
-
-		GlobalContext.matrixSize = matrixSize;
+		addOldHiScore(Score.Mode4x4, DoubleUpSettings.hiScore4x4.get(), DoubleUpSettings.maxNumber4x4.get());
+		addOldHiScore(Score.Mode5x5, DoubleUpSettings.hiScore5x5.get(), DoubleUpSettings.maxNumber5x5.get());
 
 		Settings.putBoolean(flagSettingsKey, true);
 	}
@@ -159,5 +152,25 @@ public class ScoreManager {
 	private void addOldHiScore(int mode, int score, int maxNumber) {
 		if (score > 0)
 			addScore(mode, score, maxNumber);
+	}
+
+	@SuppressWarnings("unchecked")
+	private static ArrayList<Score> getScoresToSend() {
+		try {
+			String encoded = Settings.getString(R.settings.scoresToSend, "");
+			if (!Util.Strings.isNullOrWhitespace(encoded)) {
+				byte[] serialized = Util.Strings.fromBase64String(encoded);
+				return (ArrayList<Score>) Util.IO.deserialize(serialized);
+			}
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return new ArrayList<Score>();
+	}
+
+	private static void saveScoresToSend(ArrayList<Score> scoresToSend) {
+		byte[] serialized = Util.IO.serialize(scoresToSend);
+		String encoded = Util.Strings.toBase64String(serialized);
+		Settings.putString(R.settings.scoresToSend, encoded);
 	}
 }

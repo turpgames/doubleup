@@ -27,7 +27,7 @@ public class ScoreArea extends GameObject {
 		text.setLocation(x, y);
 	}
 
-	public void setScore(long score) {
+	public void setScore(int score) {
 		this.text.setText(key + "\n" + score);
 	}
 

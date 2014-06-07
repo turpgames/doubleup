@@ -27,6 +27,10 @@ public abstract class GridController implements IInputListener {
 		view.registerInputListener(this);
 		view.registerDrawable(resetButton, Game.LAYER_GAME);
 	}
+	
+	public int getMatrixSize() {
+		return grid.getMatrixSize();
+	}
 
 	public void reset() {
 		grid.reset();

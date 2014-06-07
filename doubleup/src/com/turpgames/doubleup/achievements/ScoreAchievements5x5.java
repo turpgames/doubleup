@@ -12,7 +12,7 @@ import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.framework.v0.util.Color;
 
 public class ScoreAchievements5x5 extends AchievementView {
-	private static Map<Integer, Color> colors = new  LinkedHashMap<Integer, Color>();
+	private static Map<Integer, Color> colors = new LinkedHashMap<Integer, Color>();
 
 	static {
 		colors.put(5000, DoubleUpColors.getColor(1));
@@ -66,7 +66,7 @@ public class ScoreAchievements5x5 extends AchievementView {
 
 	@Override
 	protected void updateTileColors() {
-		int max = DoubleUpSettings.getHiScore();
+		int max = DoubleUpSettings.getHiScore(getMatrixSize());
 
 		for (Row row : grid.getRows()) {
 			for (Cell cell : row.getCells()) {
@@ -82,7 +82,7 @@ public class ScoreAchievements5x5 extends AchievementView {
 	}
 
 	private void putTile(int rowIndex, int colIndex, int value) {
-		int max = DoubleUpSettings.getHiScore();
+		int max = DoubleUpSettings.getHiScore(getMatrixSize());
 
 		Tile tile = grid.putTile(rowIndex, colIndex, value);
 		tile.getColor().set(
@@ -95,6 +95,6 @@ public class ScoreAchievements5x5 extends AchievementView {
 
 	@Override
 	protected void updateText() {
-		text.setText("Hi Score\n" + DoubleUpSettings.getHiScore());
+		text.setText("Hi Score\n" + DoubleUpSettings.getHiScore(getMatrixSize()));
 	}
 }

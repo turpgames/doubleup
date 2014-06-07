@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.turpgames.doubleup.db.Db;
 import com.turpgames.doubleup.db.LeadersBoardCache;
-import com.turpgames.doubleup.servlet.DoubleupServlet;
-import com.turpgames.doubleup.entity.JsonEncoders;
 import com.turpgames.doubleup.entity.LeadersBoard;
 import com.turpgames.doubleup.entity.Player;
 import com.turpgames.doubleup.entity.Score;
+import com.turpgames.doubleup.servlet.DoubleupServlet;
+import com.turpgames.json.JsonEncoder;
 import com.turpgames.servlet.IServletActionHandler;
 import com.turpgames.servlet.RequestContext;
 import com.turpgames.utils.Util;
@@ -47,7 +47,7 @@ public class GetLeadersBoardActionHandler implements IServletActionHandler {
 			leadersBoard = new LeadersBoard();
 		}
 
-		String json = toJson(leadersBoard);
+		String json = JsonEncoder.encode(leadersBoard);
 		context.writeToResponse(json);
 	}
 
@@ -95,9 +95,5 @@ public class GetLeadersBoardActionHandler implements IServletActionHandler {
 		}
 
 		return leadersBoard;
-	}
-
-	private static String toJson(LeadersBoard leadersBoard) {
-		return JsonEncoders.leadersBoard.encode(leadersBoard);
 	}
 }

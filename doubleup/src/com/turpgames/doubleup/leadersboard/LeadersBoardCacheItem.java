@@ -3,7 +3,7 @@ package com.turpgames.doubleup.leadersboard;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.turpgames.doubleup.entity.LeadersBoard;
+import com.turpgames.doubleup.entity2.LeadersBoard;
 
 public class LeadersBoardCacheItem implements Serializable {
 	private static final long serialVersionUID = -5089023063302516984L;

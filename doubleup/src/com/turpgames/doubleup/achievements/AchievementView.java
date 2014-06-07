@@ -1,7 +1,6 @@
 package com.turpgames.doubleup.achievements;
 
 import com.turpgames.doubleup.entities.Grid;
-import com.turpgames.doubleup.utils.GlobalContext;
 import com.turpgames.framework.v0.IView;
 import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.util.Color;
@@ -14,7 +13,6 @@ public abstract class AchievementView implements IView {
 	
 	public AchievementView() {
 		grid = new Grid();
-		GlobalContext.matrixSize = getMatrixSize();
 
 		grid.init(getMatrixSize());
 		
@@ -41,7 +39,6 @@ public abstract class AchievementView implements IView {
 
 	@Override
 	public void activate() {
-		GlobalContext.matrixSize = getMatrixSize();
 		updateTileColors();
 		updateText();
 	}

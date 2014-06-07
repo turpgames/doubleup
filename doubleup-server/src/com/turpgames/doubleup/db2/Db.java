@@ -1,54 +1,71 @@
-package com.turpgames.doubleup.db;
+package com.turpgames.doubleup.db2;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import com.turpgames.db.DbManager;
 import com.turpgames.db.IEntityFactory;
 import com.turpgames.db.SqlQuery;
-import com.turpgames.doubleup.entity.LeadersBoard;
-import com.turpgames.doubleup.entity.Player;
-import com.turpgames.doubleup.entity.Score;
+import com.turpgames.doubleup.entity2.LeadersBoard;
+import com.turpgames.doubleup.entity2.Player;
+import com.turpgames.doubleup.entity2.Score;
+import com.turpgames.doubleup.entity2.Stat;
 
 public final class Db {
 	private Db() {
 	}
 
-	public static final class Players {
+	public final static class Players {
 		public final static IEntityFactory<Player> factory = new IEntityFactory<Player>() {
 			@Override
 			public Player create(ResultSet rs) throws SQLException {
 				Player player = new Player();
 
 				player.setId(rs.getInt("id"));
+				player.setFacebookId(rs.getString("facebook_id"));
 				player.setUsername(rs.getString("username"));
 				player.setEmail(rs.getString("email"));
-				player.setFacebookId(rs.getString("facebook_id"));
+				player.setJoinTime(rs.getDate("join_time").getTime());
 
 				return player;
 			};
 		};
 
-		public static boolean insert(Player player) {
+		public final static Player createAnonymousPlayer() {
+			Player player = new Player();
+			player.setUsername("Anonymous Player");
+			player.setEmail("");
+			player.setFacebookId("");
+
+			insert(player);
+			return player;
+		}
+
+		public final static Player createFacebookPlayer(Player player) {
+			insert(player);
+			return player;
+		}
+
+		private static void insert(Player player) {
 			try {
+				player.setJoinTime(System.currentTimeMillis());
+
 				int id = (Integer) DbManager
 						.executeInsert(new SqlQuery(
-								"insert into players (username,email,facebook_id,join_date) values (?,?,?,?)")
+								"insert into players (username,email,facebook_id,join_time) values (?,?,?,?)")
 								.addParameter(player.getUsername(), Types.VARCHAR)
 								.addParameter(player.getEmail(), Types.VARCHAR)
 								.addParameter(player.getFacebookId(), Types.VARCHAR)
-								.addParameter(new Date(System.currentTimeMillis()), Types.TIMESTAMP));
+								.addParameter(player.getJoinDate(), Types.TIMESTAMP));
 
 				player.setId(id);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			return player.getId() > 0;
 		}
 
 		public static Player get(int id) {
@@ -68,8 +85,7 @@ public final class Db {
 			SqlQuery sql = new SqlQuery("select * from players where id in (");
 
 			for (int i = 0; i < playerIds.length; i++) {
-				sql.append("?");
-				sql.addParameter(playerIds[i], Types.INTEGER);
+				sql.append("" + playerIds[i]);
 				if (i < playerIds.length - 1)
 					sql.append(",");
 			}
@@ -117,7 +133,7 @@ public final class Db {
 		}
 	}
 
-	public static final class LeadersBoards {
+	public final static class LeadersBoards {
 		public static LeadersBoard getLeadersBoard(int mode, int days, int playerId, int limit) {
 			SqlQuery sql = prepareSql(mode, days, playerId, limit);
 
@@ -319,13 +335,13 @@ public final class Db {
 				score.setMode(rs.getInt("mode"));
 				score.setScore(rs.getInt("score"));
 				score.setMaxNumber(rs.getInt("max_number"));
-				score.setTime(rs.getLong("time"));
+				score.setTime(rs.getDate("score_time").getTime());
 
 				return score;
 			};
 		};
 
-		public static boolean insert(Score score) {
+		public static synchronized boolean insert(Score score) {
 			try {
 				Score existingScore = DbManager.executeSelectSingle(
 						new SqlQuery("select * from scores where player_id=? and mode=? and score=? and max_number=?")
@@ -350,6 +366,39 @@ public final class Db {
 				e.printStackTrace();
 			}
 			return false;
+		}
+	}
+
+	public final static class Stats {
+		public final static IEntityFactory<Stat> factory = new IEntityFactory<Stat>() {
+			@Override
+			public Stat create(ResultSet rs) throws SQLException {
+				Stat stat = new Stat();
+
+				stat.setPlayerId(rs.getInt("player_id"));
+				stat.setAction(rs.getInt("action"));
+				stat.setAppVersion(rs.getString("app_version"));
+				stat.setOs(rs.getString("os"));
+				stat.setOsVersion(rs.getString("os_version"));
+				stat.setTime(rs.getDate("time"));
+
+				return stat;
+			};
+		};
+
+		public static void insert(Stat stat) {
+			try {
+				DbManager.executeInsert(new SqlQuery(
+						"insert into stats (player_id,action,app_version,os,os_version,time) values (?,?,?,?,?,?)")
+						.addParameter(stat.getPlayerId(), Types.INTEGER)
+						.addParameter(stat.getAction(), Types.INTEGER)
+						.addParameter(stat.getAppVersion(), Types.VARCHAR)
+						.addParameter(stat.getOs(), Types.VARCHAR)
+						.addParameter(stat.getOsVersion(), Types.VARCHAR)
+						.addParameter(stat.getTime(), Types.TIMESTAMP));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

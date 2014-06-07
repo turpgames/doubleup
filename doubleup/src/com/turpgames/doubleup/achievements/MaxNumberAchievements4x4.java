@@ -31,7 +31,7 @@ public class MaxNumberAchievements4x4 extends AchievementView {
 	
 	@Override
 	protected void updateTileColors() {
-		int max = DoubleUpSettings.getMaxNumber();
+		int max = DoubleUpSettings.getMaxNumber(getMatrixSize());
 
 		for (Row row : grid.getRows()) {
 			for (Cell cell : row.getCells()) {
@@ -47,7 +47,7 @@ public class MaxNumberAchievements4x4 extends AchievementView {
 	}
 
 	private void putTile(int rowIndex, int colIndex, int value) {
-		int max = DoubleUpSettings.getMaxNumber();
+		int max = DoubleUpSettings.getMaxNumber(getMatrixSize());
 		grid.putTile(rowIndex, colIndex, value).getColor().set(
 				value > max
 						? noColor
@@ -56,6 +56,6 @@ public class MaxNumberAchievements4x4 extends AchievementView {
 
 	@Override
 	protected void updateText() {
-		text.setText("Max Number\n" + DoubleUpSettings.getMaxNumber());
+		text.setText("Max Number\n" + DoubleUpSettings.getMaxNumber(getMatrixSize()));
 	}
 }

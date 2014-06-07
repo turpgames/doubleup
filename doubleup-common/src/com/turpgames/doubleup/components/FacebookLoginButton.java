@@ -60,4 +60,9 @@ public class FacebookLoginButton extends ImageButton implements IFacebookListene
 	public void onLogout() {
 		getColor().a = 1f;
 	}
+
+	@Override
+	public void onShareScore() {
+		
+	}
 }

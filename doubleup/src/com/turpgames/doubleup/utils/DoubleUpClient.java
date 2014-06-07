@@ -5,12 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 
-import com.turpgames.doubleup.entity.JsonEncoders;
-import com.turpgames.doubleup.entity.LeadersBoard;
-import com.turpgames.doubleup.entity.Player;
-import com.turpgames.doubleup.entity.Score;
-import com.turpgames.doubleup.utils.CommonSettings;
-import com.turpgames.doubleup.utils.Facebook;
+import com.turpgames.doubleup.entity2.LeadersBoard;
+import com.turpgames.doubleup.entity2.Player;
+import com.turpgames.doubleup.entity2.Score;
 import com.turpgames.doubleup.utils.ScoreManager.ILeadersBoardCallback;
 import com.turpgames.framework.v0.IHttpResponse;
 import com.turpgames.framework.v0.IHttpResponseListener;
@@ -19,6 +16,7 @@ import com.turpgames.framework.v0.social.ICallback;
 import com.turpgames.framework.v0.social.SocialUser;
 import com.turpgames.framework.v0.util.Debug;
 import com.turpgames.framework.v0.util.Game;
+import com.turpgames.json.JsonEncoder;
 import com.turpgames.utils.Util;
 
 public class DoubleUpClient {
@@ -33,40 +31,6 @@ public class DoubleUpClient {
 		sendScoreUrlFormat = baseUrl + Game.getParam("send-score-params");
 		getLeadersBoardUrlFormat = baseUrl + Game.getParam("get-leadersboard-params");
 		registerPlayerUrlFormat = baseUrl + Game.getParam("register-player-params");
-	}
-
-	public static void init() {
-		Facebook.registerListener(new Facebook.IFacebookListener() {
-			@Override
-			public void onLogout() {
-				player = null;
-			}
-
-			@Override
-			public void onLogin() {
-				initPlayer();
-			}
-		});
-	}
-
-	private static Player player;
-
-	public static Player getPlayer() {
-		initPlayer();
-		return player;
-	}
-
-	private static void initPlayer() {
-		if (player == null)
-			player = new Player();
-		
-		if (Facebook.isLoggedIn()) {
-			SocialUser user = Facebook.getUser();
-
-			player.setEmail(user.getEmail());
-			player.setFacebookId(user.getSocialId());
-			player.setUsername(user.getName());
-		}
 	}
 
 	public static void sendScore(Score score, final ICallback callback) {
@@ -103,7 +67,7 @@ public class DoubleUpClient {
 	public static void registerPlayer(final ICallback callback) {
 		try {
 			Debug.println("registerPlayer, getting player...");
-			final Player player = getPlayer();
+			final Player player = DoubleUpPlayer.getInstance();
 
 			String url = String.format(registerPlayerUrlFormat,
 					player.getFacebookId(),
@@ -129,8 +93,7 @@ public class DoubleUpClient {
 
 										Debug.println("register player succeeded...");
 
-										CommonSettings.setPlayerId(idStr);
-										CommonSettings.setPlayerFacebookId(player.getFacebookId());
+										//Facebook.facebookIdSetting.set(player.getFacebookId());
 
 										callback.onSuccess();
 									}
@@ -166,7 +129,7 @@ public class DoubleUpClient {
 	}
 
 	public static void getLeadersBoard(int mode, int days, int whose, final ILeadersBoardCallback callback) {
-		int playerId = getPlayer().getId();
+		int playerId = DoubleUpPlayer.getInstance().getId();
 		final String url = String.format(getLeadersBoardUrlFormat, playerId, mode, days, whose);
 
 		if (whose == Score.FriendsScores) {
@@ -219,8 +182,7 @@ public class DoubleUpClient {
 					public void onHttpResponseReceived(IHttpResponse response) {
 						if (response.getStatus() == 200) {
 							try {
-								String json = Util.IO.readUtf8String(response.getInputStream());
-								LeadersBoard lb = JsonEncoders.leadersBoard.decode(json);
+								LeadersBoard lb = JsonEncoder.decode(response.getInputStream(), LeadersBoard.class);
 								callback.onSuccess(lb);
 							} catch (IOException e) {
 								callback.onFail(e);

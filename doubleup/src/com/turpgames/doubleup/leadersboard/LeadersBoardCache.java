@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.turpgames.framework.v0.util.Game;
-import com.turpgames.doubleup.entity.LeadersBoard;
+import com.turpgames.doubleup.entity2.LeadersBoard;
 import com.turpgames.utils.Util;
 
 public final class LeadersBoardCache {

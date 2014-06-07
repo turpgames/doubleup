@@ -4,7 +4,6 @@ import com.turpgames.doubleup.controllers.GridController;
 import com.turpgames.doubleup.entities.Grid;
 import com.turpgames.doubleup.entity.Score;
 import com.turpgames.doubleup.utils.DoubleUpColors;
-import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.Facebook;
 import com.turpgames.doubleup.utils.GlobalContext;
 import com.turpgames.doubleup.utils.R;
@@ -30,9 +29,11 @@ public class ResultView implements IDrawable {
 	private final ResultViewOverlay overlay;
 
 	private final GridController controller;
+	private final int matrixSize;
 
-	public ResultView(GridController controller) {
+	public ResultView(GridController controller, int matrixSize) {
 		this.controller = controller;
+		this.matrixSize = matrixSize;
 
 		resultText = new ResultText();
 		resultText.setFontScale(0.8f);
@@ -66,7 +67,7 @@ public class ResultView implements IDrawable {
 			text += "\n\nYou Scored " + GlobalContext.finalScore;
 
 		if (GlobalContext.hasNewMaxNumber)
-			text += "\n\nNew Maximum: " + DoubleUpSettings.getMaxNumber();
+			text += "\n\nNew Maximum: " + GlobalContext.finalMax;
 
 		resultText.setText(text);
 	}
@@ -94,7 +95,7 @@ public class ResultView implements IDrawable {
 
 	private void sendScore() {
 		ScoreManager.instance.sendScore(
-				GlobalContext.matrixSize == 4 ? Score.Mode4x4 : Score.Mode5x5,
+				matrixSize == 4 ? Score.Mode4x4 : Score.Mode5x5,
 				GlobalContext.finalScore,
 				GlobalContext.finalMax);
 	}
@@ -115,13 +116,19 @@ public class ResultView implements IDrawable {
 	}
 
 	private void shareScoreOnFacebook() {
-		Score score = new Score();
-		score.setMode(GlobalContext.matrixSize == 5 ? Score.Mode5x5 : Score.Mode4x4);
-		score.setScore(GlobalContext.finalScore);
-		score.setMaxNumber(GlobalContext.finalMax);
-
-		Facebook.shareScore(score, ICallback.NULL);
+		Facebook.shareScore(shareScoreTitleBuilder, ICallback.NULL);
 	}
+
+	private final Facebook.IShareTitleBuilder shareScoreTitleBuilder = new Facebook.IShareTitleBuilder() {
+		@Override
+		public String buildTitle() {
+			String mode = matrixSize == Score.Mode5x5 ? "5x5" : "4x4";
+			String name = Facebook.getUser().getName().split(" ")[0];
+
+			return String.format("%s just reached %d with %d points in Double Up %s mode!",
+					name, GlobalContext.finalMax, GlobalContext.finalScore, mode);
+		}
+	};
 
 	private class ResultText extends Text {
 		public ResultText() {

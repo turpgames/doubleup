@@ -11,15 +11,11 @@
 
         <param
             key="server"
-            value="prod" />
+            value="local" />
 
         <param
             key="provider"
             value="com.turpgames.framework.v0.impl.libgdx.GdxGameProvider" />
-
-        <param
-            key="auth-class"
-            value="com.turpgames.doubleup.utils.DoubleUpAuth" />
 
         <param
             key="settings-key"
@@ -63,27 +59,15 @@
 
         <param
             key="prod-server"
-            value="http://doubleup.turpgam.es/" />
+            value="http://doubleup.turpgam.es/v2" />
 
         <param
             key="test-server"
-            value="http://doubleuptest.turpgam.es/" />
+            value="http://doubleuptest.turpgam.es/v2" />
 
         <param
             key="local-server"
-            value="http://192.168.2.4:8080/doubleup-server/" />
-
-        <param
-            key="send-score-params"
-            value="?a=h&amp;p=%d&amp;m=%d&amp;s=%d&amp;n=%d" />
-
-        <param
-            key="get-leadersboard-params"
-            value="?a=l&amp;p=%d&amp;m=%d&amp;d=%d&amp;w=%d" />
-
-        <param
-            key="register-player-params"
-            value="?a=r&amp;f=%s&amp;e=%s&amp;u=%s" />
+            value="http://192.168.2.4:8080/doubleup-server/v2" />
 
         <param
             key="turp-address"
