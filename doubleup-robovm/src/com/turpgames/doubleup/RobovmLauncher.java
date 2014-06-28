@@ -37,7 +37,7 @@ public class RobovmLauncher extends IOSApplication.Delegate {
 
 	@Override
 	public boolean openURL(UIApplication application, NSURL url, String sourceApplication, NSObject annotation) {
-		return FacebookManager.getInstance().handleOpenUrl(url, sourceApplication);
+		return FacebookManager.getInstance().openURL(application, url, sourceApplication, annotation);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

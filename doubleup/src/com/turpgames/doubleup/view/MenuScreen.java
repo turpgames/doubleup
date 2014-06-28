@@ -1,8 +1,10 @@
 package com.turpgames.doubleup.view;
 
 import com.turpgames.doubleup.utils.DoubleUpAds;
-import com.turpgames.doubleup.utils.DoubleUpPlayer;
-import com.turpgames.framework.v0.social.ICallback;
+import com.turpgames.doubleup.utils.StatActions;
+import com.turpgames.framework.v0.client.TurpClient;
+import com.turpgames.framework.v0.impl.Settings;
+import com.turpgames.framework.v0.util.Game;
 
 public class MenuScreen extends MenuScreenBase {
 	private boolean isFirstActivate = true;
@@ -10,8 +12,6 @@ public class MenuScreen extends MenuScreenBase {
 	@Override
 	public void init() {
 		super.init();
-
-		DoubleUpPlayer.bindToFacebook();
 	}
 
 	@Override
@@ -19,12 +19,21 @@ public class MenuScreen extends MenuScreenBase {
 		super.onAfterActivate();
 		if (isFirstActivate) {
 			isFirstActivate = false;
-			registerPlayer();
-		}
-		DoubleUpAds.showAd(false);
-	}
+			TurpClient.init();
 
-	private void registerPlayer() {
-		DoubleUpPlayer.register(ICallback.NULL);
+			if (Settings.getInteger("game-installed", 0) == 0) {
+				TurpClient.sendStat(StatActions.GameInstalled, Game.getPhysicalScreenSize().toString());
+				Settings.putInteger("game-installed", 1);
+			}
+
+			TurpClient.sendStat(StatActions.StartGame);
+		}
+		DoubleUpAds.showAd();
+	}
+	
+	@Override
+	protected boolean onBack() {
+		TurpClient.sendStat(StatActions.ExitGame);
+		return super.onBack();
 	}
 }

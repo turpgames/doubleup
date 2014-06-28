@@ -3,6 +3,8 @@ package com.turpgames.doubleup.view;
 import com.turpgames.doubleup.components.DoubleUpLogo;
 import com.turpgames.doubleup.components.DoubleUpToolbar;
 import com.turpgames.doubleup.utils.R;
+import com.turpgames.doubleup.utils.StatActions;
+import com.turpgames.framework.v0.client.TurpClient;
 import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.TextButton;
 import com.turpgames.framework.v0.component.Toolbar;
@@ -16,7 +18,8 @@ public class AboutScreen extends Screen {
 	private TextButton facebookButton;
 	private TextButton twitterButton;
 	private TextButton webSiteButton;
-	private TextButton storeButton;
+	private TextButton didYouLikeButton;
+	private TextButton ballgameButton;
 
 	@Override
 	public void init() {
@@ -26,7 +29,8 @@ public class AboutScreen extends Screen {
 		initFacebookButton();
 		initTwitterButton();
 		initWebSiteButton();
-		initStoreButton();
+		initDidYouLikeButton();
+		initBallGameButton();
 
 		registerDrawable(new DoubleUpLogo(), Game.LAYER_SCREEN);
 		registerDrawable(DoubleUpToolbar.getInstance(), Game.LAYER_INFO);
@@ -43,24 +47,29 @@ public class AboutScreen extends Screen {
 	}
 
 	private void initFacebookButton() {
-		facebookButton = createButton("turpgames@facebook", Game.getParam("facebook-address"), 500);
+		facebookButton = createButton("turpgames@facebook", StatActions.ClickedFacebookInAbout, Game.getParam("facebook-address"), 500);
 		registerDrawable(facebookButton, Game.LAYER_SCREEN);
 	}
 
 	private void initTwitterButton() {
-		twitterButton = createButton("turpgames@twitter", Game.getParam("twitter-address"), 400);
+		twitterButton = createButton("turpgames@twitter", StatActions.ClickedTwitterInAbout, Game.getParam("twitter-address"), 400);
 		registerDrawable(twitterButton, Game.LAYER_SCREEN);
 	}
 
 	private void initWebSiteButton() {
-		webSiteButton = createButton("www.turpgames.com", Game.getParam("turp-address"), 300);
+		webSiteButton = createButton("www.turpgames.com", StatActions.ClickedWebSiteInAbout, Game.getParam("turp-address"), 300);
 		registerDrawable(webSiteButton, Game.LAYER_SCREEN);
 
 	}
 
-	private void initStoreButton() {
-		storeButton = createButton("Did you like Double Up?", getStoreUrl(), 200);
-		registerDrawable(storeButton, Game.LAYER_SCREEN);
+	private void initDidYouLikeButton() {
+		didYouLikeButton = createButton("Did you like Double Up?", StatActions.ClickedDidYouLikeInAbout, getStoreUrl(), 200);
+		registerDrawable(didYouLikeButton, Game.LAYER_SCREEN);
+	}
+
+	private void initBallGameButton() {
+		ballgameButton = createButton("Tap the Ball Game", StatActions.ClickedBallGameInAbout, getBallGameStoreUrl(), 100);
+		registerDrawable(ballgameButton, Game.LAYER_SCREEN);
 	}
 
 	private String getStoreUrl() {
@@ -75,8 +84,20 @@ public class AboutScreen extends Screen {
 		}
 	}
 
-	private static TextButton createButton(String text, final String url, float y) {
-		TextButton btn = new TextButton(Color.white(), Color.green());
+	private String getBallGameStoreUrl() {
+		if (Game.isIOS()) {
+			if (Game.getOSVersion().getMajor() < 7)
+				return Game.getParam("ballgame-app-store-address-old");
+			else
+				return Game.getParam("ballgame-app-store-address-ios7");
+		}
+		else {
+			return Game.getParam("ballgame-play-store-address");
+		}
+	}
+
+	private static TextButton createButton(String text, final int statAction, final String url, float y) {
+		TextButton btn = new TextButton(Color.white(), R.colors.yellow);
 		btn.setText(text);
 		btn.setFontScale(0.8f);
 
@@ -85,6 +106,7 @@ public class AboutScreen extends Screen {
 			@Override
 			public void onButtonTapped() {
 				Game.openUrl(url);
+				TurpClient.sendStat(statAction);
 			}
 		});
 
@@ -104,7 +126,8 @@ public class AboutScreen extends Screen {
 		facebookButton.activate();
 		twitterButton.activate();
 		webSiteButton.activate();
-		storeButton.activate();
+		didYouLikeButton.activate();
+		ballgameButton.activate();
 	}
 
 	@Override
@@ -114,7 +137,8 @@ public class AboutScreen extends Screen {
 		facebookButton.deactivate();
 		twitterButton.deactivate();
 		webSiteButton.deactivate();
-		storeButton.deactivate();
+		didYouLikeButton.deactivate();
+		ballgameButton.deactivate();
 
 		return super.onBeforeDeactivate();
 	}

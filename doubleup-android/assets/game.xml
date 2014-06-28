@@ -11,7 +11,15 @@
 
         <param
             key="server"
-            value="local" />
+            value="test" />
+
+        <param
+            key="enable-analytics"
+            value="true" />
+
+        <param
+            key="enable-ads"
+            value="true" />
 
         <param
             key="provider"
@@ -58,16 +66,36 @@
             value="true" />
 
         <param
+            key="fb-share-title"
+            value="Double Up" />
+
+        <param
+            key="fb-share-subtitle"
+            value="Turp Games" />
+
+        <param
+            key="fb-share-href"
+            value="http://www.turpgames.com/doubleupredirect.html" />
+
+        <param
+            key="fb-share-imgurl"
+            value="http://www.turpgames.com/res/img/doubleup_logo.png" />
+
+        <param
+            key="fb-share-appinfo"
+            value="Play fun games with Turp Games!" />
+
+        <param
             key="prod-server"
-            value="http://doubleup.turpgam.es/v2" />
+            value="http://prod.turpgam.es/" />
 
         <param
             key="test-server"
-            value="http://doubleuptest.turpgam.es/v2" />
+            value="http://test.turpgam.es/" />
 
         <param
             key="local-server"
-            value="http://192.168.2.4:8080/doubleup-server/v2" />
+            value="http://192.168.2.4:8080/turp-server/" />
 
         <param
             key="turp-address"
@@ -94,16 +122,8 @@
             value="http://www.facebook.com/turpgames" />
 
         <param
-            key="enable-ads"
-            value="true" />
-
-        <param
             key="admob-interstitial-ad-unit-id"
             value="ca-app-pub-9430411208134016/3931947478" />
-
-        <param
-            key="admob-banner-ad-unit-id"
-            value="ca-app-pub-9430411208134016/5157355074" />
     </params>
 
     <screens>

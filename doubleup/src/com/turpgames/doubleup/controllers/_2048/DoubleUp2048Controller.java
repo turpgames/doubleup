@@ -9,7 +9,9 @@ import com.turpgames.doubleup.utils.DoubleUpAudio;
 import com.turpgames.doubleup.utils.DoubleUpSettings;
 import com.turpgames.doubleup.utils.DoubleUpStateManager;
 import com.turpgames.doubleup.utils.GlobalContext;
+import com.turpgames.doubleup.utils.StatActions;
 import com.turpgames.doubleup.view.IDoubleUpView;
+import com.turpgames.framework.v0.client.TurpClient;
 import com.turpgames.framework.v0.util.Game;
 
 public class DoubleUp2048Controller extends GridController {
@@ -96,6 +98,8 @@ public class DoubleUp2048Controller extends GridController {
 		}
 
 		updateScoreTexts();
+		
+		TurpClient.sendStat(matrixSize == 4 ? StatActions.StartPlaying4x4 : StatActions.StartPlaying4x5);
 	}
 
 	@Override
@@ -155,7 +159,7 @@ public class DoubleUp2048Controller extends GridController {
 
 	private void onGameOver() {
 
-		DoubleUpAds.showAd(true);
+		DoubleUpAds.showAd();
 
 		DoubleUpAudio.playGameOverSound();
 		DoubleUpStateManager.deleteGridState(getGridStateKey());

@@ -2,9 +2,9 @@ package com.turpgames.doubleup.view;
 
 import com.turpgames.doubleup.components.TurpLogo;
 import com.turpgames.doubleup.updates.DoubleUpUpdateManager;
-import com.turpgames.doubleup.utils.ConnectionManager;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.IResourceManager;
+import com.turpgames.framework.v0.client.ConnectionManager;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.util.Color;
@@ -32,7 +32,7 @@ public class SplashScreen extends Screen {
 		ConnectionManager.init();
 		super.init();
 		registerDrawable(new TurpLogo(), Game.LAYER_BACKGROUND);
-		progressColor = new Color(R.colors.turpYellow);
+		progressColor = new Color(R.colors.yellow);
 		resourceManager = Game.getResourceManager();
 	}
 	

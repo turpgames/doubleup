@@ -23,7 +23,7 @@ public class AchievementsController implements IView {
 		viewSwitcher.addView(scoreAchievements4x4);
 		viewSwitcher.addView(maxNumberAchievements5x5);
 		viewSwitcher.addView(scoreAchievements5x5);
-		viewSwitcher.setArea(0, 0, Game.getVirtualWidth(), Game.getVirtualHeight());
+		viewSwitcher.setArea(0, 0, Game.getVirtualWidth(), Game.getVirtualHeight() - 200f);
 	}
 
 	@Override

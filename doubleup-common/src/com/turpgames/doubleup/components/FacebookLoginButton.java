@@ -1,17 +1,13 @@
 package com.turpgames.doubleup.components;
 
-import com.turpgames.doubleup.utils.Facebook;
-import com.turpgames.doubleup.utils.Facebook.IFacebookListener;
+import com.turpgames.framework.v0.client.TurpClient;
 import com.turpgames.framework.v0.component.Button;
 import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.ImageButton;
-import com.turpgames.framework.v0.forms.xml.Dialog;
 import com.turpgames.framework.v0.social.ICallback;
 import com.turpgames.framework.v0.util.Game;
 
-public class FacebookLoginButton extends ImageButton implements IFacebookListener {
-	private Dialog logoutConfirmDialog;
-
+public class FacebookLoginButton extends ImageButton {
 	public FacebookLoginButton() {
 		super(Game.scale(64), Game.scale(64), "facebook");
 		setLocation(Button.AlignNW, Game.scale(15), Game.scale(15));
@@ -21,48 +17,45 @@ public class FacebookLoginButton extends ImageButton implements IFacebookListene
 				onLoginButtonTapped();
 			}
 		});
-		
-		logoutConfirmDialog = new Dialog();
-		logoutConfirmDialog.addButton("yes", "Yes");
-		logoutConfirmDialog.addButton("no", "No");
-		logoutConfirmDialog.setListener(new Dialog.IDialogListener() {			
-			@Override
-			public void onDialogClosed() {
+	}
 
-			}
-			
-			@Override
-			public void onDialogButtonClicked(String id) {
-				if (!"yes".equals(id))
-					return;
-				Facebook.logout(ICallback.NULL);
-			}
-		});
-		
-		Facebook.registerListener(this);
+	@Override
+	public void activate() {
+		super.activate();
+		if (TurpClient.isRegisteredWithFacebook()) {
+			getColor().a = 0.5f;
+		}
+		else {
+			getColor().a = 1f;
+		}
 	}
 
 	private void onLoginButtonTapped() {
-		if (Facebook.isLoggedIn()) {
-			logoutConfirmDialog.open("Are you sure you want to logout?");
+		if (TurpClient.isRegisteredWithFacebook()) {
+			TurpClient.logoutFromFacebook(new ICallback() {
+				@Override
+				public void onSuccess() {
+					getColor().a = 1f;
+				}
+
+				@Override
+				public void onFail(Throwable t) {
+					getColor().a = 0.5f;
+				}
+			});
 		}
 		else {
-			Facebook.login(ICallback.NULL);
+			TurpClient.loginWithFacebook(new ICallback() {
+				@Override
+				public void onSuccess() {
+					getColor().a = 0.5f;
+				}
+
+				@Override
+				public void onFail(Throwable t) {
+					getColor().a = 1f;
+				}
+			});
 		}
-	}
-
-	@Override
-	public void onLogin() {
-		getColor().a = 0.5f;
-	}
-
-	@Override
-	public void onLogout() {
-		getColor().a = 1f;
-	}
-
-	@Override
-	public void onShareScore() {
-		
 	}
 }

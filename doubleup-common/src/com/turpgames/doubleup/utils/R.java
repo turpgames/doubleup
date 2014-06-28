@@ -58,7 +58,7 @@ public final class R {
 	}
 	
 	public final static class colors {
-		public static final Color turpYellow = Color.fromHex("#f9b000ff");
+		public static final Color yellow = Color.fromHex("#f9b000ff");
 
 		public static final Color ichiguWhite = Color.fromHex("#ffffffff");
 		public static final Color ichiguBlack = Color.fromHex("#000000ff");

@@ -1,21 +1,23 @@
 package com.turpgames.doubleup.view;
 
 import com.turpgames.doubleup.components.DoubleUpToolbar;
-import com.turpgames.doubleup.leadersboard.LeadersBoardController;
+import com.turpgames.doubleup.components.hiscore.HiScoreController;
 import com.turpgames.doubleup.utils.R;
+import com.turpgames.doubleup.utils.StatActions;
+import com.turpgames.framework.v0.client.TurpClient;
 import com.turpgames.framework.v0.component.Toolbar;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.util.Game;
 
 public class LeadersBoardScreen extends Screen {
-	private LeadersBoardController controller;
+	private HiScoreController controller;
 	
 	@Override
 	public void init() {
 		super.init();
 
-		controller = new LeadersBoardController();
+		controller = new HiScoreController();
 		
 		registerDrawable(controller, Game.LAYER_GAME);
 
@@ -32,6 +34,7 @@ public class LeadersBoardScreen extends Screen {
 				onBack();
 			}
 		});
+		TurpClient.sendStat(StatActions.EnterLeadersBoard);
 	}
 	
 	@Override

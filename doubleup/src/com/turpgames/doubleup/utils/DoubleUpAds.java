@@ -1,17 +1,27 @@
 package com.turpgames.doubleup.utils;
 
+import com.turpgames.framework.v0.client.ConnectionManager;
+import com.turpgames.framework.v0.client.TurpClient;
+import com.turpgames.framework.v0.util.Debug;
 import com.turpgames.framework.v0.util.Game;
 
 public class DoubleUpAds {
-	private static int counter = 0;
-
-	public static void showAd(boolean force) {
-		if (!ConnectionManager.hasConnection())
-			return;
-
-		if (force || ++counter % 3 == 0) {
-			counter = 0;
-			Game.showPopUpAd();
+	private final static long interval = 90 * 1000;
+	private static long lastShown;
+	
+	public static void showAd() {
+		Debug.println("BallGameAds.showAd");
+		if (!ConnectionManager.hasConnection()) {
+			Debug.println("No connection!");
+		} else {
+			long now = System.currentTimeMillis();
+			if (now - lastShown > interval) {
+				lastShown = now;
+				Debug.println("calling Game.showPopUpAd");
+				Game.showPopUpAd();
+				TurpClient.sendStat(StatActions.AdShown);
+				return;
+			}
 		}
 	}
 }

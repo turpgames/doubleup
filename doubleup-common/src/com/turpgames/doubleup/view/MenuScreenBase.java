@@ -15,10 +15,21 @@ public abstract class MenuScreenBase extends FormScreen {
 		loginButton = new FacebookLoginButton();
 
 		registerDrawable(loginButton, Game.LAYER_SCREEN);
-		registerInputListener(loginButton);
 
 		registerDrawable(new DoubleUpLogo(), Game.LAYER_SCREEN);
 		setForm("mainMenu", false);
+	}
+
+	@Override
+	protected void onAfterActivate() {
+		super.onAfterActivate();
+		loginButton.activate();
+	}
+	
+	@Override
+	protected boolean onBeforeDeactivate() {
+		loginButton.deactivate();
+		return super.onBeforeDeactivate();
 	}
 
 	protected boolean onBack() {

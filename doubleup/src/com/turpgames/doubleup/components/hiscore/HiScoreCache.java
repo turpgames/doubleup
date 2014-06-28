@@ -1,25 +1,30 @@
-package com.turpgames.doubleup.leadersboard;
+package com.turpgames.doubleup.components.hiscore;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.turpgames.framework.v0.util.Game;
-import com.turpgames.doubleup.entity2.LeadersBoard;
+import com.turpgames.service.message.GetHiScoresRequest;
+import com.turpgames.service.message.GetHiScoresResponse;
 import com.turpgames.utils.Util;
 
-public final class LeadersBoardCache {
-	private LeadersBoardCache() {
+public final class HiScoreCache {
+	private HiScoreCache() {
 
 	}
 
-	private final static String settingsKeyPrefix = "LeadersBoardCache_"; 
+	private final static String settingsKeyPrefix = "HiScoresCache_";
 	private final static long timeout = 20 * 60 * 1000; // 20 minutes
-	private final static Map<String, LeadersBoardCacheItem> cache = new HashMap<String, LeadersBoardCacheItem>();
-	
-	public static LeadersBoard getLeadersBoard(int mode, int days, int whose, boolean ignoreTimeout) {
+	private final static Map<String, HiScoreCacheItem> cache = new HashMap<String, HiScoreCacheItem>();
+
+	public static GetHiScoresResponse getHiScores(int days, int mode, boolean ignoreTimeout) {
+		return getHiScores(days, mode, GetHiScoresRequest.General, ignoreTimeout);
+	}
+
+	private static GetHiScoresResponse getHiScores(int days, int mode, int whose, boolean ignoreTimeout) {
 		String key = prepareKey(mode, days, whose);
-		LeadersBoardCacheItem cacheItem = cache.get(key);
+		HiScoreCacheItem cacheItem = cache.get(key);
 
 		if (cacheItem == null) {
 			cacheItem = readFromSettings(key);
@@ -32,36 +37,40 @@ public final class LeadersBoardCache {
 		if (!ignoreTimeout && now.getTime() - cacheItem.getLastLoadDate().getTime() > timeout)
 			return null;
 
-		return cacheItem.getLeadersBoard();
+		return cacheItem.getHiScores();
 	}
 
-	public static void putLeadersBoard(int mode, int days, int whose, LeadersBoard leadersBoard) {
+	public static void putHiScores(int days, int mode, GetHiScoresResponse hiScores) {
+		putHiScores(days, mode, GetHiScoresRequest.General, hiScores);
+	}
+
+	private static void putHiScores(int days, int mode, int whose, GetHiScoresResponse hiScores) {
 		String key = prepareKey(mode, days, whose);
 
-		LeadersBoardCacheItem cacheItem = new LeadersBoardCacheItem();
-		cacheItem.setLeadersBoard(leadersBoard);
+		HiScoreCacheItem cacheItem = new HiScoreCacheItem();
+		cacheItem.setHiScores(hiScores);
 		cacheItem.setLastLoadDate(new Date());
 
 		cache.put(key, cacheItem);
-		
+
 		writeToSettings(key, cacheItem);
 	}
 
-	private static void writeToSettings(String key, LeadersBoardCacheItem cacheItem) {
+	private static void writeToSettings(String key, HiScoreCacheItem cacheItem) {
 		String settingsKey = settingsKeyPrefix + key;
 		byte[] serialized = Util.IO.serialize(cacheItem);
 		String base64SettingsValue = Util.Strings.toBase64String(serialized);
 		Game.getSettings().putString(settingsKey, base64SettingsValue);
 	}
 
-	private static LeadersBoardCacheItem readFromSettings(String key) {
+	private static HiScoreCacheItem readFromSettings(String key) {
 		String settingsKey = settingsKeyPrefix + key;
 		String base64SettingsValue = Game.getSettings().getString(settingsKey, null);
 		if (base64SettingsValue == null)
 			return null;
 
 		byte[] serialized = Util.Strings.fromBase64String(base64SettingsValue);
-		LeadersBoardCacheItem cacheItem = (LeadersBoardCacheItem)Util.IO.deserialize(serialized);
+		HiScoreCacheItem cacheItem = (HiScoreCacheItem) Util.IO.deserialize(serialized);
 		return cacheItem;
 	}
 
