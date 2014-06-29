@@ -15,7 +15,6 @@ public class HiScoreView implements IView {
 		title = new Text();
 		title.setAlignment(Text.HAlignCenter, Text.VAlignTop);
 		title.setPadY(150f);
-		title.setFontScale(0.75f);
 		title.setText(titleText);
 		
 		subTitle = new Text();

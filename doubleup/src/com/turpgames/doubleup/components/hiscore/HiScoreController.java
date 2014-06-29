@@ -22,6 +22,7 @@ public class HiScoreController implements IView {
 			new HiScoreInfo(GetHiScoresRequest.AllTime, DoubleUpMode.Mode5x5, "All Time")
 	};
 
+	private int hiscoresToLoad;
 	private final DoubleUpLogo logo;
 	private final TouchSlidingViewSwitcher viewSwitcher;
 
@@ -60,19 +61,31 @@ public class HiScoreController implements IView {
 	}
 
 	private void loadScores() {
+		hiscoresToLoad = hiScoreInfos.length;
+		
+		Game.blockUI("Loding Hi Scores...");
+		
 		for (final HiScoreInfo info : hiScoreInfos) {
 			HiScoreManager.getHiScores(info.days, info.mode, new IServiceCallback<GetHiScoresResponse>() {
 				@Override
 				public void onSuccess(GetHiScoresResponse response) {
 					info.view.bindData(response);
+					onHiScoresLoaded();
 				}
 				
 				@Override
 				public void onFail(Throwable t) {
 					Debug.println("getHiscores failed");
+					onHiScoresLoaded();
 				}
 			});
 		}
+	}
+	
+	private synchronized void onHiScoresLoaded() {
+		hiscoresToLoad--;
+		if (hiscoresToLoad == 0)
+			Game.unblockUI();
 	}
 
 	private static class HiScoreInfo {

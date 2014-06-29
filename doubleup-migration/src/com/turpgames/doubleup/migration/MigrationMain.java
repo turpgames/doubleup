@@ -6,6 +6,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import com.turpgames.entity.Player;
 import com.turpgames.entity.Score;
@@ -14,12 +15,20 @@ import com.turpgames.server.db.IEntityFactory;
 import com.turpgames.server.db.SqlQuery;
 import com.turpgames.server.db.repository.Db;
 import com.turpgames.server.db.repository.RepositoryException;
+import com.turpgames.utils.Util;
 
 public class MigrationMain {
+	
+	private static boolean debug;
 
 	public static void main(String[] args) {
 		try {
-			if (args.length == 2)
+			if (args.length == 3)
+				debug = Util.Strings.parseBoolean(args[2]);
+
+			TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+			
+			if (args.length == 2 || args.length == 3)
 				migrateFromDb(args[0], args[1]);
 			else
 				System.out.println("invalid args length: " + args.length);
@@ -82,6 +91,8 @@ public class MigrationMain {
 				}
 				
 				if (scoreAlreadyExists(sa.getNewScore(), man)) {
+					if (debug)
+						System.out.println("SCORE ALREADY EXISTS: "+ sa.getOldScore().getScoreTime().getTime());
 					continue;
 				}
 

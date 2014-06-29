@@ -84,10 +84,10 @@ public class DoubleUp2048Controller extends GridController {
 			putRandom();
 			putRandom();
 
-			if (Game.isDebug()) {
-				for (int i = 0; i < matrixSize * matrixSize - 4; i++)
-					putRandom((int) Math.pow(2, i));
-			}
+//			if (Game.isDebug()) {
+//				for (int i = 0; i < matrixSize * matrixSize - 4; i++)
+//					putRandom((int) Math.pow(2, i));
+//			}
 
 			score = 0;
 

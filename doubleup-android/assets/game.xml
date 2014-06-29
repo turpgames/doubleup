@@ -7,7 +7,7 @@
 
         <param
             key="debug"
-            value="false" />
+            value="true" />
 
         <param
             key="server"
@@ -83,7 +83,7 @@
 
         <param
             key="fb-share-appinfo"
-            value="Play fun games with Turp Games!" />
+            value="Double Up is endless 2048 game. Double Up fun on the way to work!" />
 
         <param
             key="prod-server"
@@ -113,6 +113,18 @@
             key="app-store-address-old"
             value="itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&amp;id=850225350" />
 
+        <param
+            key="ballgame-play-store-address"
+            value="market://details?id=com.turpgames.ballgame" />
+
+        <param
+            key="ballgame-app-store-address-ios7"
+            value="itms-apps://itunes.apple.com/app/id894320233" />
+
+        <param
+            key="ballgame-app-store-address-old"
+            value="itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&amp;id=894320233" />
+        
         <param
             key="twitter-address"
             value="http://www.twitter.com/turpgames" />
