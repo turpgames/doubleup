@@ -59,7 +59,7 @@
 
         <param
             key="form-switcher"
-            value="fading,0.30" />
+            value="sliding,0.30" />
 
         <param
             key="allow-exit-on-back"
@@ -124,7 +124,19 @@
         <param
             key="ballgame-app-store-address-old"
             value="itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&amp;id=894320233" />
-        
+
+        <param
+            key="ichigu-play-store-address"
+            value="market://details?id=com.turpgames.ichigu" />
+
+        <param
+            key="ichigu-app-store-address-ios7"
+            value="itms-apps://itunes.apple.com/app/id737312134" />
+
+        <param
+            key="ichigu-app-store-address-old"
+            value="itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&amp;id=737312134" />
+
         <param
             key="twitter-address"
             value="http://www.twitter.com/turpgames" />
@@ -134,8 +146,12 @@
             value="http://www.facebook.com/turpgames" />
 
         <param
-            key="admob-interstitial-ad-unit-id"
+            key="admob-interstitial-ad-unit-id-ios"
             value="ca-app-pub-9430411208134016/3931947478" />
+
+        <param
+            key="admob-interstitial-ad-unit-id-android"
+            value="ca-app-pub-9430411208134016/3243188277" />
     </params>
 
     <screens>
@@ -167,6 +183,30 @@
         <screen
             id="about"
             class="com.turpgames.doubleup.view.AboutScreen" />
+
+        <screen
+            id="game2x2"
+            class="com.turpgames.doubleup.view.Game2x2Screen" />
+
+        <screen
+            id="game3x3"
+            class="com.turpgames.doubleup.view.Game3x3Screen" />
+
+        <screen
+            id="game6x6"
+            class="com.turpgames.doubleup.view.Game6x6Screen" />
+
+        <screen
+            id="game7x7"
+            class="com.turpgames.doubleup.view.Game7x7Screen" />
+
+        <screen
+            id="game8x8"
+            class="com.turpgames.doubleup.view.Game8x8Screen" />
+
+        <screen
+            id="game9x9"
+            class="com.turpgames.doubleup.view.Game9x9Screen" />
     </screens>
 
     <forms>
@@ -177,13 +217,19 @@
                 id="btn4x4"
                 action="screen=game4x4"
                 text="Play 4x4"
-                y="21" />
+                y="22" />
 
             <button
                 id="btn4x4"
                 action="screen=game5x5"
                 resource-text="Play 5x5"
-                y="17" />
+                y="19" />
+
+            <button
+                id="btnExtras"
+                action="form=extras"
+                text="For Josh"
+                y="16" />
 
             <button
                 id="btnAchievements"
@@ -195,12 +241,57 @@
                 id="btnLeadersBoard"
                 action="screen=leadersboard"
                 resource-text="Leaders Board"
-                y="7" />
+                y="8" />
 
             <button
                 id="btnAbout"
                 action="screen=about"
                 resource-text="About"
+                y="5" />
+        </form>
+
+        <form id="extras" >
+
+            <button
+                id="btn2x2"
+                action="screen=game2x2"
+                text="Play 2x2"
+                y="22" />
+
+            <button
+                id="btn3x3"
+                action="screen=game3x3"
+                text="Play 3x3"
+                y="19" />
+
+            <button
+                id="btn6x6"
+                action="screen=game6x6"
+                text="Play 6x6"
+                y="16" />
+
+            <button
+                id="btn7x7"
+                action="screen=game7x7"
+                text="Play 7x7"
+                y="13" />
+
+            <button
+                id="btn8x8"
+                action="screen=game8x8"
+                text="Play 8x8"
+                y="10" />
+
+            <button
+                id="btn9x9"
+                action="screen=game9x9"
+                text="Play 9x9"
+                y="7" />
+
+            <button
+                id="btnBack"
+                action="formback=mainMenu"
+                text="Back"
                 y="3" />
         </form>
     </forms>
@@ -287,6 +378,26 @@
                 width="500"
                 x="2"
                 y="2" />
+
+            <texture
+                id="ab_ballgame"
+                path="img/about/ballgame.png" />
+
+            <texture
+                id="ab_doubleup"
+                path="img/about/doubleup.png" />
+
+            <texture
+                id="ab_facebook"
+                path="img/about/facebook.png" />
+
+            <texture
+                id="ab_ichigu"
+                path="img/about/ichigu.png" />
+
+            <texture
+                id="ab_twitter"
+                path="img/about/twitter.png" />
         </textures>
 
         <sounds>
@@ -377,7 +488,7 @@
                 cols="8"
                 default-color="#ffffffff"
                 focus-color="#f9b000ff"
-                font-scale="1.2"
+                font-scale="1"
                 halign="center"
                 rows="2"
                 sound-click="8"

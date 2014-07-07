@@ -76,6 +76,8 @@ public class DoubleUp2048Controller extends GridController {
 		resetButton.activate();
 
 		grid.init(matrixSize);
+		
+		GlobalContext.reset();
 
 		isGameOver = false;
 
@@ -84,10 +86,10 @@ public class DoubleUp2048Controller extends GridController {
 			putRandom();
 			putRandom();
 
-//			if (Game.isDebug()) {
-//				for (int i = 0; i < matrixSize * matrixSize - 4; i++)
-//					putRandom((int) Math.pow(2, i));
-//			}
+			// if (Game.isDebug()) {
+			// for (int i = 0; i < matrixSize * matrixSize - 4; i++)
+			// putRandom((int) Math.pow(2, i));
+			// }
 
 			score = 0;
 
@@ -98,8 +100,33 @@ public class DoubleUp2048Controller extends GridController {
 		}
 
 		updateScoreTexts();
-		
-		TurpClient.sendStat(matrixSize == 4 ? StatActions.StartPlaying4x4 : StatActions.StartPlaying4x5);
+
+		if (matrixSize == 2) {
+			TurpClient.sendStat(StatActions.StartPlaying2x2);
+		}
+		else if (matrixSize == 3) {
+			TurpClient.sendStat(StatActions.StartPlaying3x3);
+		}
+		else if (matrixSize == 4) {
+			TurpClient.sendStat(StatActions.StartPlaying4x4);
+		}
+		else if (matrixSize == 5) {
+			TurpClient.sendStat(StatActions.StartPlaying5x5);
+		}
+		else if (matrixSize == 6) {
+			TurpClient.sendStat(StatActions.StartPlaying6x6);
+		}
+		else if (matrixSize == 7) {
+			TurpClient.sendStat(StatActions.StartPlaying7x7);
+		}
+		else if (matrixSize == 8) {
+			TurpClient.sendStat(StatActions.StartPlaying8x8);
+		}
+		else if (matrixSize == 9) {
+			TurpClient.sendStat(StatActions.StartPlaying9x9);
+		}
+
+		DoubleUpAds.showAd();
 	}
 
 	@Override
@@ -158,8 +185,6 @@ public class DoubleUp2048Controller extends GridController {
 	}
 
 	private void onGameOver() {
-
-		DoubleUpAds.showAd();
 
 		DoubleUpAudio.playGameOverSound();
 		DoubleUpStateManager.deleteGridState(getGridStateKey());

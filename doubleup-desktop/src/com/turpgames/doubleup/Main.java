@@ -11,7 +11,7 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Double Up";
 
-		float w = 11f;
+		float w = 9f;
 		float h = 16f;
 		float x = 40;
 
