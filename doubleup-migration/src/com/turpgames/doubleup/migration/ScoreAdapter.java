@@ -14,8 +14,8 @@ public class ScoreAdapter {
 		newScore.setGameMode(oldScore.getGameMode());
 		newScore.setScore(oldScore.getScore());
 		newScore.setScoreTime(oldScore.getScoreTime());
-		newScore.setGameId(2);
-		newScore.setGameVersion("1.4.8");
+		newScore.setGameId(oldScore.getGameId());
+		newScore.setGameVersion(oldScore.getGameVersion());
 	}
 
 	public Score getOldScore() {

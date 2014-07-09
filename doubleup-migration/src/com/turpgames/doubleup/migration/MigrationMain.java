@@ -1,6 +1,5 @@
 package com.turpgames.doubleup.migration;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
@@ -11,23 +10,29 @@ import java.util.TimeZone;
 import com.turpgames.entity.Player;
 import com.turpgames.entity.Score;
 import com.turpgames.server.db.DbManager;
-import com.turpgames.server.db.IEntityFactory;
 import com.turpgames.server.db.SqlQuery;
 import com.turpgames.server.db.repository.Db;
 import com.turpgames.server.db.repository.RepositoryException;
 import com.turpgames.utils.Util;
 
 public class MigrationMain {
-	
+
 	private static boolean debug;
 
 	public static void main(String[] args) {
 		try {
+			if (args.length == 0) {
+				args = new String[3];
+				args[0] = "jdbc:h2:~/Documents/code/h2db/mysql/test/db";
+				args[1] = "jdbc:mysql://turpgam.es/test";
+				args[2] = "false";
+			}
+
 			if (args.length == 3)
 				debug = Util.Strings.parseBoolean(args[2]);
 
 			TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
-			
+
 			if (args.length == 2 || args.length == 3)
 				migrateFromDb(args[0], args[1]);
 			else
@@ -61,7 +66,7 @@ public class MigrationMain {
 		try {
 			System.out.println("Inserting new players...");
 
-			man = new DbManager(true, new ConnectionProviderImpl(targetConnStr));
+			man = new DbManager(true, new MySqlConnectionProviderImpl(targetConnStr));
 
 			List<Player> existingNewPlayers = Db.players.selectAll(man);
 
@@ -89,10 +94,10 @@ public class MigrationMain {
 					System.out.println("SCORE NOT INSERTED: " + sa.getOldScore().getScoreTime().getTime());
 					continue;
 				}
-				
+
 				if (scoreAlreadyExists(sa.getNewScore(), man)) {
 					if (debug)
-						System.out.println("SCORE ALREADY EXISTS: "+ sa.getOldScore().getScoreTime().getTime());
+						System.out.println("SCORE ALREADY EXISTS: " + sa.getOldScore().getScoreTime().getTime());
 					continue;
 				}
 
@@ -173,23 +178,8 @@ public class MigrationMain {
 	private static List<Player> selectPlayers(String sourceConnStr) throws Exception {
 		DbManager man = null;
 		try {
-			man = new DbManager(new ConnectionProviderImpl(sourceConnStr));
-
-			return DbManager.executeSelectList(
-					new SqlQuery("select * from players"),
-					new IEntityFactory<Player>() {
-						@Override
-						public Player create(ResultSet rs) throws SQLException {
-							Player player = new Player();
-
-							player.setId(rs.getLong("id"));
-							player.setName(rs.getString("username"));
-							player.setEmail(rs.getString("email"));
-							player.setSocialId(rs.getString("facebook_id"));
-
-							return player;
-						}
-					}, man);
+			man = new DbManager(new H2ConnectionProviderImpl(sourceConnStr));
+			return Db.players.selectAll(man);
 		} finally {
 			if (man != null)
 				man.close();
@@ -199,24 +189,8 @@ public class MigrationMain {
 	private static List<Score> selectScores(String sourceConnStr) throws Exception {
 		DbManager man = null;
 		try {
-			man = new DbManager(new ConnectionProviderImpl(sourceConnStr));
-
-			return DbManager.executeSelectList(
-					new SqlQuery("select * from scores"),
-					new IEntityFactory<Score>() {
-						@Override
-						public Score create(ResultSet rs) throws SQLException {
-							Score score = new Score();
-
-							score.setPlayerId(rs.getLong("player_id"));
-							score.setGameMode(rs.getInt("mode"));
-							score.setScore(rs.getLong("score"));
-							score.setExtraData(rs.getInt("max_number") + "");
-							score.setScoreTime(new Date(rs.getLong("time")));
-
-							return score;
-						}
-					}, man);
+			man = new DbManager(new H2ConnectionProviderImpl(sourceConnStr));
+			return Db.scores.selectAll(man);
 		} finally {
 			if (man != null)
 				man.close();

@@ -13,7 +13,7 @@ public class PlayerAdapter {
 		newPlayer.setName(oldPlayer.getName());
 		newPlayer.setSocialId(oldPlayer.getSocialId());
 		newPlayer.setEmail(oldPlayer.getEmail());
-		newPlayer.setAuthProvider(Player.AuthFacebook);
+		newPlayer.setAuthProvider(oldPlayer.getAuthProvider());
 	}
 
 	public Player getOldPlayer() {

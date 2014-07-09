@@ -2,16 +2,16 @@ package com.turpgames.doubleup.migration;
 
 import com.turpgames.server.db.IConnectionProvider;
 
-class ConnectionProviderImpl implements IConnectionProvider {
+class MySqlConnectionProviderImpl implements IConnectionProvider {
 	private final String connStr;
 
-	public ConnectionProviderImpl(String connStr) {
+	public MySqlConnectionProviderImpl(String connStr) {
 		this.connStr = connStr;
 	}
 
 	@Override
 	public String getConnectionProvider() {
-		return "org.h2.Driver";
+		return "com.mysql.jdbc.Driver";
 	}
 
 	@Override
@@ -21,7 +21,7 @@ class ConnectionProviderImpl implements IConnectionProvider {
 
 	@Override
 	public String getUsername() {
-		return "sa";
+		return "turpgames";
 	}
 
 	@Override
