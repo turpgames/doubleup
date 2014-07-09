@@ -15,7 +15,7 @@ import com.turpgames.framework.v0.client.TurpClient;
 import com.turpgames.framework.v0.util.Game;
 
 public class DoubleUp2048Controller extends GridController {
-	private final int matrixSize;
+	protected final int matrixSize;
 	private int score;
 
 	private final ScoreArea scoreArea;
@@ -67,6 +67,10 @@ public class DoubleUp2048Controller extends GridController {
 		}
 		super.deactivate();
 	}
+	
+	protected void setN() {
+		GlobalContext.n = 1;
+	}
 
 	@Override
 	public void init() {
@@ -78,6 +82,8 @@ public class DoubleUp2048Controller extends GridController {
 		grid.init(matrixSize);
 		
 		GlobalContext.reset();
+		
+		setN();
 
 		isGameOver = false;
 
@@ -101,6 +107,8 @@ public class DoubleUp2048Controller extends GridController {
 
 		updateScoreTexts();
 
+		DoubleUpAds.showAd();
+
 		if (matrixSize == 2) {
 			TurpClient.sendStat(StatActions.StartPlaying2x2);
 		}
@@ -113,20 +121,6 @@ public class DoubleUp2048Controller extends GridController {
 		else if (matrixSize == 5) {
 			TurpClient.sendStat(StatActions.StartPlaying5x5);
 		}
-		else if (matrixSize == 6) {
-			TurpClient.sendStat(StatActions.StartPlaying6x6);
-		}
-		else if (matrixSize == 7) {
-			TurpClient.sendStat(StatActions.StartPlaying7x7);
-		}
-		else if (matrixSize == 8) {
-			TurpClient.sendStat(StatActions.StartPlaying8x8);
-		}
-		else if (matrixSize == 9) {
-			TurpClient.sendStat(StatActions.StartPlaying9x9);
-		}
-
-		DoubleUpAds.showAd();
 	}
 
 	@Override
@@ -147,15 +141,15 @@ public class DoubleUp2048Controller extends GridController {
 		if (GlobalContext.moveScore > 0) {
 			score += GlobalContext.moveScore;
 
-			if (score > DoubleUpSettings.getHiScore(matrixSize)) {
+			if (score > getHiScore()) {
 				GlobalContext.hasNewHiScore = true;
-				DoubleUpSettings.setHiScore(matrixSize, score);
+				setHiScore(score);
 			}
 
 			GlobalContext.finalMax = grid.getMaxNumber();
-			if (GlobalContext.finalMax > DoubleUpSettings.getMaxNumber(matrixSize)) {
+			if (GlobalContext.finalMax > getMaxNumber()) {
 				GlobalContext.hasNewMaxNumber = true;
-				DoubleUpSettings.setMaxNumber(matrixSize, GlobalContext.finalMax);
+				setMaxNumber(GlobalContext.finalMax);
 			}
 
 			updateScoreTexts();
@@ -180,8 +174,8 @@ public class DoubleUp2048Controller extends GridController {
 
 	private void updateScoreTexts() {
 		scoreArea.setScore(score);
-		hiscoreArea.setScore(DoubleUpSettings.getHiScore(matrixSize));
-		hiscoreBlockArea.setScore(DoubleUpSettings.getMaxNumber(matrixSize));
+		hiscoreArea.setScore(getHiScore());
+		hiscoreBlockArea.setScore(getMaxNumber());
 	}
 
 	private void onGameOver() {
@@ -201,7 +195,23 @@ public class DoubleUp2048Controller extends GridController {
 		view.registerDrawable(resultView, Game.LAYER_DIALOG);
 	}
 
-	private String getGridStateKey() {
+	protected String getGridStateKey() {
 		return "grid-state-" + grid.getMatrixSize();
+	}
+	
+	protected int getHiScore() {
+		return DoubleUpSettings.getHiScore(matrixSize);
+	}
+	
+	protected void setHiScore(int score) {
+		DoubleUpSettings.setHiScore(matrixSize, score);
+	}
+	
+	protected int getMaxNumber() {
+		return DoubleUpSettings.getMaxNumber(matrixSize);
+	}
+	
+	protected void setMaxNumber(int n) {
+		DoubleUpSettings.setMaxNumber(matrixSize, n);
 	}
 }

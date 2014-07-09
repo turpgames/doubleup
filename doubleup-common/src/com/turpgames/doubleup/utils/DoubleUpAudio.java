@@ -38,6 +38,7 @@ public class DoubleUpAudio {
 	}
 
 	public static void playScoreSound(int score) {
+		score /= GlobalContext.n;
 		if (score < 2048)
 			queue.add(sounds.get(score));
 		else

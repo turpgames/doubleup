@@ -85,7 +85,7 @@ public class ResultView implements IDrawable {
 	}
 
 	private void sendScore() {
-		if (matrixSize == 4 || matrixSize == 5) {
+		if (GlobalContext.n == 1 && (matrixSize == 4 || matrixSize == 5)) {
 			TurpClient.sendScore(
 					GlobalContext.finalScore,
 					matrixSize == 4 ? DoubleUpMode.Mode4x4 : DoubleUpMode.Mode5x5,
@@ -100,11 +100,16 @@ public class ResultView implements IDrawable {
 	private final IShareMessageBuilder shareScoreMessageBuilder = new IShareMessageBuilder() {
 		@Override
 		public String buildMessage() {
-			String mode = String.format("%sx%s", matrixSize, matrixSize);
-			String name = TurpClient.getPlayer().getName().split(" ")[0];
+			if (GlobalContext.n == 1) {
+				String mode = String.format("%sx%s", matrixSize, matrixSize);
 
-			return String.format("%s just reached %d with %d points in Double Up %s mode!",
-					name, GlobalContext.finalMax, GlobalContext.finalScore, mode);
+				return String.format("I just reached %d with %d points in Double Up %s mode!",
+						GlobalContext.finalMax, GlobalContext.finalScore, mode);
+			}
+			else {
+				return String.format("I just reached %d with %d points in Double Up %d mode!",
+						GlobalContext.finalMax, GlobalContext.finalScore, GlobalContext.n);
+			}
 		}
 	};
 

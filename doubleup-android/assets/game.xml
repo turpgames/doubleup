@@ -7,11 +7,11 @@
 
         <param
             key="debug"
-            value="true" />
+            value="false" />
 
         <param
             key="server"
-            value="test" />
+            value="prod" />
 
         <param
             key="enable-analytics"
@@ -193,20 +193,20 @@
             class="com.turpgames.doubleup.view.Game3x3Screen" />
 
         <screen
-            id="game6x6"
-            class="com.turpgames.doubleup.view.Game6x6Screen" />
+            id="doubleup3"
+            class="com.turpgames.doubleup.view.GameDoubleUp3Screen" />
 
         <screen
-            id="game7x7"
-            class="com.turpgames.doubleup.view.Game7x7Screen" />
+            id="doubleup5"
+            class="com.turpgames.doubleup.view.GameDoubleUp5Screen" />
 
         <screen
-            id="game8x8"
-            class="com.turpgames.doubleup.view.Game8x8Screen" />
+            id="doubleup7"
+            class="com.turpgames.doubleup.view.GameDoubleUp7Screen" />
 
         <screen
-            id="game9x9"
-            class="com.turpgames.doubleup.view.Game9x9Screen" />
+            id="doubleup9"
+            class="com.turpgames.doubleup.view.GameDoubleUp9Screen" />
     </screens>
 
     <forms>
@@ -266,26 +266,26 @@
 
             <button
                 id="btn6x6"
-                action="screen=game6x6"
-                text="Play 6x6"
+                action="screen=doubleup3"
+                text="Double Up 3"
                 y="16" />
 
             <button
                 id="btn7x7"
-                action="screen=game7x7"
-                text="Play 7x7"
+                action="screen=doubleup5"
+                text="Double Up 5"
                 y="13" />
 
             <button
                 id="btn8x8"
-                action="screen=game8x8"
-                text="Play 8x8"
+                action="screen=doubleup7"
+                text="Double Up 7"
                 y="10" />
 
             <button
                 id="btn9x9"
-                action="screen=game9x9"
-                text="Play 9x9"
+                action="screen=doubleup9"
+                text="Double Up 9"
                 y="7" />
 
             <button

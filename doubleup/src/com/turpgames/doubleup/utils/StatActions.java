@@ -13,9 +13,13 @@ public class StatActions extends FrameworkStatActions {
 	public final static int EnterLeadersBoard = 107;
 	public final static int StartPlaying2x2 = 108;
 	public final static int StartPlaying3x3 = 109;
-	public final static int StartPlaying6x6 = 110;
-	public final static int StartPlaying7x7 = 111;
-	public final static int StartPlaying8x8 = 112;
-	public final static int StartPlaying9x9 = 113;
+//	public final static int StartPlaying6x6 = 110;
+//	public final static int StartPlaying7x7 = 111;
+//	public final static int StartPlaying8x8 = 112;
+//	public final static int StartPlaying9x9 = 113;
 	public final static int ClickedIchiguInAbout = 114;
+	public final static int StartPlaying3 = 115;
+	public final static int StartPlaying5 = 116;
+	public final static int StartPlaying7 = 117;
+	public final static int StartPlaying9 = 118;
 }

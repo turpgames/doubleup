@@ -17,13 +17,17 @@ public abstract class GameScreen extends Screen implements IDoubleUpView {
 	public void init() {
 		super.init();
 
-		controller = new DoubleUp2048Controller(this, getMatrixSize());
+		controller = createController();
 
 		registerDrawable(new DoubleUpLogo(), Game.LAYER_SCREEN);
 
 		registerDrawable(DoubleUpToolbar.getInstance(), Game.LAYER_INFO);
 
 		registerInputListener(this);
+	}
+
+	protected DoubleUp2048Controller createController() {
+		return new DoubleUp2048Controller(this, getMatrixSize());
 	}
 
 	protected abstract int getMatrixSize();

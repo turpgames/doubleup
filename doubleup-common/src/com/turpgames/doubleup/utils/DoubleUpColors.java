@@ -3,8 +3,10 @@ package com.turpgames.doubleup.utils;
 import com.turpgames.framework.v0.util.Color;
 
 public class DoubleUpColors {
-	public static Color getColor(long value) {
-		switch ((int) value) {
+	public static Color getColor(int value) {
+		value /= GlobalContext.n;
+		
+		switch (value) {
 		case 0:
 			return color0;
 		case 1:
