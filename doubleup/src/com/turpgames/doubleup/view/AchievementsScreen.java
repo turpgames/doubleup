@@ -3,6 +3,7 @@ package com.turpgames.doubleup.view;
 import com.turpgames.doubleup.achievements.AchievementsController;
 import com.turpgames.doubleup.components.DoubleUpLogo;
 import com.turpgames.doubleup.components.DoubleUpToolbar;
+import com.turpgames.doubleup.utils.GlobalContext;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.component.Toolbar;
 import com.turpgames.framework.v0.impl.Screen;
@@ -26,6 +27,7 @@ public class AchievementsScreen extends Screen {
 	
 	@Override
 	protected void onAfterActivate() {
+		GlobalContext.n = 1;
 		controller.activate();
 		DoubleUpToolbar.getInstance().enable();
 		DoubleUpToolbar.getInstance().setListener(new Toolbar.IToolbarListener() {

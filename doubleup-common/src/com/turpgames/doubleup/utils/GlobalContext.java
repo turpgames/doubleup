@@ -7,7 +7,7 @@ public class GlobalContext {
 	public static boolean didMove;
 	public static boolean hasNewHiScore;
 	public static boolean hasNewMaxNumber;
-	public static int n;
+	public static int n = 1;
 	
 	public static void resetMove() {
 		didMove = false;
