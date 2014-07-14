@@ -1,7 +1,6 @@
 package com.turpgames.doubleup.view;
 
 import com.turpgames.doubleup.components.TurpLogo;
-import com.turpgames.doubleup.updates.DoubleUpUpdateManager;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.framework.v0.IResourceManager;
 import com.turpgames.framework.v0.client.ConnectionManager;
@@ -11,7 +10,7 @@ import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.ShapeDrawer;
 
-public class SplashScreen extends Screen {
+public abstract class SplashScreenBase extends Screen {
 
 	private IResourceManager resourceManager;
 	private Color progressColor;
@@ -45,12 +44,14 @@ public class SplashScreen extends Screen {
 	@Override
 	public void update() {
 		if (!resourceManager.isLoading()) {
-			DoubleUpUpdateManager.runUpdates();
+			runUpdates();
 			switchToGame();
 		}
 	}
 
 	private void switchToGame() {
-		ScreenManager.instance.switchTo("menu", false);
+		ScreenManager.instance.switchTo("auth", false);
 	}
+	
+	protected abstract void runUpdates();
 }

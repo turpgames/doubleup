@@ -3,6 +3,7 @@ package com.turpgames.doubleup.view;
 import com.turpgames.doubleup.utils.DoubleUpAds;
 import com.turpgames.doubleup.utils.StatActions;
 import com.turpgames.framework.v0.client.TurpClient;
+import com.turpgames.framework.v0.util.TurpToast;
 
 public class MenuScreen extends MenuScreenBase {
 	private boolean isFirstActivate = true;
@@ -17,7 +18,7 @@ public class MenuScreen extends MenuScreenBase {
 		super.onAfterActivate();
 		if (isFirstActivate) {
 			isFirstActivate = false;
-			TurpClient.init();
+			TurpToast.showInfo("Welcome, " + TurpClient.getPlayer().getName());
 			TurpClient.sendStat(StatActions.StartGame);
 		}
 		DoubleUpAds.showAd();

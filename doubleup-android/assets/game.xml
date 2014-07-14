@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game
     id="DoubleUp"
-    class="com.turpgames.doubleup.view.DoubleUpGame" >
+    class="com.turpgames.doubleup.view.DoubleUpGame"
+    version="1.7.0" >
 
     <params>
 
         <param
             key="debug"
-            value="false" />
+            value="true" />
 
         <param
             key="server"
@@ -15,7 +16,7 @@
 
         <param
             key="enable-analytics"
-            value="true" />
+            value="false" />
 
         <param
             key="enable-ads"
@@ -159,6 +160,10 @@
         <screen
             id="splash"
             class="com.turpgames.doubleup.view.SplashScreen" />
+
+        <screen
+            id="auth"
+            class="com.turpgames.doubleup.view.AuthScreen" />
 
         <screen
             id="menu"
