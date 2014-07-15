@@ -4,7 +4,7 @@ import com.turpgames.framework.v0.IView;
 import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.service.message.GetHiScoresResponse;
 
-public class HiScoreView implements IView {
+class HiScoreView implements IView {
 
 	private final String id;
 	private final Text title;

@@ -7,6 +7,7 @@ import com.turpgames.framework.v0.util.TurpToast;
 
 public class MenuScreen extends MenuScreenBase {
 	private boolean isFirstActivate = true;
+	private String username;
 
 	@Override
 	public void init() {
@@ -18,10 +19,19 @@ public class MenuScreen extends MenuScreenBase {
 		super.onAfterActivate();
 		if (isFirstActivate) {
 			isFirstActivate = false;
-			TurpToast.showInfo("Welcome, " + TurpClient.getPlayer().getName());
 			TurpClient.sendStat(StatActions.StartGame);
 		}
+
+		if (requiresWelcome()) {
+			username = TurpClient.getPlayer().getName();
+			TurpToast.showInfo("Welcome, " + username);
+		}
+		
 		DoubleUpAds.showAd();
+	}
+	
+	private boolean requiresWelcome() {
+		return TurpClient.isRegistered() && !TurpClient.getPlayer().getName().equals(username);
 	}
 
 	@Override

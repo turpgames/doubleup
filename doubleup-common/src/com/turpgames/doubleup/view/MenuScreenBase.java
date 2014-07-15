@@ -12,7 +12,7 @@ public abstract class MenuScreenBase extends FormScreen {
 	public void init() {
 		super.init();
 
-		loginButton = new FacebookLoginButton();
+		loginButton = FacebookLoginButton.getInstance();
 
 		registerDrawable(loginButton, Game.LAYER_SCREEN);
 

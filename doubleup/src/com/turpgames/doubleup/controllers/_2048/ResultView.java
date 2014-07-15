@@ -6,6 +6,7 @@ import com.turpgames.doubleup.utils.DoubleUpColors;
 import com.turpgames.doubleup.utils.DoubleUpMode;
 import com.turpgames.doubleup.utils.GlobalContext;
 import com.turpgames.doubleup.utils.R;
+import com.turpgames.doubleup.utils.StatActions;
 import com.turpgames.doubleup.utils.Textures;
 import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.client.IShareMessageBuilder;
@@ -14,9 +15,11 @@ import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.TextButton;
 import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.impl.Text;
+import com.turpgames.framework.v0.social.ICallback;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.TextureDrawer;
+import com.turpgames.framework.v0.util.TurpToast;
 
 public class ResultView implements IDrawable {
 	private final static Color bgColor = Color.fromHex("#000000B0");
@@ -94,7 +97,21 @@ public class ResultView implements IDrawable {
 	}
 
 	private void shareScoreOnFacebook() {
-		TurpClient.shareScoreOnFacebook(shareScoreMessageBuilder);
+		Game.blockUI("Sharing score...");
+		TurpClient.shareScoreOnFacebook(shareScoreMessageBuilder, new ICallback() {
+			@Override
+			public void onSuccess() {
+				Game.unblockUI();
+				TurpToast.showInfo("Score Shared");
+				TurpClient.sendStat(StatActions.ScoreSharedOnFacebook);
+			}
+			
+			@Override
+			public void onFail(Throwable t) {
+				Game.unblockUI();
+				TurpToast.showError("Share Score Failed!");
+			}
+		});
 	}
 
 	private final IShareMessageBuilder shareScoreMessageBuilder = new IShareMessageBuilder() {

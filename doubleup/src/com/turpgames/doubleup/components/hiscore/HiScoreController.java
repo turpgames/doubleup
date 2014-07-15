@@ -3,6 +3,7 @@ package com.turpgames.doubleup.components.hiscore;
 import com.turpgames.doubleup.components.DoubleUpLogo;
 import com.turpgames.doubleup.utils.DoubleUpMode;
 import com.turpgames.framework.v0.IView;
+import com.turpgames.framework.v0.client.HiScoreManager;
 import com.turpgames.framework.v0.client.IServiceCallback;
 import com.turpgames.framework.v0.impl.TouchSlidingViewSwitcher;
 import com.turpgames.framework.v0.util.Debug;

@@ -82,6 +82,7 @@ public final class R {
 		public final static String scoreBoard = "scoreBoard";
 		public final static String about = "about";
 		public final static String result = "result";
+		public final static String auth = "auth";
 	}
 
 	public static final class fontSize {

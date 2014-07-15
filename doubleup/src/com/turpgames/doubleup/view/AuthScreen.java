@@ -1,6 +1,7 @@
 package com.turpgames.doubleup.view;
 
 import com.turpgames.doubleup.components.DoubleUpLogo;
+import com.turpgames.doubleup.utils.DoubleUpAuth;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.doubleup.utils.StatActions;
 import com.turpgames.framework.v0.client.TurpClient;
@@ -9,7 +10,6 @@ import com.turpgames.framework.v0.component.TextButton;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.impl.Settings;
-import com.turpgames.framework.v0.social.ICallback;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
 
@@ -17,8 +17,9 @@ public class AuthScreen extends Screen {
 
 	private TextButton facebookButton;
 	private TextButton anonymousButton;
+	private TextButton offlineButton;
 	
-	private ICallback loginCallback;
+	private boolean isFirstActivate;
 	
 	@Override
 	public void init() {
@@ -31,10 +32,17 @@ public class AuthScreen extends Screen {
 			}
 		});
 		
-		anonymousButton = initButton("Play As Guest", 300, new IButtonListener() {
+		anonymousButton = initButton("Play As Guest", 350, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				playAsGuest();
+			}
+		});
+		
+		offlineButton = initButton("Play Offline", 250, new IButtonListener() {
+			@Override
+			public void onButtonTapped() {
+				ScreenManager.instance.switchTo(R.screens.menu, false);
 			}
 		});
 		
@@ -47,40 +55,19 @@ public class AuthScreen extends Screen {
 		
 		TurpClient.sendStat(StatActions.StartGame);
 		
-		loginCallback = new ICallback() {
-			@Override
-			public void onSuccess() {
-				switchToMenu();
-			}
-			
-			@Override
-			public void onFail(Throwable t) {
-				
-			}
-		};
-		
-		tryLogin();
+		isFirstActivate = true;
 	}
 	
-	private void switchToMenu() {
-		Game.enqueueRunnable(new Runnable() {
-			@Override
-			public void run() {
-				ScreenManager.instance.switchTo(R.screens.menu, false);
-			}
-		});
-	}
-	
-	private void tryLogin() {
-		TurpClient.init(loginCallback);
+	private void initAuth() {
+		DoubleUpAuth.init();
 	}
 	
 	private void loginWithFacebook() {
-		TurpClient.loginWithFacebook(loginCallback);
+		DoubleUpAuth.doFacebookLogin();
 	}
 	
 	private void playAsGuest() {
-		TurpClient.loginGuest(loginCallback);
+		DoubleUpAuth.doGuestLogin();
 	}
 	
 	private TextButton initButton(String text, float y, IButtonListener listener) {
@@ -97,14 +84,20 @@ public class AuthScreen extends Screen {
 	
 	@Override
 	protected void onAfterActivate() {
+		if (isFirstActivate) {
+			isFirstActivate = false;
+			initAuth();
+		}
 		facebookButton.activate();
 		anonymousButton.activate();
+		offlineButton.activate();
 	}
 	
 	@Override
 	protected boolean onBeforeDeactivate() {
 		facebookButton.deactivate();
 		anonymousButton.deactivate();
+		offlineButton.deactivate();
 		return super.onBeforeDeactivate();
 	}
 	
