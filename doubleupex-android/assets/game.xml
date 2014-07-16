@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game
     id="DoubleUpEx"
-    class="com.turpgames.doubleupex.view.DoubleUpExGame" >
+    class="com.turpgames.doubleupex.view.DoubleUpExGame"
+    version="1.0.0" >
 
     <params>
 
@@ -111,6 +112,10 @@
             class="com.turpgames.doubleup.view.MenuScreen" />
 
         <screen
+            id="auth"
+            class="com.turpgames.doubleupex.view.AuthScreen" />
+
+        <screen
             id="levels"
             class="com.turpgames.doubleupex.view.LevelSelectScreen" />
 
@@ -179,6 +184,14 @@
                 resource-load="primary" />
 
             <texture
+                id="loading"
+                path="img/loading.png" />
+
+            <texture
+                id="facebook"
+                path="img/facebook.png" />
+
+            <texture
                 id="reset"
                 path="img/reset.png" />
 
@@ -188,7 +201,7 @@
 
             <texture
                 id="fw_close"
-                path="img/framework/close.png"  />
+                path="img/framework/close.png" />
 
             <texture
                 id="tb_back"
@@ -201,6 +214,10 @@
             <texture
                 id="tb_sound_on"
                 path="img/toolbar/sound-on.png" />
+
+            <texture
+                id="overlay"
+                path="img/overlay.png" />
 
             <texture
                 id="main"
@@ -221,6 +238,26 @@
                 width="500"
                 x="2"
                 y="2" />
+
+            <texture
+                id="ab_ballgame"
+                path="img/about/ballgame.png" />
+
+            <texture
+                id="ab_doubleup"
+                path="img/about/doubleup.png" />
+
+            <texture
+                id="ab_facebook"
+                path="img/about/facebook.png" />
+
+            <texture
+                id="ab_ichigu"
+                path="img/about/ichigu.png" />
+
+            <texture
+                id="ab_twitter"
+                path="img/about/twitter.png" />
         </textures>
 
         <sounds>
