@@ -33,7 +33,7 @@ public abstract class MenuScreenBase extends FormScreen {
 	}
 
 	protected boolean onBack() {
-		Game.toHomeScreen();
+		Game.exit();
 		return true;
 	}
 }
