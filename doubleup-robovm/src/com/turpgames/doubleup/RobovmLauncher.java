@@ -5,6 +5,7 @@ import org.robovm.apple.foundation.NSDictionary;
 import org.robovm.apple.foundation.NSObject;
 import org.robovm.apple.foundation.NSURL;
 import org.robovm.apple.uikit.UIApplication;
+import org.robovm.apple.uikit.UIApplicationLaunchOptions;
 import org.robovm.bindings.facebook.manager.FacebookManager;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
@@ -35,14 +36,13 @@ public class RobovmLauncher extends IOSApplication.Delegate {
 		pool.close();
 	}
 
+//	@Override
+//	public boolean openURL(UIApplication application, NSURL url, String sourceApplication, NSObject annotation) {
+//		return FacebookManager.getInstance().openURL(application, url, sourceApplication, annotation);
+//	}
+	
 	@Override
-	public boolean openURL(UIApplication application, NSURL url, String sourceApplication, NSObject annotation) {
-		return FacebookManager.getInstance().openURL(application, url, sourceApplication, annotation);
-	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
-	public boolean didFinishLaunching(UIApplication application, NSDictionary launchOptions) {
+	public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions launchOptions) {
 		boolean res = super.didFinishLaunching(application, launchOptions);
 	    provider.setRootViewController(UIApplication.getSharedApplication().getKeyWindow().getRootViewController());
 		return res;

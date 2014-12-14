@@ -2,6 +2,7 @@ package com.turpgames.doubleup.view;
 
 import com.turpgames.doubleup.components.DoubleUpLogo;
 import com.turpgames.doubleup.components.DoubleUpToolbar;
+import com.turpgames.doubleup.components.IToolbarListener;
 import com.turpgames.doubleup.utils.R;
 import com.turpgames.doubleup.utils.StatActions;
 import com.turpgames.doubleup.utils.Textures;
@@ -9,7 +10,6 @@ import com.turpgames.framework.v0.ITexture;
 import com.turpgames.framework.v0.client.TurpClient;
 import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.ImageButton;
-import com.turpgames.framework.v0.component.Toolbar;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.impl.Text;
@@ -155,10 +155,23 @@ public class AboutScreen extends Screen {
 	@Override
 	protected void onAfterActivate() {
 		DoubleUpToolbar.getInstance().enable();
-		DoubleUpToolbar.getInstance().setListener(new Toolbar.IToolbarListener() {
+		DoubleUpToolbar.getInstance().setListener(new IToolbarListener() {
+			
 			@Override
 			public void onToolbarBack() {
 				onBack();
+			}
+			
+			@Override
+			public void onShowDescription() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onResetGame() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 

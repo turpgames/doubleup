@@ -2,10 +2,10 @@ package com.turpgames.doubleup.view;
 
 import com.turpgames.doubleup.components.DoubleUpLogo;
 import com.turpgames.doubleup.components.DoubleUpToolbar;
+import com.turpgames.doubleup.components.IToolbarListener;
 import com.turpgames.doubleup.controllers.GridController;
 import com.turpgames.doubleup.controllers._2048.DoubleUp2048Controller;
 import com.turpgames.doubleup.utils.R;
-import com.turpgames.framework.v0.component.Toolbar;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.util.Game;
@@ -34,10 +34,22 @@ public abstract class GameScreen extends Screen implements IDoubleUpView {
 
 	@Override
 	protected boolean onBeforeActivate() {
-		DoubleUpToolbar.getInstance().setListener(new Toolbar.IToolbarListener() {
+		DoubleUpToolbar.getInstance().setListener(new IToolbarListener() {
 			@Override
 			public void onToolbarBack() {
 				onBack();
+			}
+			
+			@Override
+			public void onResetGame() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onShowDescription() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 
